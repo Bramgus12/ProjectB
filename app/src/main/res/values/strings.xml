@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Project B</string>
+    <string name="App_Name">Techlab</string>
+    <string name="Login_Text">Log hier in!</string>
+    <string name="LoginButton">Login</string>
+    <string name="Username_Hint">Username</string>
+    <string name="Password_Hint">Password</string>
 </resources>
