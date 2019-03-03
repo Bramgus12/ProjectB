@@ -4,4 +4,5 @@
     <string name="LoginButton">Login</string>
     <string name="Username_Hint">Username</string>
     <string name="Password_Hint">Password</string>
+    <string name="WelcomeUser">You are logged in as a user.</string>
 </resources>
