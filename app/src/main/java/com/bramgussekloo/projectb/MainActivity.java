@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (username.getText().toString().equals("Test") && password.getText().toString().equals("Test")) {
                             Toast.makeText(MainActivity.this, "Username and password is correct.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent("com.bramgussekloo.projectb.User");
-                            startActivity(intent);
+                            Intent myintent = new Intent(getBaseContext(),User.class);
+                            startActivity(myintent);
                         } else {
                             Toast.makeText(MainActivity.this, "Username or password is not correct. Try again", Toast.LENGTH_SHORT).show();
                         }
