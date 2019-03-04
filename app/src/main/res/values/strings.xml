@@ -5,4 +5,7 @@
     <string name="Username_Hint">Username</string>
     <string name="Password_Hint">Password</string>
     <string name="WelcomeUser">You are logged in as a user.</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="WelcomeAdmin">Je bent nu ingelogd als Admin.</string>
+    <string name="WelcomeBeheerder">Je bent nu ingelogd als Beheerder.</string>
 </resources>

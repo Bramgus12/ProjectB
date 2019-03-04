@@ -32,10 +32,21 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if (username.getText().toString().equals("Test") && password.getText().toString().equals("Test")) {
-                            Toast.makeText(MainActivity.this, "Username and password is correct.", Toast.LENGTH_SHORT).show();
-                            Intent myintent = new Intent(getBaseContext(),User.class);
-                            startActivity(myintent);
-                        } else {
+                            Toast.makeText(MainActivity.this, "Username and password are correct.", Toast.LENGTH_SHORT).show();
+                            Intent Userintent = new Intent(getBaseContext(),User.class);
+                            startActivity(Userintent);
+                        }
+                        else if(username.getText().toString().equals("TestAdmin") && password.getText().toString().equals("TestAdmin")){
+                            Toast.makeText(MainActivity.this,"Username and password are correct.", Toast.LENGTH_SHORT).show();
+                            Intent Adminintent = new Intent(getBaseContext(),Admin.class);
+                            startActivity(Adminintent);
+                        }
+                        else if(username.getText().toString().equals("TestBeheerder") && password.getText().toString().equals("TestBeheerder")){
+                            Toast.makeText(MainActivity.this, "Username and password are correct.", Toast.LENGTH_SHORT).show();
+                            Intent BeheerderIntent = new Intent(getBaseContext(),Beheerder.class);
+                            startActivity(BeheerderIntent);
+                        }
+                        else {
                             Toast.makeText(MainActivity.this, "Username or password is not correct. Try again", Toast.LENGTH_SHORT).show();
                         }
                     }
