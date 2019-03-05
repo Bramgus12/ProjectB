@@ -31,18 +31,18 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         if (username.getText().toString().equals("Test") && password.getText().toString().equals("Test")) {
                             Toast.makeText(MainActivity.this, "Username and password are correct.", Toast.LENGTH_SHORT).show();
-                            Intent Userintent = new Intent(getBaseContext(),User.class);
-                            startActivity(Userintent);
+                            Intent UserIntent = new Intent(getBaseContext(),User.class);
+                            startActivity(UserIntent);
                         }
                         else if(username.getText().toString().equals("TestAdmin") && password.getText().toString().equals("TestAdmin")){
                             Toast.makeText(MainActivity.this,"Username and password are correct.", Toast.LENGTH_SHORT).show();
-                            Intent Adminintent = new Intent(getBaseContext(),Admin.class);
-                            startActivity(Adminintent);
+                            Intent AdminIntent = new Intent(getBaseContext(),Admin.class);
+                            startActivity(AdminIntent);
                         }
                         else if(username.getText().toString().equals("TestBeheerder") && password.getText().toString().equals("TestBeheerder")){
                             Toast.makeText(MainActivity.this, "Username and password are correct.", Toast.LENGTH_SHORT).show();
-                            Intent BeheerderIntent = new Intent(getBaseContext(),Beheerder.class);
-                            startActivity(BeheerderIntent);
+                            Intent ModeratorIntent = new Intent(getBaseContext(),Beheerder.class);
+                            startActivity(ModeratorIntent);
                         }
                         else {
                             Toast.makeText(MainActivity.this, "Username or password is not correct. Try again", Toast.LENGTH_SHORT).show();
