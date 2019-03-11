@@ -8,4 +8,5 @@
     <string name="title_activity_login">Sign in</string>
     <string name="WelcomeAdmin">Je bent nu ingelogd als Admin.</string>
     <string name="WelcomeBeheerder">Je bent nu ingelogd als Beheerder.</string>
+    <string name="RegisterButton">Registreren</string>
 </resources>
