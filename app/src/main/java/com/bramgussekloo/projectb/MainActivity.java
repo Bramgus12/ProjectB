@@ -19,13 +19,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         LoginButton();
-        RegisterButton();
     }
 
-    public void LoginButton() {
+    public void LoginButton() { // logistics of the login button
         username = findViewById(R.id.Username);
         password = findViewById(R.id.Password);
         login_button = findViewById(R.id.LoginButton);
+        register_button = findViewById(R.id.RegisterButton);
         login_button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -48,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-
-    }
-    public void RegisterButton() {
-        register_button = findViewById(R.id.RegisterButton);
         register_button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -59,19 +55,11 @@ public class MainActivity extends AppCompatActivity {
                         Intent Registerintent = new Intent(getBaseContext(), Register.class);
                         startActivity(Registerintent);
                     }
-
                 }
         );
+
     }
+
 }
-//public final class FeedReaderContract {
-//    // To prevent someone from accidentally instantiating the contract class,
-//    // make the constructor private.
-//    private FeedReaderContract() {}
-//
-//    /* Inner class that defines the table contents */
-//    public static class FeedEntry implements BaseColumns {
-//        public static final String TABLE_NAME = "entry";
-//
 
 
