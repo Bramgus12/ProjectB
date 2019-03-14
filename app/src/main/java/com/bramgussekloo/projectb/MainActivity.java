@@ -1,5 +1,6 @@
 package com.bramgussekloo.projectb;
 import android.content.Intent;
+import android.provider.BaseColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -63,4 +64,14 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 }
+//public final class FeedReaderContract {
+//    // To prevent someone from accidentally instantiating the contract class,
+//    // make the constructor private.
+//    private FeedReaderContract() {}
+//
+//    /* Inner class that defines the table contents */
+//    public static class FeedEntry implements BaseColumns {
+//        public static final String TABLE_NAME = "entry";
+//
+
 

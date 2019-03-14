@@ -9,4 +9,6 @@
     <string name="WelcomeAdmin">Je bent nu ingelogd als Admin.</string>
     <string name="WelcomeBeheerder">Je bent nu ingelogd als Beheerder.</string>
     <string name="RegisterButton">Registreren</string>
+    <string name="emailRegisterText">Email</string>
+    <string name="PasswordConfirmation">Confirm password</string>
 </resources>
