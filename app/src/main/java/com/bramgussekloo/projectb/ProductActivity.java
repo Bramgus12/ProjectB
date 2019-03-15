@@ -1,18 +1,21 @@
 package com.bramgussekloo.projectb;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.LinearLayout;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.bramgussekloo.projectb.Adapter.RecyclerViewAdapter;
 import com.bramgussekloo.projectb.models.Product;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class ProductActivity extends AppCompatActivity {
+public class ProductActivity extends AppCompatActivity implements RecyclerViewAdapter.OnProductListener {
+
+    private static final String TAG = "ProductActivity";
 
     // UI
 
@@ -35,6 +38,9 @@ public class ProductActivity extends AppCompatActivity {
         InitRecyclerView();
         insertFakeProducts();
 
+        setSupportActionBar((Toolbar)findViewById(R.id.product_toolbar));
+        setTitle("Products");
+
 
 
 
@@ -54,10 +60,14 @@ public class ProductActivity extends AppCompatActivity {
     private void InitRecyclerView(){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mProductRecyclerAdapter = new RecyclerViewAdapter(this, mProducts);
+        mProductRecyclerAdapter = new RecyclerViewAdapter(this, this, mProducts);
         mRecyclerView.setAdapter(mProductRecyclerAdapter);
     }
 
 
+    @Override
+    public void onProductClick(int position) {
+        Log.d(TAG, "onProductClick: clicked. " + position);
+    }
 }
 
