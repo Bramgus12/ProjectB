@@ -43,7 +43,7 @@ public class ProductActivity extends AppCompatActivity {
 
     private void insertFakeProducts(){
         Product RaspBerryPi = new Product("Raspberry Pi", "https://cdn.sparkfun.com//assets/parts/1/2/8/2/8/14643-Raspberry_Pi_3_B_-02.jpg", "Dit is een RaspBerry Pi", "05-02-2019");
-        Product MicroPython = new Product("MicroPython", "https://store.micropython.org/media/products/HOUSING-OR-1.jpg", "Dit is een MicroPython", "05-02-2019");
+        Product MicroPython = new Product("MicroPython", "https://i.imgur.com/4uk86YY.jpg", "Dit is een MicroPython", "05-02-2019");
 
         mProducts.add(RaspBerryPi);
         mProducts.add(MicroPython);
