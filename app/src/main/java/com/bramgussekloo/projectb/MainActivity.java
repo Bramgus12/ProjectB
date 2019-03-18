@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity{
         emailLayout = findViewById(R.id.textInputLayoutEmail);
         passwordLayout = findViewById(R.id.textInputLayoutPassword);
         login_button = findViewById(R.id.LoginButton);
+        register_button = findViewById(R.id.RegisterButton);
         login_button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -66,10 +67,6 @@ public class MainActivity extends AppCompatActivity{
                     }
                 }
         );
-
-    }
-    public void RegisterButton() {
-        register_button = findViewById(R.id.RegisterButton);
         register_button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -77,9 +74,9 @@ public class MainActivity extends AppCompatActivity{
                         Intent Registerintent = new Intent(getBaseContext(), Register.class);
                         startActivity(Registerintent);
                     }
-
                 }
         );
+
     }
     private void emptyInputEditText(){
         email.setText(null);

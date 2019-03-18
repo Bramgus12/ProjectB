@@ -67,7 +67,9 @@ public class ProductActivity extends AppCompatActivity implements RecyclerViewAd
 
     @Override
     public void onProductClick(int position) {
-        Log.d(TAG, "onProductClick: clicked. " + position);
+        Intent intent = new Intent(this, ProductEditActivity.class);
+        intent.putExtra("selected_product", mProducts.get(position));
+        startActivity(intent);
     }
 }
 

@@ -13,4 +13,6 @@
     <string name="PasswordConfirmation">Confirm password</string>
     <string name="error_email">Enter valid email-address.</string>
     <string name="error_password">Enter a password.</string>
+    <string name="BeheerderText">Klik hier om de producten te displayen/bewerken</string>
+    <string name="ListButton">Product Lijst</string>
 </resources>

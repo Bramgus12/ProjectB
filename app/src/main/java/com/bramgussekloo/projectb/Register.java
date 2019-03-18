@@ -26,7 +26,7 @@ public class Register extends AppCompatActivity {
         passwordConfirmation = findViewById(R.id.registerConfirmPassword);
         email = findViewById(R.id.registerEmail);
 
-        registerButton.setOnClickListener(
+        registerButton.setOnClickListener( // the back-end of the register button
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
