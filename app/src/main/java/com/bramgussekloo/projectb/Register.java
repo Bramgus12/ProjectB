@@ -1,6 +1,5 @@
 package com.bramgussekloo.projectb;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +14,7 @@ public class Register extends AppCompatActivity {
     private EditText email;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Register_Button();
@@ -42,4 +41,5 @@ public class Register extends AppCompatActivity {
         );
 
     }
+
 }

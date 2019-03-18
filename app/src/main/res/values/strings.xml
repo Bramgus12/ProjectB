@@ -2,13 +2,15 @@
     <string name="App_Name">Techlab</string>
     <string name="Login_Text">Log hier in!</string>
     <string name="LoginButton">Login</string>
-    <string name="Username_Hint">Username</string>
+    <string name="Email">Email</string>
     <string name="Password_Hint">Password</string>
     <string name="WelcomeUser">You are logged in as a user.</string>
     <string name="title_activity_login">Sign in</string>
     <string name="WelcomeAdmin">Je bent nu ingelogd als Admin.</string>
     <string name="WelcomeBeheerder">Je bent nu ingelogd als Beheerder.</string>
     <string name="RegisterButton">Registreren</string>
-    <string name="emailRegisterText">Email</string>
+    <string name="Name">Name</string>
     <string name="PasswordConfirmation">Confirm password</string>
+    <string name="error_email">Enter valid email-address.</string>
+    <string name="error_password">Enter a password.</string>
 </resources>

@@ -1,18 +1,27 @@
 package com.bramgussekloo.projectb;
+
 import android.content.Intent;
-import android.provider.BaseColumns;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
-public class MainActivity extends AppCompatActivity {
+
+import com.bramgussekloo.projectb.sql.DatabaseHelper;
+import com.bramgussekloo.projectb.helpers.inputValidation;
+
+public class MainActivity extends AppCompatActivity{
     //http://hackpundit.com/simple-login-android-app/ Bron
-    private EditText username;
-    private EditText password;
+    private TextInputEditText email;
+    private TextInputEditText password;
     private Button login_button;
     private Button register_button;
+    private DatabaseHelper databaseHelper;
+    private inputValidation inputValidation;
+    private TextInputLayout emailLayout;
+    private TextInputLayout passwordLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,30 +29,39 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         LoginButton();
         RegisterButton();
+        initObjects();
+    }
+    private void initObjects() {
+        databaseHelper = new DatabaseHelper(getBaseContext());
+        inputValidation = new inputValidation(getBaseContext());
     }
 
     public void LoginButton() {
-        username = findViewById(R.id.Username);
+        email = findViewById(R.id.Email);
         password = findViewById(R.id.Password);
+        emailLayout = findViewById(R.id.textInputLayoutEmail);
+        passwordLayout = findViewById(R.id.textInputLayoutPassword);
         login_button = findViewById(R.id.LoginButton);
         login_button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (username.getText().toString().equals("Test") && password.getText().toString().equals("Test")) {
-                            Toast.makeText(MainActivity.this, "Username and password are correct.", Toast.LENGTH_SHORT).show();
-                            Intent Userintent = new Intent(getBaseContext(), User.class);
-                            startActivity(Userintent);
-                        } else if (username.getText().toString().equals("TestAdmin") && password.getText().toString().equals("TestAdmin")) {
-                            Toast.makeText(MainActivity.this, "Username and password are correct.", Toast.LENGTH_SHORT).show();
-                            Intent Adminintent = new Intent(getBaseContext(), Admin.class);
-                            startActivity(Adminintent);
-                        } else if (username.getText().toString().equals("TestBeheerder") && password.getText().toString().equals("TestBeheerder")) {
-                            Toast.makeText(MainActivity.this, "Username and password are correct.", Toast.LENGTH_SHORT).show();
-                            Intent BeheerderIntent = new Intent(getBaseContext(), Beheerder.class);
-                            startActivity(BeheerderIntent);
-                        } else {
-                            Toast.makeText(MainActivity.this, "Username or password is not correct. Try again", Toast.LENGTH_SHORT).show();
+                        if (!inputValidation.isInputEditTextFilled(email, emailLayout, getString(R.string.error_email))) {
+                            return;
+                        }
+                        if (!inputValidation.isInputEditTextEmail(email, emailLayout, getString(R.string.error_email))){
+                            return;
+                        }
+                        if (!inputValidation.isInputEditTextFilled(password, passwordLayout, getString(R.string.error_password))){
+                            return;
+                        }
+                        if (databaseHelper.checkUser(email.getText().toString().trim(), password.getText().toString().trim())){
+                            Intent userIntent = new Intent(getBaseContext(), User.class);
+                            emptyInputEditText();
+                            startActivity(userIntent);
+                        }
+                        else {
+                            Toast.makeText(getBaseContext(), "Something is not right. Try again.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -63,15 +81,11 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
     }
+    private void emptyInputEditText(){
+        email.setText(null);
+        password.setText(null);
+    }
 }
-//public final class FeedReaderContract {
-//    // To prevent someone from accidentally instantiating the contract class,
-//    // make the constructor private.
-//    private FeedReaderContract() {}
-//
-//    /* Inner class that defines the table contents */
-//    public static class FeedEntry implements BaseColumns {
-//        public static final String TABLE_NAME = "entry";
-//
+
 
 
