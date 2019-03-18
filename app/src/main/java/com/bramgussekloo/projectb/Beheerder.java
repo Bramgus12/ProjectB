@@ -14,15 +14,22 @@ public class Beheerder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beheerder);
+        Buttons();
+    }
+    private Button ProductButton;
 
-        Button productlistActivity = (Button) findViewById(R.id.productList);
-        productlistActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), ProductActivity.class);
-                startActivity(startIntent);
-            }
-        });
+
+    public void Buttons() {
+        ProductButton = findViewById(R.id.productbutton);
+        ProductButton.setOnClickListener(
+                new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent ProductIntent = new Intent(getApplicationContext(), ProductActivity.class);
+                    startActivity(ProductIntent);
+                }
+            });
+        }
 
     }
-}
+
