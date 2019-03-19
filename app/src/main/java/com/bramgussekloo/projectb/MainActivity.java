@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.bramgussekloo.projectb.sql.DatabaseHelper;
 import com.bramgussekloo.projectb.helpers.inputValidation;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     //http://hackpundit.com/simple-login-android-app/ Bron
     private TextInputEditText email;
     private TextInputEditText password;
@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity{
     private inputValidation inputValidation;
     private TextInputLayout emailLayout;
     private TextInputLayout passwordLayout;
+    private Button recyclerview_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,10 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         LoginButton();
         initObjects();
+
     }
+
+
     private void initObjects() {
         databaseHelper = new DatabaseHelper(getBaseContext());
         inputValidation = new inputValidation(getBaseContext());
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity{
         passwordLayout = findViewById(R.id.textInputLayoutPassword);
         login_button = findViewById(R.id.LoginButton);
         register_button = findViewById(R.id.RegisterButton);
+        recyclerview_button = findViewById(R.id.recyclerViewButton);
         login_button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -49,18 +54,17 @@ public class MainActivity extends AppCompatActivity{
                         if (!inputValidation.isInputEditTextFilled(email, emailLayout, getString(R.string.error_email))) {
                             return;
                         }
-                        if (!inputValidation.isInputEditTextEmail(email, emailLayout, getString(R.string.error_email))){
+                        if (!inputValidation.isInputEditTextEmail(email, emailLayout, getString(R.string.error_email))) {
                             return;
                         }
-                        if (!inputValidation.isInputEditTextFilled(password, passwordLayout, getString(R.string.error_password))){
+                        if (!inputValidation.isInputEditTextFilled(password, passwordLayout, getString(R.string.error_password))) {
                             return;
                         }
-                        if (databaseHelper.checkUser(email.getText().toString().trim(), password.getText().toString().trim())){
+                        if (databaseHelper.checkUser(email.getText().toString().trim(), password.getText().toString().trim())) {
                             Intent userIntent = new Intent(getBaseContext(), User.class);
                             emptyInputEditText();
                             startActivity(userIntent);
-                        }
-                        else {
+                        } else {
                             Toast.makeText(getBaseContext(), "Something is not right. Try again.", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -75,9 +79,19 @@ public class MainActivity extends AppCompatActivity{
                     }
                 }
         );
+        recyclerview_button.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getBaseContext(), ProductActivity.class);
+                        startActivity(intent);
+                    }
+                }
+        );
 
     }
-    private void emptyInputEditText(){
+
+    private void emptyInputEditText() {
         email.setText(null);
         password.setText(null);
     }

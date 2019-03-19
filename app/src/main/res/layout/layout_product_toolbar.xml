@@ -60,6 +60,7 @@
         android:id="@+id/product_edit_title"
         android:text="product name"
         android:textColor="@android:color/black"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_marginStart="15dp"
         android:textSize="23sp"
         android:visibility="gone"
