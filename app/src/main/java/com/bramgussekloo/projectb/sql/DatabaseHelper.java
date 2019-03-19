@@ -97,7 +97,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_USER, COLUMN_USER_ID + "= ?", new String[]{String.valueOf(user.getId())});
         db.close();
     }
-    public Boolean checkUser(String email, String password){
+    public boolean checkUser(String email, String password){
         String[] columns = {
                 COLUMN_USER_ID
         };
@@ -117,6 +117,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         if (cursorCount > 0) {
+            return true;
+        }
+        return false;
+    }
+    public boolean checkUser(String email){
+        String[] columns = {
+                COLUMN_USER_ID
+        };
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selection = COLUMN_USER_EMAIL + "= ?";
+        String[] selectionArgs = {email};
+        Cursor cursor = db.query(
+                TABLE_USER,
+                columns,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        db.close();
+        if (cursorCount > 0){
             return true;
         }
         return false;

@@ -11,8 +11,11 @@
     <string name="RegisterButton">Registreren</string>
     <string name="Name">Name</string>
     <string name="PasswordConfirmation">Confirm password</string>
-    <string name="error_email">Enter valid email-address.</string>
+    <string name="error_email">Enter valid Email Address.</string>
     <string name="error_password">Enter a password.</string>
     <string name="BeheerderText">Klik hier om de producten te displayen/bewerken</string>
     <string name="ListButton">Product Lijst</string>
+    <string name="error_name">Enter a name.</string>
+    <string name="success">The registration was successful.</string>
+    <string name="email_exist">Email already exists.</string>
 </resources>

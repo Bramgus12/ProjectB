@@ -14,7 +14,7 @@ public class inputValidation {
     public inputValidation(Context context){
         this.context = context;
     }
-    public Boolean isInputEditTextFilled(TextInputEditText textInputEditText, TextInputLayout textInputLayout, String message){
+    public boolean isInputEditTextFilled(TextInputEditText textInputEditText, TextInputLayout textInputLayout, String message){
         String value = textInputEditText.getText().toString().trim();
         if (value.isEmpty()) {
             textInputLayout.setError(message);
