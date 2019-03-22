@@ -18,4 +18,5 @@
     <string name="error_name">Enter a name.</string>
     <string name="success">The registration was successful.</string>
     <string name="email_exist">Email already exists.</string>
+    <string name="RecylerviewButton">Recyclerview</string>
 </resources>

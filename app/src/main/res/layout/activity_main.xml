@@ -1,25 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/LoginText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Login_Text"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        tools:textSize="30sp"
+        android:paddingTop="200dp"
+        />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/Email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/Email"
+            android:inputType="textEmailAddress"
+            />
+    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayoutPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="396dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="279dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/Password"
@@ -29,87 +49,27 @@
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayoutEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="343dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="343dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/Email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/Email"
-            android:inputType="textPersonName"
-            />
-    </android.support.design.widget.TextInputLayout>
 
-    <TextView
-        android:id="@+id/LoginText"
-        android:layout_width="208dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="98dp"
-        android:layout_marginTop="287dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginBottom="406dp"
-        android:text="@string/Login_Text"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:textSize="30sp" />
+
+
 
     <Button
         android:id="@+id/LoginButton"
-        android:layout_width="153dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="129dp"
-        android:layout_marginTop="468dp"
-        android:layout_marginEnd="129dp"
-        android:layout_marginBottom="195dp"
-        android:text="@string/LoginButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/LoginButton" />
 
     <Button
         android:id="@+id/RegisterButton"
-        android:layout_width="153dp"
-        android:layout_height="68dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="551dp"
-        android:layout_marginEnd="128dp"
-        android:layout_marginBottom="112dp"
-        android:text="@string/RegisterButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/RegisterButton" />
 
     <Button
         android:id="@+id/recyclerViewButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="8dp"
-        android:text="Recyclerview"
-        app:layout_constraintBottom_toTopOf="@+id/LoginText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/RecylerviewButton"
+        />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
