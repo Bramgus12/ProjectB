@@ -1,6 +1,7 @@
 package com.bramgussekloo.projectb;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class Register extends AppCompatActivity {
@@ -37,6 +41,8 @@ public class Register extends AppCompatActivity {
     }
 
     public void Register_Button(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mRootRef = database.getReference();
         Button registerButton = findViewById(R.id.RegisterRegisterButton);
         editTextPassword = findViewById(R.id.registerPassword);
         editTextPasswordConfirmation = findViewById(R.id.registerConfirmPassword);
@@ -89,7 +95,9 @@ public class Register extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Register.this, "Register Successful.", Toast.LENGTH_SHORT).show();
+                                    setUser();
                                     emptyInputEditText();
+
                                 }
 
 
@@ -107,6 +115,20 @@ public class Register extends AppCompatActivity {
         editTextEmail.setText(null);
         editTextPassword.setText(null);
         editTextPasswordConfirmation.setText(null);
+    }
+    private void setUser(){
+        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        String email = currentFirebaseUser.getEmail();
+        String name = editTextName.getText().toString().trim();
+        String uid = currentFirebaseUser.getUid();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mRootRef = database.getReference();
+        DatabaseReference emailRef = mRootRef.child("users").child(uid).child("Email");
+        DatabaseReference nameRef = mRootRef.child("users").child(uid).child("Name");
+        DatabaseReference roleRef = mRootRef.child("users").child(uid).child("Role");
+        emailRef.setValue(email);
+        nameRef.setValue(name);
+        roleRef.setValue("user");
     }
 
 }
