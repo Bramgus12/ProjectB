@@ -1,13 +1,15 @@
-package com.bramgussekloo.projectb;
+package com.bramgussekloo.projectb.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Admin extends AppCompatActivity {
+import com.bramgussekloo.projectb.R;
+
+public class User extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
+        setContentView(R.layout.activity_user);
     }
 }

@@ -1,4 +1,4 @@
-package com.bramgussekloo.projectb;
+package com.bramgussekloo.projectb.Activities;
 
 import android.support.design.widget.VisibilityAwareImageButton;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
 
 public class ProductEditActivity extends AppCompatActivity implements View.OnTouchListener,  GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {

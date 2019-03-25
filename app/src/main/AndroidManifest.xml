@@ -15,16 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ProductEditActivity"
+            android:name=".Activities.ProductEditActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".ProductActivity"
+            android:name=".Activities.ProductActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".Register" />
-        <activity android:name=".Beheerder" />
-        <activity android:name=".Admin" />
-        <activity android:name=".User" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.Register" />
+        <activity android:name=".Activities.Beheerder" />
+        <activity android:name=".Activities.Admin" />
+        <activity android:name=".Activities.User" />
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

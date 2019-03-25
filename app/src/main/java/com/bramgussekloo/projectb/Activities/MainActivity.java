@@ -1,4 +1,4 @@
-package com.bramgussekloo.projectb;
+package com.bramgussekloo.projectb.Activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -6,26 +6,22 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.bramgussekloo.projectb.helpers.Userhelper;
+import com.bramgussekloo.projectb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -48,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void LoginButton() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference mRootRef = database.getReference();
         email = findViewById(R.id.Email);
         password = findViewById(R.id.Password);
         emailLayout = findViewById(R.id.textInputLayoutEmail);
@@ -98,12 +92,12 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                            String uid = currentFirebaseUser.getUid();
                             Toast.makeText(MainActivity.this, "Logged in as " + email.getText().toString().trim(), Toast.LENGTH_SHORT).show();
                             getUser();
+                            emptyInputEditText();
                         } else {
                             Toast.makeText(MainActivity.this, "Log in failed", Toast.LENGTH_SHORT).show();
+                            emptyInputEditText();
                         }
                     }
                 });
@@ -139,9 +133,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void UpdateUI(DataSnapshot dataSnapshot){
-
+    private void emptyInputEditText() {
+        email.setText(null);
+        password.setText(null);
     }
 }
 

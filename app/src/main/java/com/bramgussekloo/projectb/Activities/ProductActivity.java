@@ -1,4 +1,4 @@
-package com.bramgussekloo.projectb;
+package com.bramgussekloo.projectb.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
+import com.bramgussekloo.projectb.Activities.ProductEditActivity;
 import com.bramgussekloo.projectb.Adapter.RecyclerViewAdapter;
+import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
 
 import java.util.ArrayList;
