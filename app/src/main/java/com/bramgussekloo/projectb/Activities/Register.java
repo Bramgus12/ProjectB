@@ -28,7 +28,6 @@ public class Register extends AppCompatActivity {
 
     private TextInputLayout emailLayout;
     private TextInputLayout passwordLayout;
-    private TextInputLayout confirmPasswordLayout;
     private TextInputLayout nameLayout;
     private FirebaseAuth mAuth;
 
@@ -41,8 +40,6 @@ public class Register extends AppCompatActivity {
     }
 
     public void Register_Button(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mRootRef = database.getReference();
         Button registerButton = findViewById(R.id.RegisterRegisterButton);
         editTextPassword = findViewById(R.id.registerPassword);
         editTextPasswordConfirmation = findViewById(R.id.registerConfirmPassword);
@@ -53,50 +50,49 @@ public class Register extends AppCompatActivity {
         nameLayout = findViewById(R.id.registerNameLayout);
         emailLayout = findViewById(R.id.registerEmailLayout);
         passwordLayout = findViewById(R.id.registerPasswordLayout);
-        confirmPasswordLayout = findViewById(R.id.registerConfirmPasswordLayout);
 
         registerButton.setOnClickListener( // the back-end of the register button
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (editTextName == null || editTextName.getText().toString().trim().isEmpty()){
-                            editTextEmail.setError("Name is required.");
+                            nameLayout.setError("Name is required.");
                             editTextName.requestFocus();
-                            return;
+                            return; // check if name is empty or not
                         }
                         if (editTextEmail  == null || editTextEmail.getText().toString().trim().isEmpty()){
                             emailLayout.setError("Email is required");
-                            return;
+                            return; // check if email is empty or not
                         }
 
                         if (editTextPassword == null || editTextPassword.getText().toString().trim().isEmpty()){
                             passwordLayout.setError("Password is required.");
                             editTextPassword.requestFocus();
-                            return;
+                            return; // check if password is empty or not
                         }
                         if (!editTextPassword.getText().toString().trim().matches(editTextPasswordConfirmation.getText().toString().trim())){
                             passwordLayout.setError("Passwords must match");
                             editTextPasswordConfirmation.requestFocus();
-                            return;
+                            return; // check if password is the same as password confirmation
                         }
                         if (!Patterns.EMAIL_ADDRESS.matcher(editTextEmail.getText().toString().trim()).matches()){
                             editTextEmail.setError("Enter a valid email.");
                             editTextEmail.requestFocus();
-                            return;
+                            return; // check if email is a real email address
                         }
                         if (editTextPassword.getText().toString().trim().length() < 6){
                             passwordLayout.setError("Your password should be at least 6 characters long.");
-                            editTextPassword.requestFocus();
+                            editTextPassword.requestFocus(); // check if email is 6 characters or longer
                             return;
                         }
 
                         mAuth.createUserWithEmailAndPassword(editTextEmail.getText().toString().trim(), editTextPassword.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Register.this, "Register Successful.", Toast.LENGTH_SHORT).show();
-                                    setUser();
-                                    emptyInputEditText();
+                                if (task.isSuccessful()) { // send email and password to authentication database
+                                    Toast.makeText(Register.this, "Register Successful.", Toast.LENGTH_SHORT).show(); // show message that register was complete
+                                    setUser(); // send name, UID, Role and email to realtime database
+                                    emptyInputEditText(); //empty the input fields
 
                                 }
 
@@ -110,25 +106,25 @@ public class Register extends AppCompatActivity {
         );
 
     }
-    private void emptyInputEditText() {
+    private void emptyInputEditText() { // empty the fields
         editTextName.setText(null);
         editTextEmail.setText(null);
         editTextPassword.setText(null);
         editTextPasswordConfirmation.setText(null);
     }
     private void setUser(){
-        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        String email = currentFirebaseUser.getEmail();
-        String name = editTextName.getText().toString().trim();
-        String uid = currentFirebaseUser.getUid();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mRootRef = database.getReference();
-        DatabaseReference emailRef = mRootRef.child("users").child(uid).child("Email");
-        DatabaseReference nameRef = mRootRef.child("users").child(uid).child("Name");
-        DatabaseReference roleRef = mRootRef.child("users").child(uid).child("Role");
-        emailRef.setValue(email);
-        nameRef.setValue(name);
-        roleRef.setValue("user");
+        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser(); // get the info about the currentuser
+        String email = currentFirebaseUser.getEmail(); // get email from the firebase
+        String name = editTextName.getText().toString().trim(); // get name from input field
+        String uid = currentFirebaseUser.getUid(); // get UID from firebase
+        FirebaseDatabase database = FirebaseDatabase.getInstance(); // initialise the database
+        DatabaseReference mRootRef = database.getReference(); // reference to the database
+        DatabaseReference emailRef = mRootRef.child("users").child(uid).child("Email"); // get the ref to the email
+        DatabaseReference nameRef = mRootRef.child("users").child(uid).child("Name"); // get the ref for the Name
+        DatabaseReference roleRef = mRootRef.child("users").child(uid).child("Role"); // get the ref for the Role
+        emailRef.setValue(email); // set the email in the database
+        nameRef.setValue(name); // set the name in the database
+        roleRef.setValue("User"); // set the role in the database (standard = "User")
     }
 
 }

@@ -29,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText password;
     private TextInputLayout emailLayout;
     private TextInputLayout passwordLayout;
-    private Button login_button;
-    private Button register_button;
-    private Button recyclerview_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.Password);
         emailLayout = findViewById(R.id.textInputLayoutEmail);
         passwordLayout = findViewById(R.id.textInputLayoutPassword);
-        login_button = findViewById(R.id.LoginButton);
-        register_button = findViewById(R.id.RegisterButton);
-        recyclerview_button = findViewById(R.id.recyclerViewButton);
+        Button login_button = findViewById(R.id.LoginButton);
+        Button register_button = findViewById(R.id.RegisterButton);
+        Button recyclerview_button = findViewById(R.id.recyclerViewButton);
 
-        register_button.setOnClickListener(
+        register_button.setOnClickListener( // button to go to the register page
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -61,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-        recyclerview_button.setOnClickListener(
+        recyclerview_button.setOnClickListener( // button to go to recyclerview (temporarily)
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -72,26 +69,26 @@ public class MainActivity extends AppCompatActivity {
         );
         login_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { // button to login
                 if (email == null || email.getText().toString().trim().isEmpty()){
                     emailLayout.setError("Email required.");
                     email.requestFocus();
-                    return;
+                    return; // error if name is empty
                 }
                 if (password == null || password.getText().toString().trim().isEmpty()){
                     passwordLayout.setError("Password required.");
                     password.requestFocus();
-                    return;
+                    return; // check if password is empty
                 }
                 if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString().trim()).matches()){
                     email.setError("Enter a valid email.");
                     email.requestFocus();
-                    return;
+                    return; // check if email is an email-address or not
                 }
                 mAuth.signInWithEmailAndPassword(email.getText().toString().trim(), password.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()){ // sign in to the app
                             Toast.makeText(MainActivity.this, "Logged in as " + email.getText().toString().trim(), Toast.LENGTH_SHORT).show();
                             getUser();
                             emptyInputEditText();
@@ -106,24 +103,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void getUser(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference mRootRef = database.getReference();
-        FirebaseUser CurrentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        final String Uid = CurrentFirebaseUser.getUid();
+        FirebaseDatabase database = FirebaseDatabase.getInstance(); // get the database
+        final DatabaseReference mRootRef = database.getReference(); // ref to the database
+        FirebaseUser CurrentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser(); // get info about the user that is trying to log in
+        final String Uid = CurrentFirebaseUser.getUid(); // get the UID of the user
         mRootRef.child("users").child(Uid).child("Role").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                String role = dataSnapshot.getValue(String.class);
+                String role = dataSnapshot.getValue(String.class); // get the value of the role
                 if (role != null && role.equals("Admin")){
                     Intent intent = new Intent(getBaseContext(), Admin.class);
-                    startActivity(intent);
+                    startActivity(intent); // check if the user is an admin
                 } else if (role != null && role.equals("Beheerder")){
                     Intent intent = new Intent(getBaseContext(), Beheerder.class);
-                    startActivity(intent);
+                    startActivity(intent); // check if the user is an beheerder
                 } else {
                     Intent intent = new Intent(getBaseContext(), User.class);
-                    startActivity(intent);
+                    startActivity(intent); // if no admin and no beheerder, its a user, so go to the user screen
                 }
             }
 
@@ -133,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void emptyInputEditText() {
+    private void emptyInputEditText() { // empty input fields
         email.setText(null);
         password.setText(null);
     }
