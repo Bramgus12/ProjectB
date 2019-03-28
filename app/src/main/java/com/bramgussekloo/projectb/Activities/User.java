@@ -21,15 +21,20 @@ public class User extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-
         mAuth = FirebaseAuth.getInstance();
+
+        createToolbar();
+
+
+
+    }
+
+    public void createToolbar(){
 
         mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(mainToolbar);
 
         getSupportActionBar().setTitle("User");
-
-
     }
 
     @Override
