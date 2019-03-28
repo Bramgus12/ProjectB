@@ -1,19 +1,23 @@
 package com.bramgussekloo.projectb.Activities;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.bramgussekloo.projectb.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Admin extends AppCompatActivity {
 
-    private Toolbar mainToolbar;
     private FirebaseAuth mAuth;
+
+    private FloatingActionButton addProductBttn;
+
 
 
     @Override
@@ -23,17 +27,21 @@ public class Admin extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        createToolbar();
-
-    }
-
-    public void createToolbar() {
-
-        mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(mainToolbar);
-
         getSupportActionBar().setTitle("Admin");
+
+        addProductBttn = findViewById(R.id.addProductBttn);
+        addProductBttn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent newProductIntent = new Intent(getApplicationContext(), NewProductActivity.class);
+                startActivity(newProductIntent);
+
+            }
+        });
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

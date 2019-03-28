@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class User extends AppCompatActivity {
 
-    private Toolbar mainToolbar;
 
     private FirebaseAuth mAuth;
 
@@ -23,19 +22,12 @@ public class User extends AppCompatActivity {
         setContentView(R.layout.activity_user);
         mAuth = FirebaseAuth.getInstance();
 
-        createToolbar();
-
-
-
-    }
-
-    public void createToolbar(){
-
-        mainToolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(mainToolbar);
-
         getSupportActionBar().setTitle("User");
+
+
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
