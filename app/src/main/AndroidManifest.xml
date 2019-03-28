@@ -28,8 +28,10 @@
             android:name=".Activities.ProductActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".Activities.Register" />
-        <activity android:name=".Activities.Beheerder" />
-        <activity android:name=".Activities.Admin" />
+        <activity android:name=".Activities.Beheerder"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".Activities.Admin"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".Activities.User"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".Activities.LoginActivity">
