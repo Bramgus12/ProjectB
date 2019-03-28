@@ -5,79 +5,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.Register">
+    tools:context=".Activities.LoginActivity">
 
     <ProgressBar
-        android:id="@+id/progress_bar_reg"
+        android:id="@+id/progressbar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:visibility="invisible" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/registerNameLayout"
+    <TextView
+        android:id="@+id/LoginText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/registerName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/Name"
-            android:inputType="textPersonName" />
-    </android.support.design.widget.TextInputLayout>
+        android:text="@string/Login_Text"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        tools:textSize="30sp"
+        android:paddingTop="150dp"
+        />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/registerEmailLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/registerEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/Email"
-            android:inputType="textEmailAddress" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/registerPasswordLayout"
+        android:id="@+id/textInputLayoutEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="6dp"
         android:paddingTop="6dp">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/Email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/Email"
+            android:inputType="textEmailAddress"
+            />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="0dp"
+        android:paddingBottom="6dp">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/registerPassword"
+            android:id="@+id/Password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/Password_Hint"
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/registerConfirmPasswordLayout"
+
+
+
+
+    <Button
+        android:id="@+id/LoginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        >
+        android:text="@string/LoginButton" />
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/registerConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/PasswordConfirmation"
-            android:inputType="textPassword"/>
-    </android.support.design.widget.TextInputLayout>
     <Button
-        android:id="@+id/RegisterRegisterButton"
+        android:id="@+id/RegisterButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/RegisterButton" />
+
+    <Button
+        android:id="@+id/recyclerViewButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/RecylerviewButton"
+        />
+
 </LinearLayout>

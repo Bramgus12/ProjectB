@@ -1,75 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Activities.MainActivity">
 
-    <TextView
-        android:id="@+id/LoginText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Login_Text"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        tools:textSize="30sp"
-        android:paddingTop="150dp"
-        />
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayoutEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp">
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/Email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/Email"
-            android:inputType="textEmailAddress"
-            />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayoutPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="0dp"
-        android:paddingBottom="6dp">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/Password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/Password_Hint"
-            android:inputType="textPassword" />
-    </android.support.design.widget.TextInputLayout>
-
-
-
-
-
-    <Button
-        android:id="@+id/LoginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/LoginButton" />
-
-    <Button
-        android:id="@+id/RegisterButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/RegisterButton" />
-
-    <Button
-        android:id="@+id/recyclerViewButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/RecylerviewButton"
-        />
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

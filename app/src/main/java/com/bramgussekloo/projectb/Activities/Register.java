@@ -1,5 +1,6 @@
 package com.bramgussekloo.projectb.Activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bramgussekloo.projectb.R;
@@ -25,11 +27,13 @@ public class Register extends AppCompatActivity {
     private TextInputEditText editTextPasswordConfirmation;
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextName;
+    private ProgressBar progressBar;
 
     private TextInputLayout emailLayout;
     private TextInputLayout passwordLayout;
     private TextInputLayout nameLayout;
     private FirebaseAuth mAuth;
+
 
 
     @Override
@@ -45,6 +49,8 @@ public class Register extends AppCompatActivity {
         editTextPasswordConfirmation = findViewById(R.id.registerConfirmPassword);
         editTextEmail = findViewById(R.id.registerEmail);
         editTextName = findViewById(R.id.registerName);
+        progressBar = findViewById(R.id.progress_bar_reg);
+
         mAuth = FirebaseAuth.getInstance();
 
         nameLayout = findViewById(R.id.registerNameLayout);
@@ -86,6 +92,8 @@ public class Register extends AppCompatActivity {
                             return;
                         }
 
+                        progressBar.setVisibility(View.VISIBLE);
+
                         mAuth.createUserWithEmailAndPassword(editTextEmail.getText().toString().trim(), editTextPassword.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -95,6 +103,9 @@ public class Register extends AppCompatActivity {
                                     emptyInputEditText(); //empty the input fields
 
                                 }
+
+                                progressBar.setVisibility(View.INVISIBLE);
+
 
 
 
@@ -127,4 +138,19 @@ public class Register extends AppCompatActivity {
         roleRef.setValue("User"); // set the role in the database (standard = "User")
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            sendToMain();
+        }
+    }
+
+    private void sendToMain() {
+        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(mainIntent);
+        finish();
+    }
 }
