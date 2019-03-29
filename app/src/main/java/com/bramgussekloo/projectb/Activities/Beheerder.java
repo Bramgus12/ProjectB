@@ -1,6 +1,7 @@
 package com.bramgussekloo.projectb.Activities;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,13 +10,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.bramgussekloo.projectb.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Beheerder extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseUser user = mAuth.getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +58,14 @@ public class Beheerder extends AppCompatActivity {
 
 
                 return true;
+            case R.id.action_resetPassword_buttn:
+                resetpassword();
 
+                return true;
+            case R.id.action_ChangeEmail_bttn:
+                Intent changeEmail = new Intent(getBaseContext(), ResetEmail.class);
+                startActivity(changeEmail);
+                return true;
             default:
 
                 return false;
@@ -65,6 +78,19 @@ public class Beheerder extends AppCompatActivity {
     private void logOut() {
         mAuth.signOut();
         sendTologin();
+    }
+    private void resetpassword(){
+        if (user.getEmail() != null)
+            mAuth.sendPasswordResetEmail(user.getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()){
+                        Toast.makeText(Beheerder.this, "Mail was sent succesful", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Beheerder.this, "Mail not sent succesful", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
     }
 
     private void sendTologin() {

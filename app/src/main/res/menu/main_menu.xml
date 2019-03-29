@@ -13,4 +13,10 @@
     <item
         android:id="@+id/action_logout_bttn"
         android:title="@string/action_logout" />
+    <item
+        android:id="@+id/action_resetPassword_buttn"
+        android:title="@string/reset_password" />
+    <item
+        android:id="@+id/action_ChangeEmail_bttn"
+        android:title="@string/reset_email" />
 </menu>

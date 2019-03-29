@@ -6,9 +6,8 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.NewProductActivity"></activity>
+        <activity android:name=".Activities.ResetEmail"></activity>
+        <activity android:name=".Activities.NewProductActivity" />
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,12 +32,9 @@
             android:name=".Activities.ProductActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".Activities.Register" />
-        <activity
-            android:name=".Activities.Beheerder"/>
-        <activity
-            android:name=".Activities.Admin" />
-        <activity
-            android:name=".Activities.User" />
+        <activity android:name=".Activities.Beheerder" />
+        <activity android:name=".Activities.Admin" />
+        <activity android:name=".Activities.User" />
         <activity android:name=".Activities.LoginActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
