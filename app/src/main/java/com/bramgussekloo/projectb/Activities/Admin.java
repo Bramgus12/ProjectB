@@ -27,7 +27,7 @@ public class Admin extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        getSupportActionBar().setTitle("Admin");
+        getSupportActionBar().setTitle("Admin"); // sets title for toolbar
 
         addProductBttn = findViewById(R.id.addProductBttn);
         addProductBttn.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +46,7 @@ public class Admin extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu); // inflates menu from XML to objects
 
         return true;
     }
@@ -54,11 +54,11 @@ public class Admin extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
+        switch (item.getItemId()) { // switch case for detecting which menu item is clicked
 
-            case R.id.action_logout_bttn:
+            case R.id.action_logout_bttn:  // triggers when logout button is clicked
 
-                logOut();
+                logOut();  // logs out user
 
                 return true;
 
@@ -80,6 +80,6 @@ public class Admin extends AppCompatActivity {
 
         Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(loginIntent);
-        finish();
+        finish(); // ensures user can't go back
     }
 }

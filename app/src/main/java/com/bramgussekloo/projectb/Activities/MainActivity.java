@@ -31,17 +31,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart() { // will automatically run in background
         super.onStart();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        if(currentUser == null){
+        if(currentUser == null){ // if user hasn't login, redirect to login
             Intent LoginActivity = new Intent(getApplicationContext(), com.bramgussekloo.projectb.Activities.LoginActivity.class);
             startActivity(LoginActivity);
             finish();
         }
-        if(currentUser != null){
+        if(currentUser != null){ // if user has logged in
             getUser();
         }
 

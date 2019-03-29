@@ -46,6 +46,11 @@ dependencies {
 
     implementation 'com.android.support:design:28.0.0'
 
+    // Image Cropper Library
+
+    api 'com.theartofdev.edmodo:android-image-cropper:2.7.0+'
+
+
 
 }
 apply plugin: 'com.google.gms.google-services'

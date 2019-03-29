@@ -120,20 +120,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart() { // will automatically run in background
         super.onStart();
         
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseUser currentUser = mAuth.getCurrentUser(); // get current user
         
         if(currentUser != null){
-            sendToMain();
+            sendToMain(); // sends user to mainactivity
         }
     }
 
     private void sendToMain() {
         Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(mainIntent);
-        finish();
+        finish(); // ensures user can't go back
     }
 }
 

@@ -23,7 +23,7 @@ public class Beheerder extends AppCompatActivity {
         setContentView(R.layout.activity_beheerder);
         mAuth = FirebaseAuth.getInstance();
 
-        getSupportActionBar().setTitle("Beheerder");
+        getSupportActionBar().setTitle("Beheerder"); // sets title for toolbar
 
 
 }
@@ -36,7 +36,7 @@ public class Beheerder extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu); // inflates menu from XML to objects
 
         return true;
     }
@@ -44,11 +44,12 @@ public class Beheerder extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
+        switch (item.getItemId()) { // switch case for detecting which menu item is clicked
 
-            case R.id.action_logout_bttn:
+            case R.id.action_logout_bttn: // triggers when logout button is clicked
 
-                logOut();
+                logOut(); // logs out user
+
 
                 return true;
 
@@ -70,7 +71,7 @@ public class Beheerder extends AppCompatActivity {
 
         Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(loginIntent);
-        finish();
+        finish(); // ensures user can't go back
     }
 }
 
