@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bramgussekloo.projectb.R;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -50,15 +52,19 @@ public class NewProductActivity extends AppCompatActivity {
 
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){ // checks if phone has right build
                     if(ContextCompat.checkSelfPermission(NewProductActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){ // checks if used phone has right permissions
+                        Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_LONG).show();
+                        ActivityCompat.requestPermissions(NewProductActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1); // requests read permission
+                    } else {
+
+                        CropImage.activity()
+                                .setGuidelines(CropImageView.Guidelines.ON) // sets guidelines for cropping images
+                                .setMinCropResultSize(512, 512) // sets minimal image size
+                                .setAspectRatio(1, 1) // sets aspect ratio
+                                .start(NewProductActivity.this); // starts the crop image acivity
 
                     }
                 }
 
-                CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON) // sets guidelines for cropping images
-                        .setMinCropResultSize(512, 512) // sets minimal image size
-                        .setAspectRatio(1, 1) // sets aspect ratio
-                        .start(NewProductActivity.this); // starts the crop image acivity
 
             }
         });
