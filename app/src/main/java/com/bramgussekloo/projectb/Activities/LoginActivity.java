@@ -11,6 +11,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bramgussekloo.projectb.R;
@@ -54,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         Button login_button = findViewById(R.id.LoginButton);
         Button register_button = findViewById(R.id.RegisterButton);
         Button recyclerview_button = findViewById(R.id.recyclerViewButton);
+        TextView reset_password = findViewById(R.id.rest_pass);
 
         register_button.setOnClickListener( // button to go to the register page
                 new View.OnClickListener() {
@@ -79,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (email == null || email.getText().toString().trim().isEmpty()){
                     emailLayout.setError("Email required.");
                     email.requestFocus();
-                    return; // error if name is empty
+                    return; // error if email is empty
                 }
                 if (password == null || password.getText().toString().trim().isEmpty()){
                     passwordLayout.setError("Password required.");
@@ -109,6 +111,13 @@ public class LoginActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
+            }
+        });
+        reset_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), ResetPassword.class);
+                startActivity(intent);
             }
         });
 
