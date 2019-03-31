@@ -28,5 +28,9 @@
     <string name="reset_password">Reset Password</string>
     <string name="new_email">new Email</string>
     <string name="reset_email">Reset email</string>
+    <string name="techab_logo">Techlab Logo</string>
+    <string name="forgot_pass">Forgot password?</string>
+    <string name="rest_pass">Rest password</string>
+
     />
 </resources>
