@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".Activities.LoginActivity">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp" />
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="1dp" />
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -13,26 +35,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        app:layout_constraintEnd_toStartOf="@id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/LoginText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Login_Text"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        tools:textSize="30sp"
-        android:paddingTop="150dp"
-        />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="167dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ssss"
+        android:autofillHints="techab_logo"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/progressbar"/>
+
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayoutEmail"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp">
+        android:padding="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/et_bg"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        >
         <android.support.design.widget.TextInputEditText
             android:id="@+id/Email"
             android:layout_width="match_parent"
@@ -44,10 +76,14 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayoutPassword"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="0dp"
-        android:paddingBottom="6dp">
+        android:padding="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/et_bg"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutEmail">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/Password"
@@ -57,27 +93,112 @@
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
-
-
-
-
     <Button
         android:id="@+id/LoginButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/LoginButton" />
+        android:text="@string/LoginButton"
+        android:textAllCaps="false"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginStart="36dp"
+        android:background="@drawable/bt_bg"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutPassword"/>
+
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/forgot_pass"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@+id/rest_pass"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/LoginButton" />
+
+    <TextView
+        android:id="@+id/rest_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/rest_pass"
+        android:textColorLink="@color/link"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+        app:layout_constraintHorizontal_bias="0.553"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/LoginButton" />
+
+    <View
+        android:id="@+id/line1"
+
+        android:layout_width="120dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/or"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@+id/forgot_password" />
+
+    <TextView
+        android:id="@+id/or"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="or"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/line1"
+        app:layout_constraintTop_toTopOf="@+id/line1"
+        app:layout_constraintEnd_toStartOf="@+id/line2"
+        app:layout_constraintStart_toEndOf="@+id/line1" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="120dp"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/or"
+        app:layout_constraintEnd_toEndOf="@id/guidelineRight"
+        app:layout_constraintStart_toEndOf="@+id/or"
+        app:layout_constraintTop_toTopOf="@+id/or" />
+
 
     <Button
         android:id="@+id/RegisterButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/RegisterButton" />
+        android:text="@string/RegisterButton"
+        android:textAllCaps="false"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginStart="36dp"
+        android:background="@drawable/bt_bg"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/line1"/>
 
     <Button
         android:id="@+id/recyclerViewButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/RecylerviewButton"
+        android:textAllCaps="false"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginStart="36dp"
+        android:background="@drawable/bt_bg"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineRight"
+        app:layout_constraintStart_toStartOf="@+id/guidelineLeft"
+        app:layout_constraintTop_toBottomOf="@id/RegisterButton"
         />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

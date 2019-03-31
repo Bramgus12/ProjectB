@@ -28,6 +28,5 @@
     <string name="reset_password">Reset Password</string>
     <string name="new_email">new Email</string>
     <string name="reset_email">Reset email</string>
-    <string name="quantity">Quantity</string>
     />
 </resources>
