@@ -49,6 +49,7 @@ public class NewProductActivity extends AppCompatActivity {
     private ImageView newProductImage;
     private EditText newProductDesc;
     private EditText newProductTitle;
+    private EditText newProductQuantity;
     private Button newProductBttn;
 
     private Uri productImageUri = null;
@@ -70,6 +71,7 @@ public class NewProductActivity extends AppCompatActivity {
         newProductImage = findViewById(R.id.new_product_image);
         newProductTitle = findViewById(R.id.new_product_title);
         newProductDesc = findViewById(R.id.new_product_desc);
+        newProductQuantity = findViewById(R.id.new_product_quantity);
         newProductBttn = findViewById(R.id.post_bttn);
         newProductProgress = findViewById(R.id.new_product_progress);
 
@@ -107,6 +109,7 @@ public class NewProductActivity extends AppCompatActivity {
 
                 final String title = newProductTitle.getText().toString();
                 final String description = newProductDesc.getText().toString();
+                final int quantity = Integer.parseInt(newProductQuantity.getText().toString());
 
                 if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description) && productImageUri != null) { // checks if fields aren't aempty
 
@@ -126,6 +129,7 @@ public class NewProductActivity extends AppCompatActivity {
                                 productMap.put("image_url", downloaduri);
                                 productMap.put("title", title);
                                 productMap.put("desc", description);
+                                productMap.put("quantity", quantity);
 
 
                                 firebaseFirestore.collection("Products").add(productMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
