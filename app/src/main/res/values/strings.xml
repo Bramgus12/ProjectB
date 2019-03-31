@@ -26,6 +26,7 @@
     <string name="Add_Product_Description_Hint">Add Product Description</string>
     <string name="add_product_button">Add Product</string>
     <string name="reset_password">Reset Password</string>
+    <string name="forgot_pass">Forget password?</string>
     <string name="new_email">new Email</string>
     <string name="reset_email">Reset email</string>
     <string name="quantity">Quantity</string>
