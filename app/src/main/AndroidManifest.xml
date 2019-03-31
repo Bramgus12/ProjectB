@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.ResetEmail"></activity>
-        <activity android:name=".Activities.NewProductActivity" />
+        <activity android:name=".Activities.NewProductActivity" android:parentActivityName=".Activities.Admin" />
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
