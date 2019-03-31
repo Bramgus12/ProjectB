@@ -1,14 +1,14 @@
 <resources>
     <string name="App_Name">Techlab</string>
     <string name="Login_Text">Welcome to&#10;Techlab</string>
-    <string name="LoginButton">Login</string>
+    <string name="LoginButton">Login to Account</string>
     <string name="Email">Email</string>
     <string name="Password_Hint">Password</string>
     <string name="WelcomeUser">You are logged in as a user.</string>
     <string name="title_activity_login">Sign in</string>
     <string name="WelcomeAdmin">Je bent nu ingelogd als Admin.</string>
     <string name="WelcomeBeheerder">Je bent nu ingelogd als Beheerder.</string>
-    <string name="RegisterButton">Registreren</string>
+    <string name="RegisterButton">Need a new Account?</string>
     <string name="Name">Name</string>
     <string name="PasswordConfirmation">Confirm password</string>
     <string name="error_email">Enter valid Email Address.</string>
@@ -18,7 +18,7 @@
     <string name="error_name">Enter a name.</string>
     <string name="success">The registration was successful.</string>
     <string name="email_exist">Email already exists.</string>
-    <string name="RecylerviewButton">Recyclerview</string>
+    <string name="RecylerviewButton">Temporary Recyclerview</string>
     <string name="action_search">Search</string>
     <string name="account_settings">Settings</string>
     <string name="action_logout">Logout</string>
