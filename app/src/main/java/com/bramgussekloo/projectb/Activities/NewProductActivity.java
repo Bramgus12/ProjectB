@@ -13,12 +13,15 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bramgussekloo.projectb.R;
@@ -41,10 +44,7 @@ import java.util.Map;
 
 import io.grpc.Context;
 
-public class NewProductActivity extends AppCompatActivity {
-
-    private RadioGroup radioGroup;
-    private RadioButton radioButton;
+public class NewProductActivity extends AppCompatActivity{
 
     private ImageView newProductImage;
     private EditText newProductDesc;
@@ -58,6 +58,7 @@ public class NewProductActivity extends AppCompatActivity {
 
     private StorageReference storageReference;
     private FirebaseFirestore firebaseFirestore;
+
 
 
     @Override
@@ -77,6 +78,7 @@ public class NewProductActivity extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
+
 
         //
         newProductImage.setOnClickListener(new View.OnClickListener() {
@@ -186,6 +188,5 @@ public class NewProductActivity extends AppCompatActivity {
             }
         }
     }
-
 
 }
