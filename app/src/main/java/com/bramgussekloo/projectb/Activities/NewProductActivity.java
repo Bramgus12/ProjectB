@@ -39,13 +39,15 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import io.grpc.Context;
 
 public class NewProductActivity extends AppCompatActivity{
-
+    private Spinner spinner;
     private ImageView newProductImage;
     private EditText newProductDesc;
     private EditText newProductTitle;
@@ -66,8 +68,7 @@ public class NewProductActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_product);
 
-        getSupportActionBar().setTitle("Add New Product"); // sets title for toolbar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         newProductImage = findViewById(R.id.new_product_image);
         newProductTitle = findViewById(R.id.new_product_title);
@@ -75,9 +76,17 @@ public class NewProductActivity extends AppCompatActivity{
         newProductQuantity = findViewById(R.id.new_product_quantity);
         newProductBttn = findViewById(R.id.post_bttn);
         newProductProgress = findViewById(R.id.new_product_progress);
+        spinner = findViewById(R.id.spinner);
 
         storageReference = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
+
+        getSupportActionBar().setTitle("Add New Product"); // sets title for toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
 
         //
@@ -111,9 +120,11 @@ public class NewProductActivity extends AppCompatActivity{
 
                 final String title = newProductTitle.getText().toString();
                 final String description = newProductDesc.getText().toString();
-                final int quantity = Integer.parseInt(newProductQuantity.getText().toString());
+                final String category = spinner.getSelectedItem().toString();
 
-                if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description) && productImageUri != null) { // checks if fields aren't aempty
+                if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description) && !TextUtils.isEmpty(newProductQuantity.getText().toString()) && productImageUri != null) { // checks if fields aren't aempty
+
+                    final Integer quantity = Integer.parseInt(newProductQuantity.getText().toString());
 
                     newProductProgress.setVisibility(View.VISIBLE);
 
@@ -132,6 +143,9 @@ public class NewProductActivity extends AppCompatActivity{
                                 productMap.put("title", title);
                                 productMap.put("desc", description);
                                 productMap.put("quantity", quantity);
+                                productMap.put("category", category);
+
+
 
 
                                 firebaseFirestore.collection("Products").add(productMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
@@ -163,10 +177,20 @@ public class NewProductActivity extends AppCompatActivity{
 
                                 newProductProgress.setVisibility(View.INVISIBLE);
 
+                                String errorMessage = task.getException().getMessage();
+                                Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
+
+
 
                             }
                         }
                     });
+
+
+                } else {
+
+                    newProductProgress.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getApplicationContext(), "Error : Please fill in all fields", Toast.LENGTH_LONG).show();
 
 
                 }

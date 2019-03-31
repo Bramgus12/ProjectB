@@ -30,5 +30,16 @@
     <string name="new_email">new Email</string>
     <string name="reset_email">Reset email</string>
     <string name="quantity">Quantity</string>
+    <string name="spin_hint">Choose Category</string>
+    <string-array name="category">
+        <item>Micro Computer</item>
+        <item>Virtual Reality</item>
+        <item>Kabels</item>
+        <item>Computer</item>
+        <item>Gameconsole</item>
+        <item>Game</item>
+        <item>Smart Technology</item>
+        <item>Drone</item>
+    </string-array>
     />
 </resources>
