@@ -1,6 +1,6 @@
 <resources>
     <string name="App_Name">Techlab</string>
-    <string name="Login_Text">Log hier in!</string>
+    <string name="Login_Text">Welcome to&#10;Techlab</string>
     <string name="LoginButton">Login</string>
     <string name="Email">Email</string>
     <string name="Password_Hint">Password</string>
