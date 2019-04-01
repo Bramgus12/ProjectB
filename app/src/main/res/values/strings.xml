@@ -34,6 +34,11 @@
     <string name="reset_email">Reset email</string>
     <string name="quantity">Quantity</string>
     <string name="spin_hint">Choose Category</string>
+    <string name="resetPassTitle">Trouble Logging In?</string>
+    <string name="resetPassText">Enter your email and we\'ll send&#10;you a link to get back into&#10;your account.</string>
+    <string name="CreateNewAccount">Create New Account</string>
+    <string name="BackToLogIn">Back To Login</string>
+    <string name="or">or</string>
     <string-array name="category">
         <item>Micro Computer</item>
         <item>Virtual Reality</item>

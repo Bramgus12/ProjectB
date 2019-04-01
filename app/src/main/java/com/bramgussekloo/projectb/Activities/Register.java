@@ -28,12 +28,10 @@ public class Register extends AppCompatActivity {
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextName;
     private ProgressBar progressBar;
-
     private TextInputLayout emailLayout;
     private TextInputLayout passwordLayout;
     private TextInputLayout nameLayout;
     private FirebaseAuth mAuth;
-
 
 
     @Override
@@ -46,6 +44,7 @@ public class Register extends AppCompatActivity {
 
     public void Register_Button(){
         Button registerButton = findViewById(R.id.RegisterRegisterButton);
+        Button backToSignIn = findViewById(R.id.back_to_sign_in);
         editTextPassword = findViewById(R.id.registerPassword);
         editTextPasswordConfirmation = findViewById(R.id.registerConfirmPassword);
         editTextEmail = findViewById(R.id.registerEmail);
@@ -57,6 +56,16 @@ public class Register extends AppCompatActivity {
         nameLayout = findViewById(R.id.registerNameLayout);
         emailLayout = findViewById(R.id.registerEmailLayout);
         passwordLayout = findViewById(R.id.registerPasswordLayout);
+
+        backToSignIn.setOnClickListener(// button to go to the signIn page
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent signinintent = new Intent(getBaseContext(), LoginActivity.class);
+                        startActivity(signinintent);
+                    }
+                }
+        );
 
         registerButton.setOnClickListener( // the back-end of the register button
                 new View.OnClickListener() {

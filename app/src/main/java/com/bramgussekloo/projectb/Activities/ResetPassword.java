@@ -28,6 +28,7 @@ public class ResetPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
+        getSupportActionBar().hide(); //hide Action bar
         mAuth = FirebaseAuth.getInstance();
         resetPassword();
     }
@@ -35,6 +36,26 @@ public class ResetPassword extends AppCompatActivity {
         Email = findViewById(R.id.ResetPasswordEmail);
         Button resetPasswordButton = findViewById(R.id.ResetPasswordButton);
         EmailLayout = findViewById(R.id.ResetPasswordEmailLayout);
+        Button back_to_register = findViewById(R.id.GoToRegister);
+        Button back_to_sign_in =findViewById(R.id.back_to_sign_in);
+        back_to_register.setOnClickListener( // button to go to the register page
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent Registerintent = new Intent(getBaseContext(),Register.class);
+                        startActivity(Registerintent);
+                    }
+                }
+        );
+        back_to_sign_in.setOnClickListener(// button to go to the login page
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent Signinintent = new Intent(getBaseContext(),LoginActivity.class);
+                        startActivity(Signinintent);
+                    }
+                }
+        );
 
         resetPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
