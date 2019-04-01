@@ -101,9 +101,9 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){ // sign in to the app
-                            Toast.makeText(LoginActivity.this, "Logged in as " + email.getText().toString().trim(), Toast.LENGTH_SHORT).show();
                             sendToMain();
                             emptyInputEditText();
+
                         } else {
                             Toast.makeText(LoginActivity.this, "Log in failed", Toast.LENGTH_SHORT).show();
                             emptyInputEditText();

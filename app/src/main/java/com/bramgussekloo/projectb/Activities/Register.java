@@ -146,6 +146,16 @@ public class Register extends AppCompatActivity {
         emailRef.setValue(email); // set the email in the database
         nameRef.setValue(name); // set the name in the database
         roleRef.setValue("User"); // set the role in the database (standard = "User")
+        currentFirebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(Register.this, "Check your email for a verification.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(Register.this, "verification email is not sent. Make sure you have the right email put in.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
