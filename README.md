@@ -10,7 +10,7 @@ This app will eventually improve the work-flow of the Techlab and will bring use
 
 This application is for a project on our school.
 
-ContactInformation: techlab@csarotterdam.nl
+Contact-Information: techlab@csarotterdam.nl
 
 Team members:
 * Oz
