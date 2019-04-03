@@ -1,4 +1,4 @@
-package com.bramgussekloo.projectb.Activities;
+package com.bramgussekloo.projectb.Activities.Login;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -109,7 +109,7 @@ public class Register extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) { // send email and password to authentication database
                                     Toast.makeText(Register.this, "Register Successful.", Toast.LENGTH_SHORT).show(); // show message that register was complete
-                                    setUser(); // send name, UID, Role and email to realtime database
+                                    setUserInDatabase(); // send name, UID, Role and email to realtime database
                                     emptyInputEditText(); //empty the input fields
 
                                 }
@@ -133,7 +133,8 @@ public class Register extends AppCompatActivity {
         editTextPassword.setText(null);
         editTextPasswordConfirmation.setText(null);
     }
-    private void setUser(){
+    private void setUserInDatabase(){
+
         FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser(); // get the info about the currentuser
         String email = currentFirebaseUser.getEmail(); // get email from the firebase
         String name = editTextName.getText().toString().trim(); // get name from input field

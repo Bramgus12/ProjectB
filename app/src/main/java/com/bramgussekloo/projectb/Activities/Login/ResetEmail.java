@@ -1,12 +1,10 @@
-package com.bramgussekloo.projectb.Activities;
+package com.bramgussekloo.projectb.Activities.Login;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -28,8 +26,7 @@ public class ResetEmail extends AppCompatActivity {
     private TextInputEditText passwordConfirmation;
     private TextInputEditText newEmail;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
-    private TextInputLayout emaillayout;
+    private TextInputLayout emailLayout;
     private TextInputLayout passwordLayout;
     private TextInputLayout passwordConfirmationLayout;
     private TextInputLayout newEmailLayout;
@@ -57,7 +54,7 @@ public class ResetEmail extends AppCompatActivity {
         mref = FirebaseDatabase.getInstance().getReference();
 
 
-        emaillayout = findViewById(R.id.REEmailLayout);
+        emailLayout = findViewById(R.id.REEmailLayout);
         passwordLayout = findViewById(R.id.REPasswordLayout);
         passwordConfirmationLayout = findViewById(R.id.REConfirmPasswordLayout);
         newEmailLayout = findViewById(R.id.RENewEmailLayout);
@@ -65,7 +62,7 @@ public class ResetEmail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (email == null || email.getText().toString().trim().isEmpty()) {
-                    emaillayout.setError("Email is empty");
+                    emailLayout.setError("Email is empty");
                     email.requestFocus();
                     return;
                 }
@@ -80,7 +77,7 @@ public class ResetEmail extends AppCompatActivity {
                     return;
                 }
                 if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString().trim()).matches()) {
-                    emaillayout.setError("Enter a valid email.");
+                    emailLayout.setError("Enter a valid email.");
                     email.requestFocus();
                     return;
                 }

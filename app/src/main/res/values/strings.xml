@@ -32,12 +32,14 @@
     <string name="forgot_pass">Forget password?</string>
     <string name="new_email">new Email</string>
     <string name="reset_email">Reset email</string>
+    <string name="reset_password_login"><u>Reset Password</u></string>
     <string name="quantity">Quantity</string>
     <string name="spin_hint">Choose Category</string>
     <string name="resetPassTitle">Trouble Logging In?</string>
     <string name="resetPassText">Enter your email and we\'ll send&#10;you a link to get back into&#10;your account.</string>
     <string name="CreateNewAccount">Create New Account</string>
     <string name="BackToLogIn">Back To Login</string>
+    <string name="voorwaarden">I accept the <u>End-user license agreement</u>.</string>
     <string name="or">or</string>
     <string-array name="category">
         <item>Micro Computer</item>

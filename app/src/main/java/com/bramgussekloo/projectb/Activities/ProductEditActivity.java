@@ -1,6 +1,5 @@
 package com.bramgussekloo.projectb.Activities;
 
-import android.support.design.widget.VisibilityAwareImageButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;

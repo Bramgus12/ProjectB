@@ -1,19 +1,19 @@
-package com.bramgussekloo.projectb.Activities;
+package com.bramgussekloo.projectb.Activities.Login;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.bramgussekloo.projectb.Activities.Admin;
+import com.bramgussekloo.projectb.Activities.Beheerder;
+import com.bramgussekloo.projectb.Activities.User;
 import com.bramgussekloo.projectb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser == null){ // if user hasn't login, redirect to login
-            Intent LoginActivity = new Intent(getApplicationContext(), com.bramgussekloo.projectb.Activities.LoginActivity.class);
+            Intent LoginActivity = new Intent(getApplicationContext(), com.bramgussekloo.projectb.Activities.Login.LoginActivity.class);
             startActivity(LoginActivity);
             finish();
         }
         if(currentUser != null){ // if user has logged in
             if (currentUser.isEmailVerified()){
-                getUser();
+                userInformation();
             } else {
                 currentUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getUser(){
+    private void userInformation(){
         FirebaseDatabase database = FirebaseDatabase.getInstance(); // get the database
         final DatabaseReference mRootRef = database.getReference(); // ref to the database
         FirebaseUser CurrentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser(); // get info about the user that is trying to log in

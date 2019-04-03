@@ -1,4 +1,4 @@
-package com.bramgussekloo.projectb.Activities;
+package com.bramgussekloo.projectb.Activities.Login;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -15,8 +15,6 @@ import com.bramgussekloo.projectb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.regex.Matcher;
 
 public class ResetPassword extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -42,7 +40,7 @@ public class ResetPassword extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent Registerintent = new Intent(getBaseContext(),Register.class);
+                        Intent Registerintent = new Intent(getBaseContext(), Register.class);
                         startActivity(Registerintent);
                     }
                 }
@@ -51,7 +49,7 @@ public class ResetPassword extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent Signinintent = new Intent(getBaseContext(),LoginActivity.class);
+                        Intent Signinintent = new Intent(getBaseContext(), LoginActivity.class);
                         startActivity(Signinintent);
                     }
                 }
