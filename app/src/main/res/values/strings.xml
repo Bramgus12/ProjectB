@@ -41,6 +41,8 @@
     <string name="BackToLogIn">Back To Login</string>
     <string name="voorwaarden">I accept the <u>End-user license agreement</u>.</string>
     <string name="or">or</string>
+    <string name="edit_product">Edit product</string>
+    <string name="productid">ProductID</string>
     <string-array name="category">
         <item>Micro Computer</item>
         <item>Virtual Reality</item>

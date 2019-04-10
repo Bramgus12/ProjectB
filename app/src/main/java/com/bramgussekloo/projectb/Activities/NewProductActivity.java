@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 import com.bramgussekloo.projectb.Activities.Login.MainActivity;
 import com.bramgussekloo.projectb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,13 +44,11 @@ public class NewProductActivity extends AppCompatActivity{
     private EditText newProductDesc;
     private EditText newProductTitle;
     private EditText newProductQuantity;
-    private Button newProductBttn;
+    private EditText ProductID;
     private Uri productImageUri = null;
     private ProgressBar newProductProgress;
     private StorageReference storageReference;
     private FirebaseFirestore firebaseFirestore;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +58,17 @@ public class NewProductActivity extends AppCompatActivity{
         newProductTitle = findViewById(R.id.new_product_title);
         newProductDesc = findViewById(R.id.new_product_desc);
         newProductQuantity = findViewById(R.id.new_product_quantity);
-        newProductBttn = findViewById(R.id.post_bttn);
+        Button newProductBttn = findViewById(R.id.post_bttn);
         newProductProgress = findViewById(R.id.new_product_progress);
+        ProductID = findViewById(R.id.new_ProductID);
         spinner = findViewById(R.id.spinner);
         storageReference = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
-
         getSupportActionBar().setTitle("Add New Product"); // sets title for toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-
         newProductImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { // button to choose and crop picture
@@ -86,7 +86,6 @@ public class NewProductActivity extends AppCompatActivity{
                 }
             }
         });
-
         newProductBttn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { // will append data to firebase
@@ -100,9 +99,7 @@ public class NewProductActivity extends AppCompatActivity{
                     filePath.putFile(productImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-
                             if(task.isSuccessful()){
-
                                 Task<Uri> result = task.getResult().getMetadata().getReference().getDownloadUrl();
                                 String downloaduri = result.toString();
                                 Map<String, Object> productMap = new HashMap<>();
@@ -111,58 +108,32 @@ public class NewProductActivity extends AppCompatActivity{
                                 productMap.put("desc", description);
                                 productMap.put("quantity", quantity);
                                 productMap.put("category", category);
-
-                                firebaseFirestore.collection("Products").add(productMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                firebaseFirestore.collection("Products").document(ProductID.getText().toString().trim()).set(productMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<DocumentReference> task) {
-
-                                        if(task.isSuccessful()){
-
-                                            Toast.makeText(getApplicationContext(), "Product is added", Toast.LENGTH_LONG).show();
-                                            Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
-                                            startActivity(backIntent);
-                                            finish();
-
-                                        } else {
-
-                                            String errorMessage = task.getException().getMessage();
-                                            Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
-
-                                        }
-
-                                        newProductProgress.setVisibility(View.INVISIBLE);
-
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(getApplicationContext(), "Product is added", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w("NewProductActivityError", "error writing document", e);
                                     }
                                 });
-
-
-
                             } else {
-
                                 newProductProgress.setVisibility(View.INVISIBLE);
-
                                 String errorMessage = task.getException().getMessage();
                                 Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
-
-
-
                             }
                         }
                     });
-
-
                 } else {
-
                     newProductProgress.setVisibility(View.INVISIBLE);
                     Toast.makeText(getApplicationContext(), "Error : Please fill in all fields", Toast.LENGTH_LONG).show();
-
-
                 }
             }
         });
-
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) { // checks result of given picture
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -170,7 +141,6 @@ public class NewProductActivity extends AppCompatActivity{
             if (resultCode == RESULT_OK) {
                 productImageUri = result.getUri(); // appends the uri to given variable
                 newProductImage.setImageURI(productImageUri); // appends the uri to newproductimage
-
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError(); // error if mistakes in image
             }
