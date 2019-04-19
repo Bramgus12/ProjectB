@@ -3,6 +3,7 @@ package com.bramgussekloo.projectb.Activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import com.bramgussekloo.projectb.Activities.Login.MainActivity;
 import com.bramgussekloo.projectb.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -42,9 +44,13 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.zelory.compressor.Compressor;
 import io.grpc.Context;
 
 public class NewProductActivity extends AppCompatActivity{
@@ -62,6 +68,8 @@ public class NewProductActivity extends AppCompatActivity{
 
     private StorageReference storageReference;
     private FirebaseFirestore firebaseFirestore;
+
+    private Bitmap compressedImageFile;
 
 
 
@@ -119,41 +127,86 @@ public class NewProductActivity extends AppCompatActivity{
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 
+                            Task<Uri> result = task.getResult().getMetadata().getReference().getDownloadUrl();
+                            final String downloadUri = result.toString();
+
                             if(task.isSuccessful()){
 
-                                Task<Uri> result = task.getResult().getMetadata().getReference().getDownloadUrl();
-                                String downloadUri = result.toString();
+                                File newImageFile = new File(productImageUri.getPath());
 
-                                Map<String, Object> productMap = new HashMap<>();
-                                productMap.put("image_url", downloadUri);
-                                productMap.put("title", title);
-                                productMap.put("desc", description);
-                                productMap.put("quantity", quantity);
-                                productMap.put("category", category);
+                                try {
+                                    compressedImageFile = new Compressor(NewProductActivity.this)
+                                            .setMaxHeight(100)
+                                            .setMaxWidth(100)
+                                            .setQuality(2)
+                                            .compressToBitmap(newImageFile);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                byte[] data = baos.toByteArray();
 
 
-                                firebaseFirestore.collection("Products").document(id).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                                UploadTask uploadTask = storageReference.child("product_images/thumbs").child(title + ".jpg").putBytes(data);
+
+                                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                        if(task.isSuccessful()){
+                                        Task<Uri> thumbUri = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                                        final String thumbDownloadUri = thumbUri.toString();
 
-                                            Toast.makeText(getApplicationContext(), "Product is added", Toast.LENGTH_LONG).show();
 
-                                            sendToMain();
+                                        Map<String, Object> productMap = new HashMap<>();
+                                        productMap.put("image_url", downloadUri);
+                                        productMap.put("thumb_url", thumbDownloadUri);
+                                        productMap.put("title", title);
+                                        productMap.put("desc", description);
+                                        productMap.put("quantity", quantity);
+                                        productMap.put("category", category);
 
-                                        } else {
 
-                                            String errorMessage = task.getException().getMessage();
+                                        firebaseFirestore.collection("Products").document(id).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
 
-                                            Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
+                                                if(task.isSuccessful()){
 
-                                        }
+                                                    Toast.makeText(getApplicationContext(), "Product is added", Toast.LENGTH_LONG).show();
 
-                                        newProductProgress.setVisibility(View.INVISIBLE);
+                                                    sendToMain();
+
+                                                } else {
+
+                                                    String errorMessage = task.getException().getMessage();
+
+                                                    Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
+
+                                                }
+
+                                                newProductProgress.setVisibility(View.INVISIBLE);
+
+                                            }
+                                        });
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                        String errorMessage = e.getMessage();
+
+                                        Toast.makeText(NewProductActivity.this, "Error : " + errorMessage, Toast.LENGTH_SHORT).show();
 
                                     }
                                 });
+
+
+
+
 
 
                             } else {
@@ -230,5 +283,6 @@ public class NewProductActivity extends AppCompatActivity{
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
+
 
 }
