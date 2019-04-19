@@ -50,6 +50,7 @@ import io.grpc.Context;
 public class NewProductActivity extends AppCompatActivity{
     private Spinner spinner;
     private ImageView newProductImage;
+    private EditText newProductId;
     private EditText newProductDesc;
     private EditText newProductTitle;
     private EditText newProductQuantity;
@@ -69,9 +70,8 @@ public class NewProductActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_product);
 
-
-
         newProductImage = findViewById(R.id.new_product_image);
+        newProductId = findViewById(R.id.new_ProductID);
         newProductTitle = findViewById(R.id.new_product_title);
         newProductDesc = findViewById(R.id.new_product_desc);
         newProductQuantity = findViewById(R.id.new_product_quantity);
@@ -82,12 +82,9 @@ public class NewProductActivity extends AppCompatActivity{
         storageReference = FirebaseStorage.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        getSupportActionBar().setTitle("Add New Product"); // sets title for toolbar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        customizeActionBar();
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        setSpinner();
 
 
         //
@@ -95,21 +92,7 @@ public class NewProductActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) { // button to choose and crop picture
 
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){ // checks if phone has right build
-                    if(ContextCompat.checkSelfPermission(NewProductActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){ // checks if used phone has right permissions
-                        Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_LONG).show();
-                        ActivityCompat.requestPermissions(NewProductActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1); // requests read permission
-                    } else {
-
-                        CropImage.activity()
-                                .setGuidelines(CropImageView.Guidelines.ON) // sets guidelines for cropping images
-                                .setMinCropResultSize(512, 512) // sets minimal image size
-                                .setAspectRatio(255, 150) // sets aspect ratio
-                                .start(NewProductActivity.this); // starts the crop image acivity
-
-                    }
-                }
-
+               cropImage();
 
             }
         });
@@ -118,7 +101,7 @@ public class NewProductActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) { // will append data to firebase
 
-
+                final String id = newProductId.getText().toString();
                 final String title = newProductTitle.getText().toString();
                 final String description = newProductDesc.getText().toString();
                 final String quantityCheck = newProductQuantity.getText().toString();
@@ -131,6 +114,7 @@ public class NewProductActivity extends AppCompatActivity{
                     newProductProgress.setVisibility(View.VISIBLE);
 
                     StorageReference filePath = storageReference.child("product_images").child(title + ".jpg");
+
                     filePath.putFile(productImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -138,32 +122,30 @@ public class NewProductActivity extends AppCompatActivity{
                             if(task.isSuccessful()){
 
                                 Task<Uri> result = task.getResult().getMetadata().getReference().getDownloadUrl();
-                                String downloaduri = result.toString();
+                                String downloadUri = result.toString();
 
                                 Map<String, Object> productMap = new HashMap<>();
-                                productMap.put("image_url", downloaduri);
+                                productMap.put("image_url", downloadUri);
                                 productMap.put("title", title);
                                 productMap.put("desc", description);
                                 productMap.put("quantity", quantity);
                                 productMap.put("category", category);
 
 
-
-
-                                firebaseFirestore.collection("Products").add(productMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                firebaseFirestore.collection("Products").document(id).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
-                                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    public void onComplete(@NonNull Task<Void> task) {
 
                                         if(task.isSuccessful()){
 
                                             Toast.makeText(getApplicationContext(), "Product is added", Toast.LENGTH_LONG).show();
-                                            Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
-                                            startActivity(backIntent);
-                                            finish();
+
+                                            sendToMain();
 
                                         } else {
 
                                             String errorMessage = task.getException().getMessage();
+
                                             Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
 
                                         }
@@ -174,17 +156,12 @@ public class NewProductActivity extends AppCompatActivity{
                                 });
 
 
-
                             } else {
 
                                 newProductProgress.setVisibility(View.INVISIBLE);
 
                                 String errorMessage = task.getException().getMessage();
                                 Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
-
-
-
-
 
                             }
                         }
@@ -203,6 +180,7 @@ public class NewProductActivity extends AppCompatActivity{
 
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) { // checks result of given picture
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -215,6 +193,42 @@ public class NewProductActivity extends AppCompatActivity{
                 Exception error = result.getError(); // error if mistakes in image
             }
         }
+    }
+
+    private void cropImage(){
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){ // checks if phone has right build
+            if(ContextCompat.checkSelfPermission(NewProductActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){ // checks if used phone has right permissions
+                Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_LONG).show();
+                ActivityCompat.requestPermissions(NewProductActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1); // requests read permission
+            } else {
+
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON) // sets guidelines for cropping images
+                        .setMinCropResultSize(512, 512) // sets minimal image size
+                        .setAspectRatio(255, 150) // sets aspect ratio
+                        .start(NewProductActivity.this); // starts the crop image acivity
+
+            }
+        }
+
+    }
+
+    private void sendToMain(){
+        Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(backIntent);
+        finish();
+    }
+
+    private void customizeActionBar(){
+        getSupportActionBar().setTitle("Add New Product"); // sets title for toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void setSpinner(){
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
     }
 
 }
