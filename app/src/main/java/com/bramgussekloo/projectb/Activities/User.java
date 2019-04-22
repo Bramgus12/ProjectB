@@ -2,6 +2,9 @@ package com.bramgussekloo.projectb.Activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,11 +19,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import fragments.HistoryFragment;
+import fragments.HomeFragment;
+import fragments.ReservationsFragment;
+
 public class User extends AppCompatActivity {
 
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser user = mAuth.getCurrentUser();
+
+    private BottomNavigationView mainbottomNav;
+
+    private HomeFragment homeFragment;
+    private ReservationsFragment reservationsFragment;
+    private HistoryFragment historyFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +43,35 @@ public class User extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         getSupportActionBar().setTitle("User");  // sets title for toolbar
+
+        mainbottomNav = findViewById(R.id.mainBottomNav);
+
+        homeFragment = new HomeFragment();
+        reservationsFragment = new ReservationsFragment();
+        historyFragment = new HistoryFragment();
+
+        mainbottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch(menuItem.getItemId()){
+
+                    case R.id.bottom_nav_home:
+                        replaceFragment(homeFragment);
+                        return true;
+
+                    case R.id.bottom_nav_reservations:
+                        replaceFragment(reservationsFragment);
+
+                    case R.id.bottom_nav_history:
+                        replaceFragment(historyFragment);
+
+
+                }
+
+                return false;
+            }
+        });
 
 
 
@@ -85,5 +128,14 @@ public class User extends AppCompatActivity {
         Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(loginIntent);
         finish();
+    }
+
+    private void replaceFragment(Fragment fragment){
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, fragment);
+        fragmentTransaction.commit();
+
+
     }
 }
