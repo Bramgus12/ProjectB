@@ -8,6 +8,7 @@
 
 
     <android.support.design.widget.BottomNavigationView
+        app:itemIconTint="@drawable/selector"
         android:id="@+id/mainBottomNav"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -1,96 +1,76 @@
 package com.bramgussekloo.projectb.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.content.Context;
 
-public class Product implements Parcelable {
+public class Product {
 
-    private String name;
-    private String image;
-    private String content;
-    private String timestamp;
+    public String title;
+    public String desc;
+    public String image_url;
+    public String thumb_url;
 
-    public Product(String name, String image, String content, String timestamp) {
-        this.name = name;
-        this.image = image;
-        this.content = content;
-        this.timestamp = timestamp;
+    public String category;
+    public int quantity;
+
+    public Product(){}
+
+    public Product(String category, String title, String desc, String image_url, String thumb_url, int quantity) {
+        this.title = title;
+        this.desc = desc;
+        this.image_url = image_url;
+        this.thumb_url = thumb_url;
+        this.quantity = quantity;
+        this.category = category;
     }
 
-    public Product() {
+
+    public String getCategory() {
+        return category;
     }
 
-    protected Product(Parcel in) {
-        name = in.readString();
-        image = in.readString();
-        content = in.readString();
-        timestamp = in.readString();
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public static final Creator<Product> CREATOR = new Creator<Product>() {
-        @Override
-        public Product createFromParcel(Parcel in) {
-            return new Product(in);
-        }
-
-        @Override
-        public Product[] newArray(int size) {
-            return new Product[size];
-        }
-    };
-
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getImage() {
-        return image;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public String getContent() {
-        return content;
+    public String getImage_url() {
+        return image_url;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public String getThumb_url() {
+        return thumb_url;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setThumb_url(String thumb_url) {
+        this.thumb_url = thumb_url;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", image='" + image + '\'' +
-                ", content='" + content + '\'' +
-                ", timestamp='" + timestamp + '\'' +
-                '}';
+    public int getQuantity() {
+        return quantity;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeString(image);
-        parcel.writeString(content);
-        parcel.writeString(timestamp);
-    }
+
 }

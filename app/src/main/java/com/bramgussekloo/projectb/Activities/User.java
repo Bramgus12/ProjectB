@@ -58,13 +58,16 @@ public class User extends AppCompatActivity {
 
                     case R.id.bottom_nav_home:
                         replaceFragment(homeFragment);
+                        menuItem.setChecked(true);
                         return true;
 
                     case R.id.bottom_nav_reservations:
                         replaceFragment(reservationsFragment);
+                        menuItem.setChecked(true);
 
                     case R.id.bottom_nav_history:
                         replaceFragment(historyFragment);
+                        menuItem.setChecked(true);
 
 
                 }
