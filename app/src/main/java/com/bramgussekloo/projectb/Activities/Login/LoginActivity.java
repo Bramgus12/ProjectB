@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bramgussekloo.projectb.Activities.EditProduct;
 import com.bramgussekloo.projectb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordLayout = findViewById(R.id.textInputLayoutPassword);
         Button login_button = findViewById(R.id.LoginButton);
         Button register_button = findViewById(R.id.RegisterButton);
+        Button Testing = findViewById(R.id.Testing);
         TextView reset_password = findViewById(R.id.rest_pass);
 
         register_button.setOnClickListener( // button to go to the register page
@@ -100,6 +102,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), ResetPassword.class);
+                startActivity(intent);
+            }
+        });
+        Testing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), EditProduct.class);
                 startActivity(intent);
             }
         });
