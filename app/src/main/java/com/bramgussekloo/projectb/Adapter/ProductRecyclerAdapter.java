@@ -6,16 +6,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecyclerAdapter.ViewHolder> {
 
     public List<Product> product_list;
+    public Context context;
+
     public ProductRecyclerAdapter(List<Product> product_list){
 
         this.product_list = product_list;
@@ -27,6 +31,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     public ProductRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_item, parent, false);
+        context = parent.getContext();
 
         return new ViewHolder(view);
     }
@@ -34,8 +39,14 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     @Override
     public void onBindViewHolder(@NonNull ProductRecyclerAdapter.ViewHolder viewHolder, int i) {
 
-        String desc_data = product_list.get(i).getDesc();
-        viewHolder.setDescText(desc_data);
+        String title_data = product_list.get(i).getTitle();
+        viewHolder.setTitleText(title_data);
+
+        int quantity_data = product_list.get(i).getQuantity();
+        viewHolder.setNumInt(quantity_data);
+
+        String image_url = product_list.get(i).getImage_url();
+        viewHolder.setBlogImage(image_url);
 
     }
 
@@ -49,6 +60,10 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         private View mView;
 
         private TextView descView;
+        private ImageView productImageView;
+
+        private TextView intView;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -58,9 +73,19 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
 
         }
 
-        private void setDescText(String descText){
-            descView = mView.findViewById(R.id.product_list_desc);
-            descView.setText(descText);
+        private void setTitleText(String titleText){
+            descView = mView.findViewById(R.id.product_list_title);
+            descView.setText(titleText);
+        }
+
+        private void setNumInt(int numInt){
+            intView = mView.findViewById(R.id.product_list_quantity);
+            intView.setText(Integer.toString(numInt));
+        }
+
+        private void setBlogImage(String downloadUri){
+            productImageView = mView.findViewById(R.id.product_list_image);
+            Glide.with(context).load(downloadUri).into(productImageView);
         }
     }
 }

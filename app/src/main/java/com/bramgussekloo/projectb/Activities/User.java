@@ -50,6 +50,8 @@ public class User extends AppCompatActivity {
         reservationsFragment = new ReservationsFragment();
         historyFragment = new HistoryFragment();
 
+        replaceFragment(homeFragment);
+
         mainbottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

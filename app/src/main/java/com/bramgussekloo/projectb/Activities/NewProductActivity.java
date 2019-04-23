@@ -127,8 +127,9 @@ public class NewProductActivity extends AppCompatActivity{
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
 
-                            Task<Uri> result = task.getResult().getMetadata().getReference().getDownloadUrl();
-                            final String downloadUri = result.toString();
+                            Task<Uri> urlTask = task.getResult().getStorage().getDownloadUrl();
+                            while (!urlTask.isSuccessful());
+                            final String downloadUri = urlTask.getResult().toString();
 
                             if(task.isSuccessful()){
 
