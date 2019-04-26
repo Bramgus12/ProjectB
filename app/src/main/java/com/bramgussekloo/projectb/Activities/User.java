@@ -40,9 +40,7 @@ public class User extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        mAuth = FirebaseAuth.getInstance();
-
-        getSupportActionBar().setTitle("User");  // sets title for toolbar
+        mAuth = FirebaseAuth.getInstance();  // sets title for toolbar
 
         mainbottomNav = findViewById(R.id.mainBottomNav);
 

@@ -157,8 +157,9 @@ public class NewProductActivity extends AppCompatActivity{
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                                        Task<Uri> thumbUri = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                                        final String thumbDownloadUri = thumbUri.toString();
+                                        Task<Uri> urlTaskThumb = taskSnapshot.getStorage().getDownloadUrl();
+                                        while (!urlTaskThumb.isSuccessful());
+                                        final String thumbDownloadUri = urlTaskThumb.getResult().toString();
 
 
                                         Map<String, Object> productMap = new HashMap<>();

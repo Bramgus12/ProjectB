@@ -62,5 +62,6 @@
     <string name="product_reserve">Reserve</string>
     <string name="product_read_more">Read More</string>
     <string name="product_availability">Available : </string>
+    <string name="product_lend">Lend</string>
     />
 </resources>

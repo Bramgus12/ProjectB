@@ -2,6 +2,9 @@ package com.bramgussekloo.projectb.Activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,10 +19,23 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import fragments.HistoryAdminFragment;
+import fragments.HistoryBeheerderFragment;
+import fragments.HomeAdminFragment;
+import fragments.HomeBeheerderFragment;
+import fragments.ReservationsAdminFragment;
+import fragments.ReservationsBeheerderFragment;
+
 public class Beheerder extends AppCompatActivity {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser user = mAuth.getCurrentUser();
+
+    private BottomNavigationView mainBeheerderBottomNav;
+
+    private HomeBeheerderFragment homeBeheerderFragment;
+    private ReservationsBeheerderFragment reservationsBeheerderFragment;
+    private HistoryBeheerderFragment historyBeheerderFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +44,53 @@ public class Beheerder extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         getSupportActionBar().setTitle("Beheerder"); // sets title for toolbar
+
+        mainBeheerderBottomNav = findViewById(R.id.mainBeheerderBottomNav);
+
+        homeBeheerderFragment = new HomeBeheerderFragment();
+        reservationsBeheerderFragment = new ReservationsBeheerderFragment();
+        historyBeheerderFragment = new HistoryBeheerderFragment();
+
+        replaceFragment(homeBeheerderFragment);
+
+
+        mainBeheerderBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch(menuItem.getItemId()){
+
+                    case R.id.bottom_nav_home:
+
+                        replaceFragment(homeBeheerderFragment);
+
+                        menuItem.setChecked(true);
+
+
+                        return true;
+
+                    case R.id.bottom_nav_reservations:
+
+                        replaceFragment(reservationsBeheerderFragment);
+
+                        menuItem.setChecked(true);
+
+
+                        return true;
+
+                    case R.id.bottom_nav_history:
+
+                        replaceFragment(historyBeheerderFragment);
+
+                        menuItem.setChecked(true);
+
+
+                        return true;
+
+                }
+
+                return false;
+            }
+        });
 
 
 }
@@ -96,6 +159,15 @@ public class Beheerder extends AppCompatActivity {
         Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(loginIntent);
         finish(); // ensures user can't go back
+    }
+
+    private void replaceFragment(Fragment fragment){
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_beheerder_container, fragment);
+        fragmentTransaction.commit();
+
+
     }
 }
 
