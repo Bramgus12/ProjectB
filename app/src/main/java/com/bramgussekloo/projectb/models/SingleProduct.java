@@ -24,8 +24,8 @@ public class SingleProduct {
         return thumb_url;
     }
 
-    public String getQuantity() {
-        return Quantity.toString();
+    public Integer getQuantity() {
+        return Quantity;
     }
 
     public String getCategory() {

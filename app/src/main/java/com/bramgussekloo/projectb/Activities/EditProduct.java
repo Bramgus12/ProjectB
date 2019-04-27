@@ -19,6 +19,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Map;
+
 import javax.annotation.Nullable;
 
 import io.reactivex.Single;
@@ -26,7 +28,6 @@ import io.reactivex.Single;
 public class EditProduct extends AppCompatActivity {
     private StorageReference storageReference;
     private FirebaseFirestore firebaseFirestore;
-//    private Spinner spinnerProduct = findViewById(R.id.spinnerProduct);
 //    private Spinner spinnerCategory = findViewById(R.id.spinnerCategoryProduct);
 //    private Button editProdctButton = findViewById(R.id.EditProductButton);
     private EditText quantity;
@@ -39,7 +40,7 @@ public class EditProduct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_product);
-        ProductID = "test";
+        ProductID = getIntent().getExtras().getString("productID");
         ItemsFromDatabase();
     }
 
@@ -55,19 +56,23 @@ public class EditProduct extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if (e != null){
-                    Log.w("snapshotlistener", "listen failed" , e);
+                    Log.w("snapshotListener", "listen failed" , e);
                     return;
                 } if (documentSnapshot != null && documentSnapshot.exists()){
-                    Log.d("snapshotlistener", "onEvent: " + documentSnapshot.getData());
-                    SingleProduct singleProduct = documentSnapshot.toObject(SingleProduct.class);
-                    String quantityValue = singleProduct.getQuantity();
-                    title.setText(singleProduct.getTitle());
-                    description.setText(singleProduct.getDescription());
+                    Log.d("snapshotListener", "onEvent: " + documentSnapshot.getData());
+                    Map<String, Object> object_data = documentSnapshot.getData();
+                    String quantityValue = object_data.get("quantity").toString();
+                    String categoryValue = object_data.get("category").toString();
+                    String descriptionValue = object_data.get("desc").toString();
+                    String image_urlValue = object_data.get("image_url").toString();
+                    String titleValue = object_data.get("title").toString();
+                    title.setText(titleValue);
+                    description.setText(descriptionValue);
                     quantity.setText(quantityValue);
-                    Glide.with(getBaseContext()).load(singleProduct.getImage()).into(image);
-                    Log.d("Title", singleProduct.getTitle());
+                    Glide.with(getBaseContext()).load(image_urlValue).into(image);
+
                 } else {
-                    Log.d("snapshotlistener", "onEvent: Null");
+                    Log.d("snapshotListener", "onEvent: Null");
                 }
             }
         });

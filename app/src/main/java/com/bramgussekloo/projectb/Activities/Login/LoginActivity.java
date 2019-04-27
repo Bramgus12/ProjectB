@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bramgussekloo.projectb.Activities.ChooseProduct;
 import com.bramgussekloo.projectb.Activities.EditProduct;
 import com.bramgussekloo.projectb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -108,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         Testing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), EditProduct.class);
+                Intent intent = new Intent(getBaseContext(), ChooseProduct.class);
                 startActivity(intent);
             }
         });

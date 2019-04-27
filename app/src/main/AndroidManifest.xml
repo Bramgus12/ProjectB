@@ -11,14 +11,17 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/App_Name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:hardwareAccelerated="true">
-        <activity android:name=".Activities.Login.ResetEmail"></activity>
-        <activity android:name=".Activities.NewProductActivity" android:parentActivityName=".Activities.Admin" />
+        android:theme="@style/AppTheme">
+        <activity android:name=".Activities.ChooseProduct"></activity>
+        <activity android:name=".Activities.Login.ResetEmail" />
+        <activity
+            android:name=".Activities.NewProductActivity"
+            android:parentActivityName=".Activities.Admin" />
         <activity android:name=".Activities.Login.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,8 +33,8 @@
         <activity android:name=".Activities.Beheerder" />
         <activity android:name=".Activities.Admin" />
         <activity android:name=".Activities.User" />
-        <activity android:name=".Activities.EditProduct"/>
-        <activity android:name=".Activities.Login.LoginActivity"/>
+        <activity android:name=".Activities.EditProduct" />
+        <activity android:name=".Activities.Login.LoginActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
