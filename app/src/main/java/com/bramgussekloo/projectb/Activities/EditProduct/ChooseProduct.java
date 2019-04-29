@@ -1,4 +1,4 @@
-package com.bramgussekloo.projectb.Activities;
+package com.bramgussekloo.projectb.Activities.EditProduct;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.bramgussekloo.projectb.Activities.EditProduct.EditProduct;
 import com.bramgussekloo.projectb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

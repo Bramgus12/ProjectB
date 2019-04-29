@@ -1,4 +1,4 @@
-package fragments;
+package com.bramgussekloo.projectb.fragments;
 
 
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.bramgussekloo.projectb.Activities;
+package com.bramgussekloo.projectb.Activities.EditProduct;
 
 import android.Manifest;
 import android.content.Intent;
@@ -14,35 +14,31 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bramgussekloo.projectb.Activities.Login.MainActivity;
+import com.bramgussekloo.projectb.Activities.NewProductActivity;
 import com.bramgussekloo.projectb.R;
-import com.google.android.gms.tasks.Continuation;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
-
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -50,58 +46,94 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import id.zelory.compressor.Compressor;
-import io.grpc.Context;
 
-public class NewProductActivity extends AppCompatActivity{
-    private Spinner spinner;
-    private ImageView newProductImage;
-    private EditText newProductId;
-    private EditText newProductDesc;
-    private EditText newProductTitle;
-    private EditText newProductQuantity;
-    private Button newProductBttn;
-    private Uri productImageUri = null;
-    private ProgressBar newProductProgress;
-    private StorageReference storageReference;
+
+public class EditProduct extends AppCompatActivity {
     private FirebaseFirestore firebaseFirestore;
+    private EditText quantity;
+    private EditText description;
+    private EditText title;
+    private ImageView image;
+    private String ProductID;
+    private Spinner Category;
+    private Button EditProductButton;
+    private ProgressBar progressbar;
+    private Uri productImageUri = null;
+    private StorageReference storageReference;
     private Bitmap compressedImageFile;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_product);
-        newProductImage = findViewById(R.id.new_product_image);
-        newProductId = findViewById(R.id.new_ProductID);
-        newProductTitle = findViewById(R.id.new_product_title);
-        newProductDesc = findViewById(R.id.new_product_desc);
-        newProductQuantity = findViewById(R.id.new_product_quantity);
-        newProductBttn = findViewById(R.id.post_bttn);
-        newProductProgress = findViewById(R.id.new_product_progress);
-        spinner = findViewById(R.id.spinner);
-        storageReference = FirebaseStorage.getInstance().getReference();
-        firebaseFirestore = FirebaseFirestore.getInstance();
+        setContentView(R.layout.activity_edit_product);
+        ProductID = getIntent().getExtras().getString("productID");
+        ItemsFromDatabase();
+        Buttons();
         customizeActionBar();
+    }
+
+    private void ItemsFromDatabase() {
         setSpinner();
-        newProductImage.setOnClickListener(new View.OnClickListener() {
+        title = findViewById(R.id.edit_product_title);
+        description = findViewById(R.id.edit_product_desc);
+        quantity = findViewById(R.id.edit_product_quantity);
+        image = findViewById(R.id.edit_product_image);
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
+        firebaseFirestore.collection("Products").document(ProductID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View view) { // button to choose and crop picture
-               cropImage();
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("snapshotListener", "listen failed", e);
+                    return;
+                }
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    Log.d("snapshotListener", "onEvent: " + documentSnapshot.getData());
+                    Map<String, Object> object_data = documentSnapshot.getData();
+                    String quantityValue = object_data.get("quantity").toString();
+                    String categoryValue = object_data.get("category").toString();
+                    String descriptionValue = object_data.get("desc").toString();
+                    String image_urlValue = object_data.get("image_url").toString();
+                    String titleValue = object_data.get("title").toString();
+                    title.setText(titleValue);
+                    ArrayAdapter myAdap = (ArrayAdapter) Category.getAdapter();
+                    int spinnerPosition = myAdap.getPosition(categoryValue);
+                    Category.setSelection(spinnerPosition);
+                    description.setText(descriptionValue);
+                    quantity.setText(quantityValue);
+                    Glide.with(getBaseContext()).load(image_urlValue).into(image);
+                } else {
+                    Log.d("snapshotListener", "onEvent: Null");
+                }
             }
         });
-        newProductBttn.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void Buttons() {
+        quantity = findViewById(R.id.edit_product_quantity);
+        title = findViewById(R.id.edit_product_title);
+        description = findViewById(R.id.edit_product_desc);
+        Category = findViewById(R.id.spinnerCategoryProduct);
+        EditProductButton = findViewById(R.id.EditProductButton);
+        image = findViewById(R.id.edit_product_image);
+        storageReference = FirebaseStorage.getInstance().getReference();
+        progressbar = findViewById(R.id.edit_product_progress);
+        image.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { // will append data to firebase
-                final String id = newProductId.getText().toString();
-                final String title = newProductTitle.getText().toString();
-                final String description = newProductDesc.getText().toString();
-                final String quantityCheck = newProductQuantity.getText().toString();
-                final String category = spinner.getSelectedItem().toString();
-                if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(description) && !TextUtils.isEmpty(quantityCheck) && productImageUri != null) { // checks if fields aren't aempty
-                    final Integer quantity = Integer.parseInt(newProductQuantity.getText().toString());
-                    newProductProgress.setVisibility(View.VISIBLE);
-                    StorageReference filePath = storageReference.child("product_images").child(title + ".jpg");
+            public void onClick(View v) {
+                cropImage();
+            }
+        });
+        EditProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(title.getText().toString()) && !TextUtils.isEmpty(description.getText().toString()) && !TextUtils.isEmpty(quantity.getText().toString()) && productImageUri != null) { // checks if fields aren't aempty
+                    final Integer quantityValue = Integer.parseInt(quantity.getText().toString());
+                    progressbar.setVisibility(View.VISIBLE);
+                    StorageReference filePath = storageReference.child("product_images").child(title.getText().toString() + ".jpg");
                     filePath.putFile(productImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -111,7 +143,7 @@ public class NewProductActivity extends AppCompatActivity{
                             if(task.isSuccessful()){
                                 File newImageFile = new File(productImageUri.getPath());
                                 try {
-                                    compressedImageFile = new Compressor(NewProductActivity.this)
+                                    compressedImageFile = new Compressor(EditProduct.this)
                                             .setMaxHeight(100)
                                             .setMaxWidth(100)
                                             .setQuality(2)
@@ -122,7 +154,7 @@ public class NewProductActivity extends AppCompatActivity{
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                 compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 100, baos);
                                 byte[] data = baos.toByteArray();
-                                UploadTask uploadTask = storageReference.child("product_images/thumbs").child(title + ".jpg").putBytes(data);
+                                UploadTask uploadTask = storageReference.child("product_images/thumbs").child(title.getText().toString() + ".jpg").putBytes(data);
                                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -132,21 +164,21 @@ public class NewProductActivity extends AppCompatActivity{
                                         Map<String, Object> productMap = new HashMap<>();
                                         productMap.put("image_url", downloadUri);
                                         productMap.put("thumb_url", thumbDownloadUri);
-                                        productMap.put("title", title);
-                                        productMap.put("desc", description);
-                                        productMap.put("quantity", quantity);
-                                        productMap.put("category", category);
-                                        firebaseFirestore.collection("Products").document(id).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        productMap.put("title", title.getText().toString());
+                                        productMap.put("desc", description.getText().toString());
+                                        productMap.put("quantity", quantityValue);
+                                        productMap.put("category", Category.getSelectedItem());
+                                        firebaseFirestore.collection("Products").document(ProductID).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()){
-                                                    Toast.makeText(getApplicationContext(), "Product is added", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), "Product is Edited", Toast.LENGTH_LONG).show();
                                                     sendToMain();
                                                 } else {
                                                     String errorMessage = task.getException().getMessage();
                                                     Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
                                                 }
-                                                newProductProgress.setVisibility(View.INVISIBLE);
+                                                progressbar.setVisibility(View.INVISIBLE);
                                             }
                                         });
                                     }
@@ -154,67 +186,66 @@ public class NewProductActivity extends AppCompatActivity{
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         String errorMessage = e.getMessage();
-                                        Toast.makeText(NewProductActivity.this, "Error : " + errorMessage, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(EditProduct.this, "Error : " + errorMessage, Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             } else {
-                                newProductProgress.setVisibility(View.INVISIBLE);
+                                progressbar.setVisibility(View.INVISIBLE);
                                 String errorMessage = task.getException().getMessage();
                                 Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
                             }
                         }
                     });
                 } else {
-                    newProductProgress.setVisibility(View.INVISIBLE);
+                    progressbar.setVisibility(View.INVISIBLE);
                     Toast.makeText(getApplicationContext(), "Error : Please fill in all fields", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) { // checks result of given picture
+        image = findViewById(R.id.edit_product_image);
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 productImageUri = result.getUri(); // appends the uri to given variable
-                newProductImage.setImageURI(productImageUri); // appends the uri to newproductimage
+                image.setImageURI(productImageUri); // appends the uri to newproductimage
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError(); // error if mistakes in image
+                Log.d("Imageloader", "Error: " + error);
             }
         }
     }
 
+    private void setSpinner(){
+        Category = findViewById(R.id.spinnerCategoryProduct);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Category.setAdapter(adapter);
+    }
     private void cropImage(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){ // checks if phone has right build
-            if(ContextCompat.checkSelfPermission(NewProductActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){ // checks if used phone has right permissions
+            if(ContextCompat.checkSelfPermission(EditProduct.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){ // checks if used phone has right permissions
                 Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_LONG).show();
-                ActivityCompat.requestPermissions(NewProductActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1); // requests read permission
+                ActivityCompat.requestPermissions(EditProduct.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1); // requests read permission
             } else {
                 CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON) // sets guidelines for cropping images
                         .setMinCropResultSize(512, 512) // sets minimal image size
                         .setAspectRatio(255, 150) // sets aspect ratio
-                        .start(NewProductActivity.this); // starts the crop image acivity
+                        .start(EditProduct.this); // starts the crop image acivity
             }
         }
     }
-
-    private void sendToMain(){
-        Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(backIntent);
-        finish();
-    }
-
     private void customizeActionBar(){
         getSupportActionBar().setTitle("Add New Product"); // sets title for toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
-    private void setSpinner(){
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+    private void sendToMain(){
+        Intent backIntent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(backIntent);
+        finish();
     }
 }

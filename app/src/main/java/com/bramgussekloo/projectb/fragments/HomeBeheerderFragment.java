@@ -1,4 +1,4 @@
-package fragments;
+package com.bramgussekloo.projectb.fragments;
 
 
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bramgussekloo.projectb.Adapter.AdminRecyclerAdapter;
-import com.bramgussekloo.projectb.Adapter.ProductRecyclerAdapter;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
 import com.google.firebase.firestore.DocumentChange;

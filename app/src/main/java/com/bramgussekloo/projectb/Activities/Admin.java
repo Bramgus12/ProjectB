@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bramgussekloo.projectb.Activities.EditProduct.ChooseProduct;
+import com.bramgussekloo.projectb.Activities.EditProduct.EditProduct;
 import com.bramgussekloo.projectb.Activities.Login.LoginActivity;
 import com.bramgussekloo.projectb.Activities.Login.ResetEmail;
 import com.bramgussekloo.projectb.R;
@@ -21,9 +23,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import fragments.HistoryAdminFragment;
-import fragments.HomeAdminFragment;
-import fragments.ReservationsAdminFragment;
+import com.bramgussekloo.projectb.fragments.HistoryAdminFragment;
+import com.bramgussekloo.projectb.fragments.HomeAdminFragment;
+import com.bramgussekloo.projectb.fragments.ReservationsAdminFragment;
 
 public class Admin extends AppCompatActivity {
 
@@ -43,107 +45,66 @@ public class Admin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
-
         getSupportActionBar().setTitle("Admin"); // sets title for toolbar
-
         mainAdminBottomNav = findViewById(R.id.mainAdminBottomNav);
-
         homeAdminFragment = new HomeAdminFragment();
         reservationsAdminFragment = new ReservationsAdminFragment();
         historyAdminFragment = new HistoryAdminFragment();
-
         replaceFragment(homeAdminFragment);
-
-
         mainAdminBottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
                 switch(menuItem.getItemId()){
-
                     case R.id.bottom_nav_home:
-
                         replaceFragment(homeAdminFragment);
-
                         menuItem.setChecked(true);
-
-
                         return true;
-
                     case R.id.bottom_nav_reservations:
-
                         replaceFragment(reservationsAdminFragment);
-
                         menuItem.setChecked(true);
-
-
                         return true;
-
                     case R.id.bottom_nav_history:
-
                         replaceFragment(historyAdminFragment);
-
                         menuItem.setChecked(true);
-
-
                         return true;
-
                 }
-
                 return false;
             }
         });
-
-
         addProductBttn = findViewById(R.id.addProductBttn);
         addProductBttn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent newProductIntent = new Intent(getApplicationContext(), NewProductActivity.class);
                 startActivity(newProductIntent);
-
             }
         });
-
     }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.main_menu, menu); // inflates menu from XML to objects
-
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) { // switch case for detecting which menu item is clicked
-
             case R.id.action_logout_bttn:  // triggers when logout button is clicked
-
                 logOut();  // logs out user
-
                 return true;
             case R.id.action_resetPassword_buttn:
-
                 resetpassword();
                 return true;
             case R.id.action_ChangeEmail_bttn:
                 Intent changeEmail = new Intent(getBaseContext(), ResetEmail.class);
                 startActivity(changeEmail);
                 return true;
+            case R.id.Testing:
+                Intent intent= new Intent(getBaseContext(), ChooseProduct.class);
+                startActivity(intent);
             default:
-
                 return false;
-
-
         }
-
     }
-
     private void logOut() {
         mAuth.signOut();
         sendTologin();
@@ -163,18 +124,14 @@ public class Admin extends AppCompatActivity {
     }
 
     private void sendTologin() {
-
         Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(loginIntent);
         finish(); // ensures user can't go back
     }
 
     private void replaceFragment(Fragment fragment){
-
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_admin_container, fragment);
         fragmentTransaction.commit();
-
-
     }
 }

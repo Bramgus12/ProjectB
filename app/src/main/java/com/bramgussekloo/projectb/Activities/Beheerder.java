@@ -19,12 +19,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import fragments.HistoryAdminFragment;
-import fragments.HistoryBeheerderFragment;
-import fragments.HomeAdminFragment;
-import fragments.HomeBeheerderFragment;
-import fragments.ReservationsAdminFragment;
-import fragments.ReservationsBeheerderFragment;
+import com.bramgussekloo.projectb.fragments.HistoryBeheerderFragment;
+import com.bramgussekloo.projectb.fragments.HomeBeheerderFragment;
+import com.bramgussekloo.projectb.fragments.ReservationsBeheerderFragment;
 
 public class Beheerder extends AppCompatActivity {
 

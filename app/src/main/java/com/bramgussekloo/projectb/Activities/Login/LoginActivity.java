@@ -13,8 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bramgussekloo.projectb.Activities.ChooseProduct;
-import com.bramgussekloo.projectb.Activities.EditProduct;
+import com.bramgussekloo.projectb.Activities.EditProduct.ChooseProduct;
 import com.bramgussekloo.projectb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,9 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().hide();//hide action bar
         LoginButton();
         mAuth = FirebaseAuth.getInstance();
-
     }
-
 
     public void LoginButton() {
         progressBar = findViewById(R.id.progressbar);
@@ -79,21 +76,17 @@ public class LoginActivity extends AppCompatActivity {
                     email.requestFocus();
                     return; // check if email is an email-address or not
                 }
-
                 progressBar.setVisibility(View.VISIBLE);
-
                 mAuth.signInWithEmailAndPassword(email.getText().toString().trim(), password.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){ // sign in to the app
                             sendToMain();
                             emptyInputEditText();
-
                         } else {
                             Toast.makeText(LoginActivity.this, "Log in failed", Toast.LENGTH_SHORT).show();
                             emptyInputEditText();
                         }
-
                         progressBar.setVisibility(View.INVISIBLE);
                     }
                 });
@@ -106,32 +99,19 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        Testing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), ChooseProduct.class);
-                startActivity(intent);
-            }
-        });
-
     }
-
     private void emptyInputEditText() { // empty input fields
         email.setText(null);
         password.setText(null);
     }
-
     @Override
     protected void onStart() { // will automatically run in background
         super.onStart();
-        
         FirebaseUser currentUser = mAuth.getCurrentUser(); // get current user
-        
         if(currentUser != null){
             sendToMain(); // sends user to mainactivity
         }
     }
-
     private void sendToMain() {
         Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(mainIntent);

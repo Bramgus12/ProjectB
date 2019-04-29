@@ -1,4 +1,4 @@
-package fragments;
+package com.bramgussekloo.projectb.fragments;
 
 
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import com.bramgussekloo.projectb.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryFragment extends Fragment {
+public class ReservationsBeheerderFragment extends Fragment {
 
 
-    public HistoryFragment() {
+    public ReservationsBeheerderFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false);
+        return inflater.inflate(R.layout.fragment_reservations_beheerder, container, false);
     }
 
 }

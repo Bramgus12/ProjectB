@@ -19,9 +19,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import fragments.HistoryFragment;
-import fragments.HomeFragment;
-import fragments.ReservationsFragment;
+import com.bramgussekloo.projectb.fragments.HistoryFragment;
+import com.bramgussekloo.projectb.fragments.HomeFragment;
+import com.bramgussekloo.projectb.fragments.ReservationsFragment;
 
 public class User extends AppCompatActivity {
 
