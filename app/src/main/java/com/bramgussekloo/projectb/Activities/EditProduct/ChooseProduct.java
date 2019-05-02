@@ -30,7 +30,10 @@ public class ChooseProduct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_product);
+        Spinner = findViewById(R.id.spinnerProductName);
+        setSpinner();
         chooseProduct();
+
     }
 
     private void chooseProduct(){
@@ -67,6 +70,9 @@ public class ChooseProduct extends AppCompatActivity {
             }
         });
     }
-
-
+    private void setSpinner(){
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.placeholder, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner.setAdapter(adapter);
+    }
 }

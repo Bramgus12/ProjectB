@@ -17,18 +17,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="30dp"/>
+        app:layout_constraintGuide_end="30dp"/>
+
 
     <Spinner
         android:id="@+id/spinnerProductName"
         android:layout_width="0dp"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:prompt="@string/spin_hint"
         android:spinnerMode="dialog"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="@id/ChPGuideline_right"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/chooseproductTitle"
+        app:layout_constraintStart_toStartOf="@id/ChPGuideline_left" />
+    <TextView
+        android:id="@+id/chooseproductTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:paddingBottom="30dp"
+        android:text="@string/chooseproductTitle"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/ChPGuideline_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/ChPGuideline_left"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,8 +55,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/choose_product"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAllCaps="false"
+        android:textColor="@drawable/button_text_color_white"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="@id/ChPGuideline_right"
+        android:background="@drawable/btn_bg_red"
         app:layout_constraintTop_toBottomOf="@+id/spinnerProductName"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/ChPGuideline_left"

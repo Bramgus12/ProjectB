@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.sip.SipSession;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -34,6 +35,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -85,7 +87,6 @@ public class EditProduct extends AppCompatActivity {
         quantity = findViewById(R.id.edit_product_quantity);
         image = findViewById(R.id.edit_product_image);
         firebaseFirestore = FirebaseFirestore.getInstance();
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         firebaseFirestore.collection("Products").document(ProductID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -205,6 +206,7 @@ public class EditProduct extends AppCompatActivity {
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if (task.isSuccessful()) {
                                                                 Toast.makeText(getApplicationContext(), "Product is Edited", Toast.LENGTH_LONG).show();
+                                                                emptyInputEditText();
                                                                 sendToMain();
                                                             } else {
                                                                 String errorMessage = task.getException().getMessage();
@@ -233,11 +235,12 @@ public class EditProduct extends AppCompatActivity {
                             }
                         } else {
                             progressbar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(getApplicationContext(), "Error : Please fill in all fields", Toast.LENGTH_LONG).show();
+                            Log.d("Onclick", "Fields are empty");
                         }
                     }
                 });
             }
+
         });
 
     }
@@ -276,6 +279,11 @@ public class EditProduct extends AppCompatActivity {
                         .start(EditProduct.this); // starts the crop image acivity
             }
         }
+    }
+    private void emptyInputEditText() { // empty input fields
+        quantity.setText(null);
+        description.setText(null);
+        title.setText(null);
     }
     private void customizeActionBar(){
         getSupportActionBar().setTitle("Add New Product"); // sets title for toolbar
