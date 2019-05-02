@@ -70,5 +70,6 @@
     <string name="chooseproductTitle">Choose a product to edit</string>
     <string name="EditproductTitle">Edit the product here</string>
     <string name="AddProductTitle">Add a new product</string>
+    <string name="ChangeEmailTitle">Change your Email</string>
     />
 </resources>
