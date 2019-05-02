@@ -5,6 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.EditProduct.ChooseProduct">
+    <android.support.constraint.Guideline
+        android:id="@+id/ChPGuideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="30dp"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/ChPGuideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="30dp"/>
 
     <Spinner
         android:id="@+id/spinnerProductName"
@@ -17,17 +30,19 @@
         android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/ChPGuideline_left"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/ChooseProductButton"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="@string/choose_product"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerProductName"
-        android:text="Choose Product"/>
+        app:layout_constraintTop_toBottomOf="@+id/spinnerProductName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ChPGuideline_left"
+        tools:layout_editor_absoluteY="68dp" />
 
 </android.support.constraint.ConstraintLayout>

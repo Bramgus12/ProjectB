@@ -64,6 +64,7 @@ public class EditProduct extends AppCompatActivity {
     private Uri productImageUri = null;
     private StorageReference storageReference;
     private Bitmap compressedImageFile;
+    private String image_urlValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +97,7 @@ public class EditProduct extends AppCompatActivity {
                     String quantityValue = object_data.get("quantity").toString();
                     String categoryValue = object_data.get("category").toString();
                     String descriptionValue = object_data.get("desc").toString();
-                    String image_urlValue = object_data.get("image_url").toString();
+                    image_urlValue = object_data.get("image_url").toString();
                     String titleValue = object_data.get("title").toString();
                     title.setText(titleValue);
                     ArrayAdapter myAdap = (ArrayAdapter) Category.getAdapter();
