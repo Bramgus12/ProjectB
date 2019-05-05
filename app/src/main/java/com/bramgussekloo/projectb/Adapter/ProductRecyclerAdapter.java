@@ -3,6 +3,7 @@ package com.bramgussekloo.projectb.Adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import javax.annotation.Nullable;
 
@@ -36,11 +38,11 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     public Context context;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
+    public int count;
 
     public ProductRecyclerAdapter(List<Product> product_list){
 
         this.product_list = product_list;
-
 
     }
 
@@ -56,18 +58,34 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ProductRecyclerAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ProductRecyclerAdapter.ViewHolder viewHolder, final int i) {
 
         final String productId = product_list.get(i).productId;
         String title_data = product_list.get(i).getTitle();
         viewHolder.setTitleText(title_data);
 
-        int quantity_data = product_list.get(i).getQuantity();
-        viewHolder.setNumInt(quantity_data);
+
+        //Get reservations count
+        firebaseFirestore.collection("Products/" + productId + "/reservation")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (!queryDocumentSnapshots.isEmpty()){
+                            count = queryDocumentSnapshots.size();
+                            int quantity_data = product_list.get(i).getQuantity();
+                            viewHolder.setNumInt(quantity_data -count);
+                        }else {
+                            count = 0;
+                            int quantity_data = product_list.get(i).getQuantity();
+                            viewHolder.setNumInt(quantity_data -count);
+                        }
+                    }
+                });
 
         String image_url = product_list.get(i).getImage_url();
         final String currentUserId = firebaseAuth.getCurrentUser().getUid();
         viewHolder.setBlogImage(image_url);
+
             //change productListReser button text
         firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId)
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -82,7 +100,6 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
 
             }
         });
-
             //reservations
         viewHolder.productListReser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +109,6 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (!task.getResult().exists()){// check if user reserved certain product or not
-
                             Map<String, Object> reservationsMap = new HashMap<>();
                             reservationsMap.put("timestamp", FieldValue.serverTimestamp());
                             firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).set(reservationsMap)

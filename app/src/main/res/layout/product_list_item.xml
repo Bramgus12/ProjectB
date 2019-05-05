@@ -61,7 +61,7 @@
             <TextView
                 android:id="@+id/product_list_availability"
                 android:layout_width="wrap_content"
-                android:layout_height="15dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/product_availability"
@@ -71,7 +71,7 @@
             <TextView
                 android:id="@+id/product_list_quantity"
                 android:layout_width="wrap_content"
-                android:layout_height="16dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:text="10"
@@ -81,11 +81,13 @@
             <TextView
                 android:id="@+id/product_list_title"
                 android:layout_width="366dp"
-                android:layout_height="22dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 android:text="Raspberry Pi"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/product_list_image" />
 
