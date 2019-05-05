@@ -1,8 +1,11 @@
 package com.bramgussekloo.projectb.models;
 
 import android.content.Context;
+import android.widget.Adapter;
 
-public class Product {
+import com.bramgussekloo.projectb.Adapter.productId;
+
+public class Product extends productId {
 
     public String title;
     public String desc;

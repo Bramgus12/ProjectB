@@ -30,20 +30,14 @@ import javax.annotation.Nullable;
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
-
     private RecyclerView product_list_view;
     private List<Product> product_list;
-
     private FirebaseFirestore firebaseFirestore;
-
     private ProductRecyclerAdapter productRecyclerAdapter;
-
-
 
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,14 +45,13 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         product_list = new ArrayList<>();
         product_list_view = view.findViewById(R.id.product_list_view);
-
         firebaseFirestore = FirebaseFirestore.getInstance();
-
         productRecyclerAdapter = new ProductRecyclerAdapter(product_list);
+
         product_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
+
         product_list_view.setAdapter(productRecyclerAdapter);
 
         firebaseFirestore.collection("Products").addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -67,25 +60,16 @@ public class HomeFragment extends Fragment {
 
                  for(DocumentChange doc: queryDocumentSnapshots.getDocumentChanges()){
                      if(doc.getType() == DocumentChange.Type.ADDED){
+                         String productId = doc.getDocument().getId();
 
-                         Product product = doc.getDocument().toObject(Product.class);
+                         Product product = doc.getDocument().toObject(Product.class).withId(productId);
                          product_list.add(product);
 
                          productRecyclerAdapter.notifyDataSetChanged();
-
-
-
                      }
-
                  }
-
             }
         });
-
-
-
         return view;
-
     }
-
 }

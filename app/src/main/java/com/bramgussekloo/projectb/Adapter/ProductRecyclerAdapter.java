@@ -6,23 +6,35 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
 import com.bumptech.glide.Glide;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecyclerAdapter.ViewHolder> {
 
     public List<Product> product_list;
     public Context context;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
 
     public ProductRecyclerAdapter(List<Product> product_list){
 
         this.product_list = product_list;
+
 
     }
 
@@ -32,13 +44,15 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_item, parent, false);
         context = parent.getContext();
-
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ProductRecyclerAdapter.ViewHolder viewHolder, int i) {
 
+        final String productId = product_list.get(i).productId;
         String title_data = product_list.get(i).getTitle();
         viewHolder.setTitleText(title_data);
 
@@ -46,8 +60,28 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         viewHolder.setNumInt(quantity_data);
 
         String image_url = product_list.get(i).getImage_url();
+        final String currentUserId = firebaseAuth.getCurrentUser().getUid();
         viewHolder.setBlogImage(image_url);
+            //reservations
+        viewHolder.productListReser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<String, Object> reservationsMap = new HashMap<>();
+                reservationsMap.put("timestamp", FieldValue.serverTimestamp());
+                firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).set(reservationsMap).addOnCompleteListener(new OnCompleteListener<Void>() {;
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(context, "Product is reserved", Toast.LENGTH_LONG).show();
+                        } else {
+                            String errorMessage = task.getException().getMessage();
+                            Toast.makeText(context, "Error : " + errorMessage, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
+            }
+        });
     }
 
     @Override
@@ -58,18 +92,17 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private View mView;
-
         private TextView descView;
         private ImageView productImageView;
-
         private TextView intView;
+        private Button productListReser;
+
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             mView = itemView;
-
+            productListReser = mView.findViewById(R.id.product_list_reservations);
 
         }
 
