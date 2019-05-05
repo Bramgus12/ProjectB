@@ -111,12 +111,11 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="10dp"
-        android:layout_marginTop="8dp"
         android:indeterminate="true"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/new_product_image" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/new_product_quantity"
