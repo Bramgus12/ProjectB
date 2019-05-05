@@ -56,6 +56,9 @@
         <item>Smart Technology</item>
         <item>Drone</item>
     </string-array>
+    <string-array name="placeholder">
+        <item>Wait for the items please!</item>
+    </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -63,5 +66,10 @@
     <string name="product_read_more">Read More</string>
     <string name="product_availability">Available : </string>
     <string name="product_lend">Lend</string>
+    <string name="choose_product">Choose Product</string>
+    <string name="chooseproductTitle">Choose a product to edit</string>
+    <string name="EditproductTitle">Edit the product here</string>
+    <string name="AddProductTitle">Add a new product</string>
+    <string name="ChangeEmailTitle">Change your Email</string>
     />
 </resources>

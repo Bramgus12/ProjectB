@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.net.sip.SipSession;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -34,6 +35,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -64,6 +66,9 @@ public class EditProduct extends AppCompatActivity {
     private Uri productImageUri = null;
     private StorageReference storageReference;
     private Bitmap compressedImageFile;
+    private String image_urlValue;
+    private String downloadUri;
+    private String thumbDownloadUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +87,6 @@ public class EditProduct extends AppCompatActivity {
         quantity = findViewById(R.id.edit_product_quantity);
         image = findViewById(R.id.edit_product_image);
         firebaseFirestore = FirebaseFirestore.getInstance();
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);
         firebaseFirestore.collection("Products").document(ProductID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
@@ -96,7 +100,7 @@ public class EditProduct extends AppCompatActivity {
                     String quantityValue = object_data.get("quantity").toString();
                     String categoryValue = object_data.get("category").toString();
                     String descriptionValue = object_data.get("desc").toString();
-                    String image_urlValue = object_data.get("image_url").toString();
+                    image_urlValue = object_data.get("image_url").toString();
                     String titleValue = object_data.get("title").toString();
                     title.setText(titleValue);
                     ArrayAdapter myAdap = (ArrayAdapter) Category.getAdapter();
@@ -130,78 +134,115 @@ public class EditProduct extends AppCompatActivity {
         EditProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(title.getText().toString()) && !TextUtils.isEmpty(description.getText().toString()) && !TextUtils.isEmpty(quantity.getText().toString()) && productImageUri != null) { // checks if fields aren't aempty
-                    final Integer quantityValue = Integer.parseInt(quantity.getText().toString());
-                    progressbar.setVisibility(View.VISIBLE);
-                    StorageReference filePath = storageReference.child("product_images").child(title.getText().toString() + ".jpg");
-                    filePath.putFile(productImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                            Task<Uri> urlTask = task.getResult().getStorage().getDownloadUrl();
-                            while (!urlTask.isSuccessful());
-                            final String downloadUri = urlTask.getResult().toString();
-                            if(task.isSuccessful()){
-                                File newImageFile = new File(productImageUri.getPath());
-                                try {
-                                    compressedImageFile = new Compressor(EditProduct.this)
-                                            .setMaxHeight(100)
-                                            .setMaxWidth(100)
-                                            .setQuality(2)
-                                            .compressToBitmap(newImageFile);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                                byte[] data = baos.toByteArray();
-                                UploadTask uploadTask = storageReference.child("product_images/thumbs").child(title.getText().toString() + ".jpg").putBytes(data);
-                                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                firebaseFirestore.collection("Products").document(ProductID).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        if (!TextUtils.isEmpty(title.getText().toString()) && !TextUtils.isEmpty(description.getText().toString()) && !TextUtils.isEmpty(quantity.getText().toString())) { // checks if fields aren't aempty
+                            final Integer quantityValue = Integer.parseInt(quantity.getText().toString());
+                            if (documentSnapshot != null && productImageUri == null){
+                                Map<String, Object> snapshot = documentSnapshot.getData();
+                                thumbDownloadUri = snapshot.get("thumb_url").toString();
+                                downloadUri = snapshot.get("image_url").toString();
+                                Map<String, Object> productMap = new HashMap<>();
+                                productMap.put("image_url", downloadUri);
+                                productMap.put("thumb_url", thumbDownloadUri);
+                                productMap.put("title", title.getText().toString());
+                                productMap.put("desc", description.getText().toString());
+                                productMap.put("quantity", quantityValue);
+                                productMap.put("category", Category.getSelectedItem());
+                                firebaseFirestore.collection("Products").document(ProductID).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
-                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                        Task<Uri> urlTaskThumb = taskSnapshot.getStorage().getDownloadUrl();
-                                        while (!urlTaskThumb.isSuccessful());
-                                        final String thumbDownloadUri = urlTaskThumb.getResult().toString();
-                                        Map<String, Object> productMap = new HashMap<>();
-                                        productMap.put("image_url", downloadUri);
-                                        productMap.put("thumb_url", thumbDownloadUri);
-                                        productMap.put("title", title.getText().toString());
-                                        productMap.put("desc", description.getText().toString());
-                                        productMap.put("quantity", quantityValue);
-                                        productMap.put("category", Category.getSelectedItem());
-                                        firebaseFirestore.collection("Products").document(ProductID).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-                                                    Toast.makeText(getApplicationContext(), "Product is Edited", Toast.LENGTH_LONG).show();
-                                                    sendToMain();
-                                                } else {
-                                                    String errorMessage = task.getException().getMessage();
-                                                    Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
-                                                }
-                                                progressbar.setVisibility(View.INVISIBLE);
-                                            }
-                                        });
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getApplicationContext(), "Product is Edited", Toast.LENGTH_LONG).show();
+                                            sendToMain();
+                                        } else {
+                                            String errorMessage = task.getException().getMessage();
+                                            Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
+                                        }
+                                        progressbar.setVisibility(View.INVISIBLE);
                                     }
-                                }).addOnFailureListener(new OnFailureListener() {
+                                });
+                            }
+                            else if (productImageUri != null) {
+                                progressbar.setVisibility(View.VISIBLE);
+                                StorageReference filePath = storageReference.child("product_images").child(title.getText().toString() + ".jpg");
+                                filePath.putFile(productImageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                     @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        String errorMessage = e.getMessage();
-                                        Toast.makeText(EditProduct.this, "Error : " + errorMessage, Toast.LENGTH_SHORT).show();
+                                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                        Task<Uri> urlTask = task.getResult().getStorage().getDownloadUrl();
+                                        while (!urlTask.isSuccessful()) ;
+                                        downloadUri = urlTask.getResult().toString();
+                                        if (task.isSuccessful()) {
+                                            File newImageFile = new File(productImageUri.getPath());
+                                            try {
+                                                compressedImageFile = new Compressor(EditProduct.this)
+                                                        .setMaxHeight(100)
+                                                        .setMaxWidth(100)
+                                                        .setQuality(2)
+                                                        .compressToBitmap(newImageFile);
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                            compressedImageFile.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                            byte[] data = baos.toByteArray();
+                                            UploadTask uploadTask = storageReference.child("product_images/thumbs").child(title.getText().toString() + ".jpg").putBytes(data);
+                                            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                    Task<Uri> urlTaskThumb = taskSnapshot.getStorage().getDownloadUrl();
+                                                    while (!urlTaskThumb.isSuccessful()) ;
+                                                    thumbDownloadUri = urlTaskThumb.getResult().toString();
+                                                    Map<String, Object> productMap = new HashMap<>();
+                                                    productMap.put("image_url", downloadUri);
+                                                    productMap.put("thumb_url", thumbDownloadUri);
+                                                    productMap.put("title", title.getText().toString());
+                                                    productMap.put("desc", description.getText().toString());
+                                                    productMap.put("quantity", quantityValue);
+                                                    productMap.put("category", Category.getSelectedItem());
+                                                    firebaseFirestore.collection("Products").document(ProductID).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                Toast.makeText(getApplicationContext(), "Product is Edited", Toast.LENGTH_LONG).show();
+                                                                emptyInputEditText();
+                                                                sendToMain();
+                                                            } else {
+                                                                String errorMessage = task.getException().getMessage();
+                                                                Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
+                                                            }
+                                                            progressbar.setVisibility(View.INVISIBLE);
+                                                        }
+                                                    });
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    String errorMessage = e.getMessage();
+                                                    Toast.makeText(EditProduct.this, "Error : " + errorMessage, Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        } else {
+                                            progressbar.setVisibility(View.INVISIBLE);
+                                            String errorMessage = task.getException().getMessage();
+                                            Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 });
                             } else {
-                                progressbar.setVisibility(View.INVISIBLE);
-                                String errorMessage = task.getException().getMessage();
-                                Toast.makeText(getApplicationContext(), "Error : " + errorMessage, Toast.LENGTH_LONG).show();
+                                Log.d("Snapshot: ", "Something went wrong");
                             }
+                        } else {
+                            progressbar.setVisibility(View.INVISIBLE);
+                            Log.d("Onclick", "Fields are empty");
                         }
-                    });
-                } else {
-                    progressbar.setVisibility(View.INVISIBLE);
-                    Toast.makeText(getApplicationContext(), "Error : Please fill in all fields", Toast.LENGTH_LONG).show();
-                }
+                    }
+                });
             }
+
         });
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) { // checks result of given picture
@@ -238,6 +279,11 @@ public class EditProduct extends AppCompatActivity {
                         .start(EditProduct.this); // starts the crop image acivity
             }
         }
+    }
+    private void emptyInputEditText() { // empty input fields
+        quantity.setText(null);
+        description.setText(null);
+        title.setText(null);
     }
     private void customizeActionBar(){
         getSupportActionBar().setTitle("Add New Product"); // sets title for toolbar
