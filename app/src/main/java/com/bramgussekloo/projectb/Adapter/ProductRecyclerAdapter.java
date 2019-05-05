@@ -22,8 +22,14 @@ import java.util.Map;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import javax.annotation.Nullable;
+
 public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecyclerAdapter.ViewHolder> {
 
     public List<Product> product_list;
@@ -50,7 +56,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductRecyclerAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ProductRecyclerAdapter.ViewHolder viewHolder, int i) {
 
         final String productId = product_list.get(i).productId;
         String title_data = product_list.get(i).getTitle();
@@ -62,23 +68,53 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         String image_url = product_list.get(i).getImage_url();
         final String currentUserId = firebaseAuth.getCurrentUser().getUid();
         viewHolder.setBlogImage(image_url);
+            //change productListReser button text
+        firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (documentSnapshot.exists()){
+                    viewHolder.productListReser.setText(R.string.product_reserve_canceled);
+                }else {
+                    viewHolder.productListReser.setText(R.string.product_reserve);
+
+                }
+
+            }
+        });
+
             //reservations
         viewHolder.productListReser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Object> reservationsMap = new HashMap<>();
-                reservationsMap.put("timestamp", FieldValue.serverTimestamp());
-                firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).set(reservationsMap).addOnCompleteListener(new OnCompleteListener<Void>() {;
+                firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(context, "Product is reserved", Toast.LENGTH_LONG).show();
-                        } else {
-                            String errorMessage = task.getException().getMessage();
-                            Toast.makeText(context, "Error : " + errorMessage, Toast.LENGTH_LONG).show();
-                        }
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (!task.getResult().exists()){// check if user reserved certain product or not
+
+                            Map<String, Object> reservationsMap = new HashMap<>();
+                            reservationsMap.put("timestamp", FieldValue.serverTimestamp());
+                            firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).set(reservationsMap)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {;
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(context, "Product is reserved", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        String errorMessage = task.getException().getMessage();
+                                        Toast.makeText(context, "Error : " + errorMessage, Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+                        } else {// delete a reservation
+                            firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).delete();
+
+                            }
+
                     }
                 });
+
 
             }
         });
