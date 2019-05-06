@@ -1,6 +1,7 @@
 package com.bramgussekloo.projectb.Activities.EditProduct;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -62,6 +64,7 @@ public class EditProduct extends AppCompatActivity {
     private String ProductID;
     private Spinner Category;
     private Button EditProductButton;
+    private Button DeleteProductBtton;
     private ProgressBar progressbar;
     private Uri productImageUri = null;
     private StorageReference storageReference;
@@ -122,6 +125,7 @@ public class EditProduct extends AppCompatActivity {
         description = findViewById(R.id.edit_product_desc);
         Category = findViewById(R.id.spinnerCategoryProduct);
         EditProductButton = findViewById(R.id.EditProductButton);
+        DeleteProductBtton = findViewById(R.id.DeleteProductButton);
         image = findViewById(R.id.edit_product_image);
         storageReference = FirebaseStorage.getInstance().getReference();
         progressbar = findViewById(R.id.edit_product_progress);
@@ -129,6 +133,28 @@ public class EditProduct extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cropImage();
+            }
+        });
+        DeleteProductBtton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditProduct.this);
+                builder.setTitle("Are you sure ?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        deleteProduct();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog ad =builder.create();
+                ad.show();
             }
         });
         EditProductButton.setOnClickListener(new View.OnClickListener() {
@@ -244,6 +270,23 @@ public class EditProduct extends AppCompatActivity {
         });
 
     }
+
+    private void deleteProduct() {
+        firebaseFirestore.collection("Products").document(ProductID).delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(getApplicationContext(),"Product Deleted",Toast.LENGTH_LONG).show();
+                            finish();
+                            sendToMain();
+
+
+                        }
+                    }
+                });
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) { // checks result of given picture
         image = findViewById(R.id.edit_product_image);
@@ -286,7 +329,7 @@ public class EditProduct extends AppCompatActivity {
         title.setText(null);
     }
     private void customizeActionBar(){
-        getSupportActionBar().setTitle("Add New Product"); // sets title for toolbar
+        getSupportActionBar().setTitle("Edit a product"); // sets title for toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
     private void sendToMain(){

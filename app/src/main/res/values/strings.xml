@@ -42,6 +42,7 @@
     <string name="voorwaarden">I accept the <u>End-user license agreement</u>.</string>
     <string name="or">or</string>
     <string name="edit_product">Edit product</string>
+    <string name="delete_product">Delete product</string>
     <string name="productid">ProductID</string>
     <string name="bottom_home_text">Home</string>
     <string name="bottom_reservations_text">Reservations</string>

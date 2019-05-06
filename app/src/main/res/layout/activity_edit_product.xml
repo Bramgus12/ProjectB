@@ -89,7 +89,21 @@
         app:layout_constraintEnd_toEndOf="@id/EditProductGuideRight"
         app:layout_constraintStart_toStartOf="@id/EditProductGuideLeft"
         app:layout_constraintTop_toBottomOf="@+id/spinnerCategoryProduct" />
-
+    <Button
+        android:id="@+id/DeleteProductButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@drawable/button_text_color_white"
+        android:background="@drawable/btn_bg_red"
+        android:textAllCaps="false"
+        android:padding="16dp"
+        android:text="@string/delete_product"
+        app:layout_constraintEnd_toEndOf="@id/EditProductGuideRight"
+        app:layout_constraintStart_toStartOf="@id/EditProductGuideLeft"
+        app:layout_constraintTop_toBottomOf="@+id/EditProductButton" />
     <ProgressBar
         android:id="@+id/edit_product_progress"
         style="?android:attr/progressBarStyleHorizontal"
