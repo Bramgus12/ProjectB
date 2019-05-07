@@ -6,6 +6,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -112,6 +113,11 @@ public class Register extends AppCompatActivity {
                                     setUserInDatabase(); // send name, UID, Role and email to realtime database
                                     emptyInputEditText(); //empty the input fields
 
+                                }
+                                if (!task.isSuccessful()){
+                                    Log.e("SignUpToFirebase", task.getException().toString());
+                                    Toast.makeText(Register.this, "Something went wrong. Try another email or another password that is stronger than this one.", Toast.LENGTH_SHORT).show();
+                                    emptyInputEditText();
                                 }
 
                                 progressBar.setVisibility(View.INVISIBLE);
