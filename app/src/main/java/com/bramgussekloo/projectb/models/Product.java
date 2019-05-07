@@ -1,11 +1,13 @@
 package com.bramgussekloo.projectb.models;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.Adapter;
 
 import com.bramgussekloo.projectb.Adapter.productId;
 
-public class Product extends productId {
+public class Product extends productId implements Parcelable {
 
     public String title;
     public String desc;
@@ -26,6 +28,27 @@ public class Product extends productId {
         this.category = category;
     }
 
+
+    protected Product(Parcel in) {
+        title = in.readString();
+        desc = in.readString();
+        image_url = in.readString();
+        thumb_url = in.readString();
+        category = in.readString();
+        quantity = in.readInt();
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 
     public String getCategory() {
         return category;
@@ -76,4 +99,18 @@ public class Product extends productId {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(title);
+        parcel.writeString(desc);
+        parcel.writeString(image_url);
+        parcel.writeString(thumb_url);
+        parcel.writeString(category);
+        parcel.writeInt(quantity);
+    }
 }

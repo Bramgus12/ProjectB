@@ -1,17 +1,21 @@
 package com.bramgussekloo.projectb.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bramgussekloo.projectb.Activities.ReadMoreProductActivity;
 import com.bramgussekloo.projectb.Adapter.ProductRecyclerAdapter;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
+import com.google.api.LogDescriptor;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,7 +31,7 @@ import javax.annotation.Nullable;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ProductRecyclerAdapter.OnProductListener {
 
     private static final String TAG = "HomeFragment";
     private RecyclerView product_list_view;
@@ -48,7 +52,7 @@ public class HomeFragment extends Fragment {
         product_list = new ArrayList<>();
         product_list_view = view.findViewById(R.id.product_list_view);
         firebaseFirestore = FirebaseFirestore.getInstance();
-        productRecyclerAdapter = new ProductRecyclerAdapter(product_list);
+        productRecyclerAdapter = new ProductRecyclerAdapter(product_list, this);
 
         product_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
 
@@ -71,5 +75,12 @@ public class HomeFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onProductClick(int position) {
+        Intent intent = new Intent(getContext(), ReadMoreProductActivity.class);
+        intent.putExtra("selected_product", product_list.get(position));
+        startActivity(intent);
     }
 }

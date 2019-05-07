@@ -3,14 +3,12 @@ package com.bramgussekloo.projectb.Adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bramgussekloo.projectb.Activities.Admin;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
 import com.bumptech.glide.Glide;
@@ -78,17 +76,17 @@ public class AdminRecyclerAdapter extends RecyclerView.Adapter<AdminRecyclerAdap
         }
 
         private void setTitleText(String titleText){
-            descView = mView.findViewById(R.id.product_list_title);
+            descView = mView.findViewById(R.id.more_product_list_title);
             descView.setText(titleText);
         }
 
         private void setNumInt(int numInt){
-            intView = mView.findViewById(R.id.product_list_quantity);
+            intView = mView.findViewById(R.id.more_product_list_quantity);
             intView.setText(Integer.toString(numInt));
         }
 
         private void setBlogImage(String downloadUri){
-            productImageView = mView.findViewById(R.id.product_list_image);
+            productImageView = mView.findViewById(R.id.more_product_list_image);
             Glide.with(context).load(downloadUri).into(productImageView);
         }
     }

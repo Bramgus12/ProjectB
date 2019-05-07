@@ -3,7 +3,6 @@ package com.bramgussekloo.projectb.Adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,9 +39,12 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     private FirebaseAuth firebaseAuth;
     public int count;
 
-    public ProductRecyclerAdapter(List<Product> product_list){
+    private OnProductListener onProductListener;
+
+    public ProductRecyclerAdapter(List<Product> product_list, OnProductListener onProductListener){
 
         this.product_list = product_list;
+        this.onProductListener = onProductListener;
 
     }
 
@@ -54,7 +56,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         context = parent.getContext();
         firebaseFirestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        return new ViewHolder(view);
+        return new ViewHolder(view, onProductListener);
     }
 
     @Override
@@ -141,36 +143,53 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         return product_list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private View mView;
         private TextView descView;
         private ImageView productImageView;
         private TextView intView;
         private Button productListReser;
+        OnProductListener onProductListener;
+        public Button readMoreButton;
 
 
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnProductListener onProductListener) {
             super(itemView);
             mView = itemView;
-            productListReser = mView.findViewById(R.id.product_list_reservations);
+            productListReser = mView.findViewById(R.id.more_product_list_reservations);
+            this.onProductListener = onProductListener;
+            readMoreButton = mView.findViewById(R.id.more_product_list_read_more);
+
+            readMoreButton.setOnClickListener(this);
 
         }
 
         private void setTitleText(String titleText){
-            descView = mView.findViewById(R.id.product_list_title);
+            descView = mView.findViewById(R.id.more_product_list_title);
             descView.setText(titleText);
         }
 
         private void setNumInt(int numInt){
-            intView = mView.findViewById(R.id.product_list_quantity);
+            intView = mView.findViewById(R.id.more_product_list_quantity);
             intView.setText(Integer.toString(numInt));
         }
 
         private void setBlogImage(String downloadUri){
-            productImageView = mView.findViewById(R.id.product_list_image);
+            productImageView = mView.findViewById(R.id.more_product_list_image);
             Glide.with(context).load(downloadUri).into(productImageView);
         }
+
+
+        @Override
+        public void onClick(View view) {
+            onProductListener.onProductClick(getAdapterPosition());
+        }
     }
+
+    public interface OnProductListener{
+        void onProductClick(int position);
+    }
+
 }
