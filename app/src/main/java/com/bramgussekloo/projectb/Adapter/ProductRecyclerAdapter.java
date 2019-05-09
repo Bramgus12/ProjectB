@@ -3,6 +3,7 @@ package com.bramgussekloo.projectb.Adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,17 +22,24 @@ import java.util.Map;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.api.LogDescriptor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import javax.annotation.Nullable;
 
 public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecyclerAdapter.ViewHolder> {
+
+    private static final String TAG = "ProductRecyclerAdapter";
 
     public List<Product> product_list;
     public Context context;
@@ -75,11 +83,16 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                         if (!queryDocumentSnapshots.isEmpty()){
                             count = queryDocumentSnapshots.size();
                             int quantity_data = product_list.get(i).getQuantity();
-                            viewHolder.setNumInt(quantity_data -count);
-                        }else {
+                            if(quantity_data == 0){
+                                Toast.makeText(context, "The Product Is Out of Stock", Toast.LENGTH_SHORT).show();
+                            } else {
+                                viewHolder.setNumInt(quantity_data - count);
+                            }
+                        } else {
                             count = 0;
                             int quantity_data = product_list.get(i).getQuantity();
-                            viewHolder.setNumInt(quantity_data -count);
+                            Log.d(TAG, "onEvent: The Quantity Is Now " + quantity_data);
+                            viewHolder.setNumInt(quantity_data - count);
                         }
                     }
                 });
@@ -111,24 +124,38 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (!task.getResult().exists()){// check if user reserved certain product or not
-                            Map<String, Object> reservationsMap = new HashMap<>();
-                            reservationsMap.put("timestamp", FieldValue.serverTimestamp());
-                            firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).set(reservationsMap)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {;
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        Toast.makeText(context, "Product is reserved", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        String errorMessage = task.getException().getMessage();
-                                        Toast.makeText(context, "Error : " + errorMessage, Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
-                        } else {// delete a reservation
-                            firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).delete();
+
+                            int quantity_data = product_list.get(i).getQuantity();
+
+                            if(quantity_data != 0){
+                                Map<String, Object> reservationsMap = new HashMap<>();
+                                reservationsMap.put("timestamp", FieldValue.serverTimestamp());
+
+                                firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).set(reservationsMap)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {;
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+
+                                                    Toast.makeText(context, "Product is reserved", Toast.LENGTH_LONG).show();
+                                                } else {
+                                                    String errorMessage = task.getException().getMessage();
+                                                    Toast.makeText(context, "Error : " + errorMessage, Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        });
+                            }
+                            else {
+                                Toast.makeText(context, "Product is Out Of Stock!", Toast.LENGTH_SHORT).show();
+
 
                             }
+                            } else { // delete a reservation
+                           
+                            firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).delete();
+
+                        }
+
 
                     }
                 });
