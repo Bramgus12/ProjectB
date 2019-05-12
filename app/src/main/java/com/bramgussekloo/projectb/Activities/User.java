@@ -69,7 +69,6 @@ public class User extends AppCompatActivity {
                         replaceFragment(historyFragment);
                         menuItem.setChecked(true);
 
-
                 }
 
                 return false;

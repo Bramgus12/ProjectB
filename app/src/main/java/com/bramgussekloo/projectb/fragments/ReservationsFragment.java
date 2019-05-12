@@ -2,6 +2,7 @@ package com.bramgussekloo.projectb.fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,11 @@ import android.view.ViewGroup;
 import com.bramgussekloo.projectb.Adapter.ProductRecyclerAdapter;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -33,6 +38,7 @@ public class ReservationsFragment extends Fragment implements ProductRecyclerAda
     private List<Product> product_list;
     private FirebaseFirestore firebaseFirestore;
     private ProductRecyclerAdapter productRecyclerAdapter;
+    private FirebaseAuth firebaseAuth;
 
 
     public ReservationsFragment() {
@@ -53,6 +59,8 @@ public class ReservationsFragment extends Fragment implements ProductRecyclerAda
         product_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
 
         product_list_view.setAdapter(productRecyclerAdapter);
+        firebaseAuth = FirebaseAuth.getInstance();
+        final String currentUserId = firebaseAuth.getCurrentUser().getUid();
 
         firebaseFirestore.collection("Products").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -62,10 +70,19 @@ public class ReservationsFragment extends Fragment implements ProductRecyclerAda
                     if(doc.getType() == DocumentChange.Type.ADDED){
                         String productId = doc.getDocument().getId();
 
-                        Product product = doc.getDocument().toObject(Product.class).withId(productId);
-                        product_list.add(product);
+                        final Product product = doc.getDocument().toObject(Product.class).withId(productId);
+                        firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).get()
+                                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.getResult().exists()){
+                                    product_list.add(product);
 
-                        productRecyclerAdapter.notifyDataSetChanged();
+                                    productRecyclerAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        });
+
                     }
                 }
             }
