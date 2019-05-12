@@ -3,6 +3,7 @@ package com.bramgussekloo.projectb.Adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +111,10 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (!task.getResult().exists()){// check if user reserved certain product or not
+                        String quantityText = viewHolder.intView.getText().toString();
+                        int quantityInt = Integer.parseInt(quantityText);
+                        Log.d("dsds", "onComplete() returned: " + quantityInt);
+                        if (!task.getResult().exists()&& quantityInt != 0){// check if user reserved certain product or not
                             Map<String, Object> reservationsMap = new HashMap<>();
                             reservationsMap.put("timestamp", FieldValue.serverTimestamp());
                             firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).set(reservationsMap)
@@ -125,7 +129,9 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                                     }
                                 }
                             });
-                        } else {// delete a reservation
+                        }else if (!task.getResult().exists()&& quantityInt == 0){
+                            Toast.makeText(context, "Sorry .. temporarily out of stock !" , Toast.LENGTH_LONG).show();
+                        }else {// delete a reservation
                             firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).delete();
 
                             }
@@ -161,6 +167,8 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
             productListReser = mView.findViewById(R.id.more_product_list_reservations);
             this.onProductListener = onProductListener;
             readMoreButton = mView.findViewById(R.id.more_product_list_read_more);
+            intView = mView.findViewById(R.id.more_product_list_quantity);
+
 
             readMoreButton.setOnClickListener(this);
 
@@ -175,6 +183,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
             intView = mView.findViewById(R.id.more_product_list_quantity);
             intView.setText(Integer.toString(numInt));
         }
+
 
         private void setBlogImage(String downloadUri){
             productImageView = mView.findViewById(R.id.more_product_list_image);
