@@ -1,6 +1,7 @@
 package com.bramgussekloo.projectb.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bramgussekloo.projectb.Activities.ReadMoreProductActivity;
 import com.bramgussekloo.projectb.Adapter.ProductRecyclerAdapter;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
@@ -93,6 +95,9 @@ public class ReservationsFragment extends Fragment implements ProductRecyclerAda
 
     @Override
     public void onProductClick(int position) {
+        Intent intent = new Intent(getContext(), ReadMoreProductActivity.class);
+        intent.putExtra("selected_product",product_list.get(position));
+        startActivity(intent);
 
     }
 }

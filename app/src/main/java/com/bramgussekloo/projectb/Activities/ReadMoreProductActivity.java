@@ -10,7 +10,7 @@ import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
 import com.bumptech.glide.Glide;
 
-public class ReadMoreProductActivity extends AppCompatActivity {
+public class ReadMoreProductActivity extends AppCompatActivity  {
 
     private static final String TAG = "ReadMoreProductActivity";
     private TextView productTitle;
@@ -39,15 +39,6 @@ public class ReadMoreProductActivity extends AppCompatActivity {
 
             productQuantity = findViewById(R.id.more_product_list_quantity);
             productQuantity.setText(Integer.toString(product.getQuantity()));
-
-
-
-
-
-
-
-
-
 
         }
 
