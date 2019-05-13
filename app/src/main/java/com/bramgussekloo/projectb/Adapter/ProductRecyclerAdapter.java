@@ -34,11 +34,11 @@ import javax.annotation.Nullable;
 
 public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecyclerAdapter.ViewHolder> {
 
-    public List<Product> product_list;
+    private List<Product> product_list;
     public Context context;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
-    public int count;
+    private int count;
 
     private OnProductListener onProductListener;
 
@@ -157,11 +157,11 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         private TextView intView;
         private Button productListReser;
         OnProductListener onProductListener;
-        public Button readMoreButton;
+        private Button readMoreButton;
 
 
 
-        public ViewHolder(@NonNull View itemView, OnProductListener onProductListener) {
+        private ViewHolder(@NonNull View itemView, OnProductListener onProductListener) {
             super(itemView);
             mView = itemView;
             productListReser = mView.findViewById(R.id.more_product_list_reservations);

@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/action_search_bttn"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="@string/action_search"
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/action_settings_bttn"
-        android:title="@string/account_settings" />
     <item
         android:id="@+id/action_logout_bttn"
         android:title="@string/action_logout" />
@@ -19,10 +10,4 @@
     <item
         android:id="@+id/action_ChangeEmail_bttn"
         android:title="@string/reset_email" />
-    <item
-        android:id="@+id/Testing"
-        android:title="Testing"/>
-    <item
-        android:id="@+id/users_role"
-        android:title="@string/change_user_s_role"/>
 </menu>

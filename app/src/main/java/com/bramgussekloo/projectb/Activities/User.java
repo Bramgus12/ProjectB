@@ -83,7 +83,7 @@ public class User extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.main_menu, menu); // inflates menu from XML to objects
+        getMenuInflater().inflate(R.menu.main_menu_user, menu); // inflates menu from XML to objects
 
         return true;
     }
