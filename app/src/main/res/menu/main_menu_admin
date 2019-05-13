@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ADaction_logout_bttn"
+        android:title="@string/action_logout" />
+    <item
+        android:id="@+id/ADaction_resetPassword_buttn"
+        android:title="@string/reset_password" />
+    <item
+        android:id="@+id/ADaction_ChangeEmail_bttn"
+        android:title="@string/reset_email" />
+    <item
+        android:id="@+id/Edit_product"
+        android:title="@string/edit_product" />
+</menu>

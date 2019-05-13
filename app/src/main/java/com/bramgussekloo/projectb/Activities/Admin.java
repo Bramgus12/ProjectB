@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.bramgussekloo.projectb.Activities.EditProduct.ChooseProduct;
-import com.bramgussekloo.projectb.Activities.EditProduct.EditProduct;
 import com.bramgussekloo.projectb.Activities.Login.LoginActivity;
 import com.bramgussekloo.projectb.Activities.Login.ResetEmail;
 import com.bramgussekloo.projectb.R;
@@ -82,23 +81,23 @@ public class Admin extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu); // inflates menu from XML to objects
+        getMenuInflater().inflate(R.menu.main_menu_admin, menu); // inflates menu from XML to objects
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) { // switch case for detecting which menu item is clicked
-            case R.id.action_logout_bttn:  // triggers when logout button is clicked
+            case R.id.ADaction_logout_bttn:  // triggers when logout button is clicked
                 logOut();  // logs out user
                 return true;
-            case R.id.action_resetPassword_buttn:
+            case R.id.ADaction_resetPassword_buttn:
                 resetpassword();
                 return true;
-            case R.id.action_ChangeEmail_bttn:
+            case R.id.ADaction_ChangeEmail_bttn:
                 Intent changeEmail = new Intent(getBaseContext(), ResetEmail.class);
                 startActivity(changeEmail);
                 return true;
-            case R.id.Testing:
+            case R.id.Edit_product:
                 Intent intent= new Intent(getBaseContext(), ChooseProduct.class);
                 startActivity(intent);
             default:
