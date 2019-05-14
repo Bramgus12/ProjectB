@@ -43,7 +43,7 @@
     <string name="or">or</string>
     <string name="edit_product">Edit product</string>
     <string name="delete_product">Delete product</string>
-    <string name="productid">ProductID</string>
+    <string name="productId">ProductID</string>
     <string name="bottom_home_text">Home</string>
     <string name="bottom_reservations_text">Reservations</string>
     <string name="bottom_history_text">History</string>

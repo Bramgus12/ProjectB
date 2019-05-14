@@ -176,6 +176,7 @@ public class EditProduct extends AppCompatActivity {
                                 productMap.put("desc", description.getText().toString());
                                 productMap.put("quantity", quantityValue);
                                 productMap.put("category", Category.getSelectedItem());
+                                productMap.put("productid", ProductID);
                                 firebaseFirestore.collection("Products").document(ProductID).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
@@ -227,6 +228,7 @@ public class EditProduct extends AppCompatActivity {
                                                     productMap.put("desc", description.getText().toString());
                                                     productMap.put("quantity", quantityValue);
                                                     productMap.put("category", Category.getSelectedItem());
+                                                    productMap.put("productid", ProductID);
                                                     firebaseFirestore.collection("Products").document(ProductID).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {

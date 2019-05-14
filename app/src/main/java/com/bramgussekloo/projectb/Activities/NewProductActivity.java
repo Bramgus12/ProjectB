@@ -136,6 +136,7 @@ public class NewProductActivity extends AppCompatActivity{
                                         productMap.put("desc", description);
                                         productMap.put("quantity", quantity);
                                         productMap.put("category", category);
+                                        productMap.put("productid", id);
                                         firebaseFirestore.collection("Products").document(id).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

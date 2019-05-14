@@ -25,6 +25,7 @@ public class AdminRecyclerAdapter extends RecyclerView.Adapter<AdminRecyclerAdap
 
     private List<Product> product_list;
     private Context context;
+    private String productId;
 
 
 
@@ -39,6 +40,7 @@ public class AdminRecyclerAdapter extends RecyclerView.Adapter<AdminRecyclerAdap
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_admin_list_item, parent, false);
+
         context = parent.getContext();
         return new ViewHolder(view);
 
@@ -57,6 +59,8 @@ public class AdminRecyclerAdapter extends RecyclerView.Adapter<AdminRecyclerAdap
 
         String image_url = product_list.get(i).getImage_url();
         viewHolder.setBlogImage(image_url);
+
+        productId = product_list.get(i).ProductId;
 
     }
 
@@ -83,6 +87,7 @@ public class AdminRecyclerAdapter extends RecyclerView.Adapter<AdminRecyclerAdap
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, LendActivity.class);
+                    intent.putExtra("ProductID", productId);
                     context.startActivity(intent);
                 }
             });
