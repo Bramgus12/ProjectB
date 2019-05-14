@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@id/new_product_image"
         app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
         app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
-        android:hint="@string/productid" />
+        android:hint="@string/productId" />
 
 
 

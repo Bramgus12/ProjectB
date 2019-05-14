@@ -1,25 +1,22 @@
 package com.bramgussekloo.projectb.models;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.Adapter;
 
-import com.bramgussekloo.projectb.Adapter.productId;
+import com.bramgussekloo.projectb.Adapter.ProductIdClass;
 
-public class Product extends productId implements Parcelable {
+public class Product extends ProductIdClass implements Parcelable {
 
     public String title;
-    public String desc;
-    public String image_url;
-    public String thumb_url;
-
-    public String category;
-    public int quantity;
+    private String desc;
+    private String image_url;
+    private String thumb_url;
+    private String category;
+    private int quantity;
 
     public Product(){}
 
-    public Product(String category, String title, String desc, String image_url, String thumb_url, int quantity) {
+    public Product( String category, String title, String desc, String image_url, String thumb_url, int quantity) {
         this.title = title;
         this.desc = desc;
         this.image_url = image_url;
@@ -97,7 +94,6 @@ public class Product extends productId implements Parcelable {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
 
     @Override
     public int describeContents() {

@@ -66,7 +66,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     @Override
     public void onBindViewHolder(@NonNull final ProductRecyclerAdapter.ViewHolder viewHolder, final int i) {
 
-        final String productId = product_list.get(i).productId;
+        final String productId = product_list.get(i).ProductId;
         String title_data = product_list.get(i).getTitle();
         viewHolder.setTitleText(title_data);
 

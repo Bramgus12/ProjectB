@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -53,9 +55,11 @@ public class HomeAdminFragment extends Fragment {
                     if (doc.getType() == DocumentChange.Type.ADDED) {
                         Product product = doc.getDocument().toObject(Product.class);
                         product_list.add(product);
+
                         adminRecyclerAdapter.notifyDataSetChanged();
                     }
                 }
+                Log.d("List", product_list.toString());
             }
         });
         return view;
