@@ -16,6 +16,7 @@ import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
 import com.bumptech.glide.Glide;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import javax.annotation.Nullable;
+
+import io.opencensus.common.Timestamp;
 
 public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecyclerAdapter.ViewHolder> {
 
@@ -117,6 +120,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                         if (!task.getResult().exists()&& quantityInt != 0){// check if user reserved certain product or not
                             Map<String, Object> reservationsMap = new HashMap<>();
                             reservationsMap.put("timestamp", FieldValue.serverTimestamp());
+                            Log.d("timestamp", java.util.Calendar.getInstance().getTime().toString());
                             firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).set(reservationsMap)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {;
                                 @Override
