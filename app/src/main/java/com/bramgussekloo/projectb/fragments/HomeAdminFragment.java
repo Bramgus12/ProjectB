@@ -31,6 +31,7 @@ public class HomeAdminFragment extends Fragment {
     private List<Product> product_list;
     private FirebaseFirestore firebaseFirestore;
     private AdminRecyclerAdapter adminRecyclerAdapter;
+    private Button LendButton;
 
     public HomeAdminFragment() {
     }
@@ -42,7 +43,6 @@ public class HomeAdminFragment extends Fragment {
         product_list = new ArrayList<>();
         product_list_view = view.findViewById(R.id.product_list_view_admin);
         firebaseFirestore = FirebaseFirestore.getInstance();
-        Button Lend_button = view.findViewById(R.id.lend_button);
         adminRecyclerAdapter = new AdminRecyclerAdapter(product_list);
         product_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
         product_list_view.setAdapter(adminRecyclerAdapter);
@@ -56,13 +56,6 @@ public class HomeAdminFragment extends Fragment {
                         adminRecyclerAdapter.notifyDataSetChanged();
                     }
                 }
-            }
-        });
-        Lend_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), LendActivity.class);
-                startActivity(intent);
             }
         });
         return view;
