@@ -101,6 +101,9 @@ public class Admin extends AppCompatActivity {
             case R.id.Testing:
                 Intent intent= new Intent(getBaseContext(), ChooseProduct.class);
                 startActivity(intent);
+            case R.id.users_role:
+                Intent changeUserRole = new Intent(getBaseContext(),chooseUser.class);
+                startActivity(changeUserRole);
             default:
                 return false;
         }

@@ -17,8 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.ReadMoreProductActivity"
-            android:parentActivityName=".Activities.User"></activity>
+        <activity android:name=".Activities.chooseUser"></activity>
+        <activity
+            android:name=".Activities.ReadMoreProductActivity"
+            android:parentActivityName=".Activities.User" />
         <activity
             android:name=".Activities.EditProduct.ChooseProduct"
             android:parentActivityName=".Activities.Admin" />

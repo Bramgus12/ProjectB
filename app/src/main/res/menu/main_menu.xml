@@ -22,4 +22,7 @@
     <item
         android:id="@+id/Testing"
         android:title="Testing"/>
+    <item
+        android:id="@+id/users_role"
+        android:title="@string/change_user_s_role"/>
 </menu>
