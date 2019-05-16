@@ -147,10 +147,10 @@ public class Register extends AppCompatActivity {
         String uid = currentFirebaseUser.getUid(); // get UID from firebase
         FirebaseDatabase database = FirebaseDatabase.getInstance(); // initialise the database
         DatabaseReference mRootRef = database.getReference(); // reference to the database
-        DatabaseReference emailRef = mRootRef.child("users").child(uid).child("Email"); // get the ref to the email
-        DatabaseReference nameRef = mRootRef.child("users").child(uid).child("Name"); // get the ref for the Name
-        DatabaseReference roleRef = mRootRef.child("users").child(uid).child("Role"); // get the ref for the Role
-        emailRef.setValue(email); // set the email in the database
+        DatabaseReference uidRef = mRootRef.child("users").child(email).child("uid"); // get the ref to the email
+        DatabaseReference nameRef = mRootRef.child("users").child(email).child("Name"); // get the ref for the Name
+        DatabaseReference roleRef = mRootRef.child("users").child(email).child("Role"); // get the ref for the Role
+        uidRef.setValue(uid); // set the email in the database
         nameRef.setValue(name); // set the name in the database
         roleRef.setValue("User"); // set the role in the database (standard = "User")
         currentFirebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {

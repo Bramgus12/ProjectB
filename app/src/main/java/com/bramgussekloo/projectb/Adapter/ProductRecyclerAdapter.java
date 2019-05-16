@@ -88,7 +88,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                 });
 
         String image_url = product_list.get(i).getImage_url();
-        final String currentUserId = firebaseAuth.getCurrentUser().getUid();
+        final String currentUserId = firebaseAuth.getCurrentUser().getEmail();
         viewHolder.setBlogImage(image_url);
 
             //change productListReser button text

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:id="@+id/EditProductTitle"
+        android:id="@+id/LendTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingTop="30dp"
@@ -40,7 +40,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toStartOf="@id/EditProductGuideRight"
         app:layout_constraintStart_toEndOf="@id/EditProductGuideLeft"
-        app:layout_constraintTop_toBottomOf="@id/EditProductTitle"
+        app:layout_constraintTop_toBottomOf="@id/LendTitle"
         app:srcCompat="@drawable/post_placeholder" />
 
     <EditText
