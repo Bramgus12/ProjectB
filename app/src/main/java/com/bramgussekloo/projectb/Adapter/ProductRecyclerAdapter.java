@@ -16,6 +16,7 @@ import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Product;
 import com.bumptech.glide.Glide;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +33,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import javax.annotation.Nullable;
 
+import io.opencensus.common.Timestamp;
+
 public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecyclerAdapter.ViewHolder> {
 
-    public List<Product> product_list;
+    private List<Product> product_list;
     public Context context;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
-    public int count;
+    private int count;
 
     private OnProductListener onProductListener;
 
@@ -63,10 +66,9 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     @Override
     public void onBindViewHolder(@NonNull final ProductRecyclerAdapter.ViewHolder viewHolder, final int i) {
 
-        final String productId = product_list.get(i).productId;
+        final String productId = product_list.get(i).ProductId;
         String title_data = product_list.get(i).getTitle();
         viewHolder.setTitleText(title_data);
-
 
         //Get reservations count
         firebaseFirestore.collection("Products/" + productId + "/reservation")
@@ -86,7 +88,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                 });
 
         String image_url = product_list.get(i).getImage_url();
-        final String currentUserId = firebaseAuth.getCurrentUser().getUid();
+        final String currentUserId = firebaseAuth.getCurrentUser().getEmail();
         viewHolder.setBlogImage(image_url);
 
             //change productListReser button text
@@ -117,6 +119,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                         if (!task.getResult().exists()&& quantityInt != 0){// check if user reserved certain product or not
                             Map<String, Object> reservationsMap = new HashMap<>();
                             reservationsMap.put("timestamp", FieldValue.serverTimestamp());
+                            Log.d("timestamp", java.util.Calendar.getInstance().getTime().toString());
                             firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).set(reservationsMap)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {;
                                 @Override
@@ -157,11 +160,11 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         private TextView intView;
         private Button productListReser;
         OnProductListener onProductListener;
-        public Button readMoreButton;
+        private Button readMoreButton;
 
 
 
-        public ViewHolder(@NonNull View itemView, OnProductListener onProductListener) {
+        private ViewHolder(@NonNull View itemView, OnProductListener onProductListener) {
             super(itemView);
             mView = itemView;
             productListReser = mView.findViewById(R.id.more_product_list_reservations);
@@ -200,5 +203,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     public interface OnProductListener{
         void onProductClick(int position);
     }
+
+
 
 }

@@ -176,7 +176,7 @@ public class EditProduct extends AppCompatActivity {
                                 productMap.put("desc", description.getText().toString());
                                 productMap.put("quantity", quantityValue);
                                 productMap.put("category", Category.getSelectedItem());
-                                firebaseFirestore.collection("Products").document(ProductID).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                firebaseFirestore.collection("Products").document(title.getText().toString()).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
@@ -227,7 +227,7 @@ public class EditProduct extends AppCompatActivity {
                                                     productMap.put("desc", description.getText().toString());
                                                     productMap.put("quantity", quantityValue);
                                                     productMap.put("category", Category.getSelectedItem());
-                                                    firebaseFirestore.collection("Products").document(ProductID).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    firebaseFirestore.collection("Products").document(title.getText().toString()).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<Void> task) {
                                                             if (task.isSuccessful()) {

@@ -35,7 +35,7 @@
                 app:srcCompat="@drawable/image_placeholder" />
 
             <Button
-                android:id="@+id/more_product_list_reservations"
+                android:id="@+id/lend_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -54,7 +54,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/product_availability"
-                app:layout_constraintStart_toEndOf="@+id/more_product_list_reservations"
+                app:layout_constraintStart_toEndOf="@+id/lend_button"
                 app:layout_constraintTop_toBottomOf="@+id/more_product_list_title" />
 
             <TextView

@@ -56,7 +56,6 @@ import io.grpc.Context;
 public class NewProductActivity extends AppCompatActivity{
     private Spinner spinner;
     private ImageView newProductImage;
-    private EditText newProductId;
     private EditText newProductDesc;
     private EditText newProductTitle;
     private EditText newProductQuantity;
@@ -73,7 +72,6 @@ public class NewProductActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_product);
         newProductImage = findViewById(R.id.new_product_image);
-        newProductId = findViewById(R.id.new_ProductID);
         newProductTitle = findViewById(R.id.new_product_title);
         newProductDesc = findViewById(R.id.new_product_desc);
         newProductQuantity = findViewById(R.id.new_product_quantity);
@@ -93,7 +91,6 @@ public class NewProductActivity extends AppCompatActivity{
         newProductBttn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { // will append data to firebase
-                final String id = newProductId.getText().toString();
                 final String title = newProductTitle.getText().toString();
                 final String description = newProductDesc.getText().toString();
                 final String quantityCheck = newProductQuantity.getText().toString();
@@ -136,7 +133,7 @@ public class NewProductActivity extends AppCompatActivity{
                                         productMap.put("desc", description);
                                         productMap.put("quantity", quantity);
                                         productMap.put("category", category);
-                                        firebaseFirestore.collection("Products").document(id).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        firebaseFirestore.collection("Products").document(title).set(productMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if(task.isSuccessful()){
