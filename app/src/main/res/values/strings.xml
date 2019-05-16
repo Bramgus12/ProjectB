@@ -77,9 +77,6 @@
     <string name="lend_a_product_to_a_user">Lend a product to a User</string>
     <string name="enter_user_email">Enter user email</string>
     <string name="lend_item">Lend Item</string>
-    <string name="lend_a_product_to_a_user">Lend a product to a User</string>
-    <string name="enter_user_email">Enter user email</string>
-    <string name="lend_item">Lend Item</string>
     <string name="change_user_s_role">Change user\'s role</string>
     <string name="choose_user">Choose User</string>
     <string name="choose_user_title">Choose a User to Edit</string>
