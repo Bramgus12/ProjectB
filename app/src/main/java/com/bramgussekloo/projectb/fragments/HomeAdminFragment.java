@@ -28,7 +28,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-public class HomeAdminFragment extends Fragment {
+public class HomeAdminFragment extends Fragment implements AdminRecyclerAdapter.OnProductListenerAdmin {
     private RecyclerView product_list_view;
     private List<Product> product_list;
     private FirebaseFirestore firebaseFirestore;
@@ -45,7 +45,7 @@ public class HomeAdminFragment extends Fragment {
         product_list = new ArrayList<>();
         product_list_view = view.findViewById(R.id.product_list_view_admin);
         firebaseFirestore = FirebaseFirestore.getInstance();
-        adminRecyclerAdapter = new AdminRecyclerAdapter(product_list);
+        adminRecyclerAdapter = new AdminRecyclerAdapter(product_list, this);
         product_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
         product_list_view.setAdapter(adminRecyclerAdapter);
         firebaseFirestore.collection("Products").addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -66,5 +66,11 @@ public class HomeAdminFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void onProductClickAdmin(int position) {
+        Log.d("activity", "onProductClickAdmin: " + product_list.get(position));
+        Intent intent = new Intent(getContext(), LendActivity.class);
+        intent.putExtra("Product", product_list.get(position));
+        startActivity(intent);
+    }
 }
