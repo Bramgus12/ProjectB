@@ -33,9 +33,9 @@ public class LendActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lend);
         EmailEditText = findViewById(R.id.EditTextEmailuser);
         LendButton = findViewById(R.id.LendActivityButton);
-        setContentView(R.layout.activity_lend);
         Intent intent = getIntent();
         product = intent.getParcelableExtra("Product");
         Log.d(TAG, intent.getParcelableExtra("Product").toString());
@@ -58,7 +58,7 @@ public class LendActivity extends AppCompatActivity {
                     Toast.makeText(LendActivity.this, "Please enter a valid Email Address.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mRootref.child("users").child(EmailEditText.getText().toString()).child("uid").addValueEventListener(new ValueEventListener() {
+                mRootref.child("users").child(EmailEditText.getText().toString().replace("@", "").replace(".", "")).child("uid").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         Email = EmailEditText.getText().toString();
