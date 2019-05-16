@@ -13,8 +13,6 @@ This application is for a project on our school.
 Contact-Information: techlab@csarotterdam.nl
 
 Team members:
-* Oz
 * Bram
-* Lamar
 * Farid
 * Mohamed
