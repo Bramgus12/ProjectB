@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance(); // get the database
         final DatabaseReference mRootRef = database.getReference(); // ref to the database
         FirebaseUser CurrentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser(); // get info about the user that is trying to log in
-        final String Uid = CurrentFirebaseUser.getEmail(); // get the UID of the user
+        final String Uid = CurrentFirebaseUser.getEmail().replace(".", "").replace("@", ""); // get the UID of the user
         mRootRef.child("users").child(Uid).child("Role").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

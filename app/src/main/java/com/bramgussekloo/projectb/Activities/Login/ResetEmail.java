@@ -50,7 +50,7 @@ public class ResetEmail extends AppCompatActivity {
         passwordConfirmation = findViewById(R.id.REConfirmPasswordEditText);
         newEmail = findViewById(R.id.RENewEmailEditText);
         user = mAuth.getCurrentUser();
-        UID = user.getEmail();
+        UID = user.getEmail().replace(".", "").replace("@", "");
         mref = FirebaseDatabase.getInstance().getReference();
 
 
