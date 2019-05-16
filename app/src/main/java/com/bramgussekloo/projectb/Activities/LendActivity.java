@@ -13,9 +13,9 @@ public class LendActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lend);
-        Intent intent = getIntent();
-        String ProductID = intent.getStringExtra("ProductID");
-        Log.d("ProductID", "This is product: " + ProductID);
+//        Intent intent = getIntent();
+
+//        Log.d("ProductID", intent.getParcelableExtra("Product").toString());
     }
 
 }

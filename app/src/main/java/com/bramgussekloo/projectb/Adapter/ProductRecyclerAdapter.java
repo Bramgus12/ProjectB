@@ -70,7 +70,6 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         String title_data = product_list.get(i).getTitle();
         viewHolder.setTitleText(title_data);
 
-
         //Get reservations count
         firebaseFirestore.collection("Products/" + productId + "/reservation")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -204,5 +203,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     public interface OnProductListener{
         void onProductClick(int position);
     }
+
+
 
 }

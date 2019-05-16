@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeBeheerderFragment extends Fragment {
+public class HomeBeheerderFragment extends Fragment implements AdminRecyclerAdapter.OnProductListenerAdmin {
 
     private RecyclerView product_list_view;
     private List<Product> product_list;
@@ -52,7 +52,7 @@ public class HomeBeheerderFragment extends Fragment {
 
         firebaseFirestore = FirebaseFirestore.getInstance();
 
-        adminRecyclerAdapter = new AdminRecyclerAdapter(product_list);
+        adminRecyclerAdapter = new AdminRecyclerAdapter(product_list, this);
         product_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
         product_list_view.setAdapter(adminRecyclerAdapter);
 
@@ -84,4 +84,8 @@ public class HomeBeheerderFragment extends Fragment {
     }
 
 
+    @Override
+    public void onProductClickAdmin(int position) {
+
+    }
 }
