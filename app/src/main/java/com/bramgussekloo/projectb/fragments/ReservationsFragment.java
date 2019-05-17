@@ -62,7 +62,7 @@ public class ReservationsFragment extends Fragment implements ProductRecyclerAda
 
         product_list_view.setAdapter(productRecyclerAdapter);
         firebaseAuth = FirebaseAuth.getInstance();
-        final String currentUserId = firebaseAuth.getCurrentUser().getUid();
+        final String currentUserId = firebaseAuth.getCurrentUser().getEmail().replace(".", "").replace("@", "");
 
         firebaseFirestore.collection("Products").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

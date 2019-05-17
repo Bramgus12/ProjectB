@@ -42,9 +42,6 @@ public class LendActivity extends AppCompatActivity {
         Title = product.getTitle();
         Buttons();
     }
-    private void GetUserID(){
-
-    }
 
     private void Buttons(){
         LendButton.setOnClickListener(new View.OnClickListener() {

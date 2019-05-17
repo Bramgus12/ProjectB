@@ -52,7 +52,8 @@
         app:layout_constraintEnd_toEndOf="@id/ChPGuideline_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintTop_toBottomOf="@id/chooseUserTitle"
-        app:layout_constraintStart_toStartOf="@id/ChPGuideline_left" />
+        app:layout_constraintStart_toStartOf="@id/ChPGuideline_left"
+        tools:ignore="HardcodedText" />
     <TextView
         android:id="@+id/chooseUserTitle"
         android:layout_width="0dp"
