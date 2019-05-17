@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".Activities.LendActivity">
 
+    <DatePicker
+        android:id="@+id/datePicker1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        app:layout_constraintTop_toBottomOf="@id/ChooseDate"
+        app:layout_constraintStart_toStartOf="@id/GuidelineLendLeft"
+        app:layout_constraintEnd_toStartOf="@id/GuidelineLendRight"/>
+
     <TextView
         android:id="@+id/LendTitle"
         android:layout_width="0dp"
@@ -21,6 +31,22 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/GuidelineLendLeft"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/ChooseDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:paddingBottom="10dp"
+        android:text="@string/choose_a_date_to_bring_the_product_back"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/GuidelineLendRight"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/GuidelineLendLeft"
+        app:layout_constraintTop_toBottomOf="@id/EditTextEmailuser" />
 
     <android.support.constraint.Guideline
         android:id="@+id/GuidelineLendLeft"
@@ -60,5 +86,5 @@
         android:text="@string/lend_item"
         app:layout_constraintEnd_toEndOf="@id/GuidelineLendRight"
         app:layout_constraintStart_toStartOf="@id/GuidelineLendLeft"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextEmailuser" />
+        app:layout_constraintTop_toBottomOf="@id/datePicker1" />
 </android.support.constraint.ConstraintLayout>

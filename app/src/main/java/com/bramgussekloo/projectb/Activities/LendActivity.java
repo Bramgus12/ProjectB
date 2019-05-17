@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -46,7 +47,7 @@ public class LendActivity extends AppCompatActivity {
     private String Title;
     private EditText EmailEditText;
     private String Email;
-    private int OldQuantity;
+    private DatePicker datePicker;
     private Map<String, Object> ProductMap;
     private Button LendButton;
     private DatabaseReference mRootref = FirebaseDatabase.getInstance().getReference();
@@ -56,6 +57,7 @@ public class LendActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lend);
+        datePicker = findViewById(R.id.datePicker1);
         EmailEditText = findViewById(R.id.EditTextEmailuser);
         LendButton = findViewById(R.id.LendActivityButton);
         Intent intent = getIntent();
@@ -100,66 +102,76 @@ public class LendActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     ProductMap = task.getResult().getData();
                     quantity = Integer.parseInt(ProductMap.get("quantity").toString());
-                    quantity = quantity - 1;
-                    FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.getResult().getData() != null){
-                                Map<String, Object> map = task.getResult().getData();
-                                int Qtt = Integer.parseInt(map.get("quantity").toString());
-                                Qtt = Qtt + 1;
-                                map.put("TimeOfLend", FieldValue.serverTimestamp());
-                                map.put("quantity", Qtt);
-                                FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            ProductMap.put("quantity", quantity);
-                                            FirebaseFirestore.getInstance().collection("Products").document(Title).set(ProductMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Toast.makeText(LendActivity.this, "Product is lend to: " + EmailEditText.getText().toString(), Toast.LENGTH_SHORT).show();
-                                                        goToMain();
-                                                    } else {
-                                                        Log.e(TAG, "onComplete: Exception", task.getException());
+                    if (quantity == 0){
+                        Toast.makeText(LendActivity.this, "Product is not available anymore. Sorry.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        quantity = quantity - 1;
+                        FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.getResult().getData() != null) {
+                                    Map<String, Object> map = task.getResult().getData();
+                                    int Qtt = Integer.parseInt(map.get("quantity").toString());
+                                    Qtt = Qtt + 1;
+                                    map.put("TimeOfLend", FieldValue.serverTimestamp());
+                                    map.put("quantity", Qtt);
+                                    map.put("year", datePicker.getYear());
+                                    map.put("month", datePicker.getMonth());
+                                    map.put("day", datePicker.getDayOfMonth());
+                                    FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                ProductMap.put("quantity", quantity);
+                                                FirebaseFirestore.getInstance().collection("Products").document(Title).set(ProductMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(LendActivity.this, "Product is lend to: " + EmailEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+                                                            goToMain();
+                                                        } else {
+                                                            Log.e(TAG, "onComplete: Exception", task.getException());
+                                                        }
                                                     }
-                                                }
-                                            });
-                                        } else {
-                                            Log.e(TAG, "onComplete: Exception", task.getException());
+                                                });
+                                            } else {
+                                                Log.e(TAG, "onComplete: Exception", task.getException());
+                                            }
                                         }
-                                    }
-                                });
-                            } else {
-                                Log.e(TAG, "onComplete: Field does not exist", task.getException());
-                                Map<String, Object> map = new HashMap<>();
-                                map.put("quantity", 1);
-                                map.put("TimeOfLend", FieldValue.serverTimestamp());
-                                FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            ProductMap.put("quantity", quantity);
-                                            FirebaseFirestore.getInstance().collection("Products").document(Title).set(ProductMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Toast.makeText(LendActivity.this, "Product is lend to: " + EmailEditText.getText().toString(), Toast.LENGTH_SHORT).show();
-                                                        goToMain();
-                                                    } else {
-                                                        Log.e(TAG, "onComplete: Exception", task.getException());
+                                    });
+                                } else {
+                                    Log.e(TAG, "onComplete: Field does not exist", task.getException());
+                                    Map<String, Object> map = new HashMap<>();
+                                    map.put("quantity", 1);
+                                    map.put("TimeOfLend", FieldValue.serverTimestamp());
+                                    map.put("year", datePicker.getYear());
+                                    map.put("month", datePicker.getMonth());
+                                    map.put("day", datePicker.getDayOfMonth());
+                                    FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                ProductMap.put("quantity", quantity);
+                                                FirebaseFirestore.getInstance().collection("Products").document(Title).set(ProductMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(LendActivity.this, "Product is lend to: " + EmailEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+                                                            goToMain();
+                                                        } else {
+                                                            Log.e(TAG, "onComplete: Exception", task.getException());
+                                                        }
                                                     }
-                                                }
-                                            });
-                                        } else {
-                                            Log.e(TAG, "onComplete: Exception", task.getException());
+                                                });
+                                            } else {
+                                                Log.e(TAG, "onComplete: Exception", task.getException());
+                                            }
                                         }
-                                    }
-                                });
+                                    });
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
 
                 } else {
                         Log.e(TAG, "onComplete: Exception", task.getException());
