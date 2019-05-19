@@ -1,150 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.NewProductActivity">
-    <TextView
-        android:id="@+id/NewProductTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="30dp"
-        android:paddingBottom="30dp"
-        android:text="@string/AddProductTitle"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/NewProductGuideRight"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
-        app:layout_constraintTop_toTopOf="parent" />
-    <android.support.constraint.Guideline
-        android:id="@+id/NewProductGuideLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="30dp"/>
+    tools:context=".Activities.NewProductActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.constraint.Guideline
-        android:id="@+id/NewProductGuideRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="30dp"/>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/NewProductTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp"
+            android:paddingBottom="30dp"
+            android:text="@string/AddProductTitle"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/NewProductGuideRight"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
+            app:layout_constraintTop_toTopOf="parent" />
+        <android.support.constraint.Guideline
+            android:id="@+id/NewProductGuideLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="30dp"/>
 
-    <ImageView
-        android:id="@+id/new_product_image"
-        android:layout_width="0dp"
-        android:layout_height="180dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
-        app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
-        app:layout_constraintTop_toBottomOf="@id/NewProductTitle"
-        app:srcCompat="@drawable/post_placeholder"
-        />
+        <android.support.constraint.Guideline
+            android:id="@+id/NewProductGuideRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="30dp"/>
 
-    <EditText
-        android:id="@+id/new_ProductID"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="@android:color/holo_red_dark"
-        app:layout_constraintTop_toBottomOf="@id/new_product_image"
-        app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
-        app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
-        android:hint="@string/productId" />
+        <ImageView
+            android:id="@+id/new_product_image"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
+            app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
+            app:layout_constraintTop_toBottomOf="@id/NewProductTitle"
+            app:srcCompat="@drawable/post_placeholder"
+            />
 
-
-
-    <EditText
-        android:id="@+id/new_product_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:hint="@string/product_desc_hint"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
-        android:backgroundTint="@android:color/holo_red_dark"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
-        app:layout_constraintTop_toBottomOf="@+id/new_ProductID" />
-
-    <EditText
-        android:id="@+id/new_product_desc"
-        android:layout_width="0dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:hint="@string/Add_Product_Description_Hint"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
-        app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
-        app:layout_constraintTop_toBottomOf="@+id/new_product_title" />
-
-    <Button
-        android:id="@+id/post_bttn"
-        android:layout_width="0dp"
-        android:textColor="@drawable/button_text_color_white"
-        android:background="@drawable/btn_bg_red"
-        android:textAllCaps="false"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
-        android:padding="16dp"
-        android:text="@string/add_product_button"
-        app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
-        app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
-
-    <ProgressBar
-        android:id="@+id/new_product_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="10dp"
-        android:indeterminate="true"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/new_product_quantity"
-        android:layout_width="0dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:ems="10"
-        android:hint="@string/quantity"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
-        app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
-        app:layout_constraintTop_toBottomOf="@+id/new_product_desc" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:prompt="@string/spin_hint"
-        android:spinnerMode="dialog"
-        app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
-        app:layout_constraintTop_toBottomOf="@+id/new_product_quantity" />
+        <EditText
+            android:id="@+id/new_ProductID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@android:color/holo_red_dark"
+            app:layout_constraintTop_toBottomOf="@id/new_product_image"
+            app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
+            app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
+            android:hint="@string/productId" />
 
 
-</android.support.constraint.ConstraintLayout>
+
+        <EditText
+            android:id="@+id/new_product_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:hint="@string/product_desc_hint"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
+            android:backgroundTint="@android:color/holo_red_dark"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
+            app:layout_constraintTop_toBottomOf="@+id/new_ProductID" />
+
+        <EditText
+            android:id="@+id/new_product_desc"
+            android:layout_width="0dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:hint="@string/Add_Product_Description_Hint"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
+            app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
+            app:layout_constraintTop_toBottomOf="@+id/new_product_title" />
+
+        <Button
+            android:id="@+id/post_bttn"
+            android:layout_width="0dp"
+            android:textColor="@drawable/button_text_color_white"
+            android:background="@drawable/btn_bg_red"
+            android:textAllCaps="false"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="8dp"
+            android:padding="16dp"
+            android:text="@string/add_product_button"
+            app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
+            app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
+            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+        <ProgressBar
+            android:id="@+id/new_product_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/new_product_quantity"
+            android:layout_width="0dp"
+            android:layout_height="58dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:ems="10"
+            android:hint="@string/quantity"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
+            app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
+            app:layout_constraintTop_toBottomOf="@+id/new_product_desc" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:prompt="@string/spin_hint"
+            android:spinnerMode="dialog"
+            app:layout_constraintEnd_toEndOf="@id/NewProductGuideRight"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/NewProductGuideLeft"
+            app:layout_constraintTop_toBottomOf="@+id/new_product_quantity" />
+
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
