@@ -133,7 +133,6 @@ public class User extends AppCompatActivity {
     }
 
     private void replaceFragment(Fragment fragment){
-
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commit();

@@ -2,6 +2,8 @@ package com.bramgussekloo.projectb.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bramgussekloo.projectb.R;
+import com.bramgussekloo.projectb.fragments.HistoryFragment;
+import com.bramgussekloo.projectb.fragments.HomeFragment;
+import com.bramgussekloo.projectb.fragments.ReservationsFragment;
 import com.bramgussekloo.projectb.models.Product;
 import com.bumptech.glide.Glide;
 
@@ -29,6 +34,8 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import javax.annotation.Nullable;
@@ -41,7 +48,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     public Context context;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseAuth firebaseAuth;
-    private int count;
+
 
     private OnProductListener onProductListener;
 
@@ -75,17 +82,19 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        int quantity_data = product_list.get(i).getQuantity();
                         if (!queryDocumentSnapshots.isEmpty()){
-                            count = queryDocumentSnapshots.size();
-                            int quantity_data = product_list.get(i).getQuantity();
-                            viewHolder.setNumInt(quantity_data -count);
+                            int qtt = 0;
+                            for (QueryDocumentSnapshot doc: queryDocumentSnapshots){
+                                qtt = qtt + 1;
+                                viewHolder.setNumInt(quantity_data-qtt);
+                            }
                         }else {
-                            count = 0;
-                            int quantity_data = product_list.get(i).getQuantity();
-                            viewHolder.setNumInt(quantity_data -count);
+                            viewHolder.setNumInt(quantity_data);
                         }
                     }
                 });
+
 
         String image_url = product_list.get(i).getImage_url();
         final String currentUserId = firebaseAuth.getCurrentUser().getEmail().replace(".", "").replace("@", "");
@@ -126,6 +135,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         Toast.makeText(context, "Product is reserved", Toast.LENGTH_LONG).show();
+
                                     } else {
                                         String errorMessage = task.getException().getMessage();
                                         Toast.makeText(context, "Error : " + errorMessage, Toast.LENGTH_LONG).show();
@@ -136,13 +146,9 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                             Toast.makeText(context, "Sorry .. temporarily out of stock !" , Toast.LENGTH_LONG).show();
                         }else {// delete a reservation
                             firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).delete();
-
                             }
-
                     }
                 });
-
-
             }
         });
     }
@@ -203,7 +209,5 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
     public interface OnProductListener{
         void onProductClick(int position);
     }
-
-
 
 }

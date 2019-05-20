@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.bramgussekloo.projectb.Activities.ReadMoreProductActivity;
 import com.bramgussekloo.projectb.Adapter.ProductRecyclerAdapter;
@@ -41,7 +42,7 @@ public class ReservationsFragment extends Fragment implements ProductRecyclerAda
     private FirebaseFirestore firebaseFirestore;
     private ProductRecyclerAdapter productRecyclerAdapter;
     private FirebaseAuth firebaseAuth;
-
+    private Button ReservationButton;
 
     public ReservationsFragment() {
         // Required empty public constructor
@@ -52,14 +53,13 @@ public class ReservationsFragment extends Fragment implements ProductRecyclerAda
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_reservations, container, false);
         product_list = new ArrayList<>();
         product_list_view = view.findViewById(R.id.product_list_view);
         firebaseFirestore = FirebaseFirestore.getInstance();
         productRecyclerAdapter = new ProductRecyclerAdapter(product_list, this);
-
         product_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
-
         product_list_view.setAdapter(productRecyclerAdapter);
         firebaseAuth = FirebaseAuth.getInstance();
         final String currentUserId = firebaseAuth.getCurrentUser().getEmail().replace(".", "").replace("@", "");
