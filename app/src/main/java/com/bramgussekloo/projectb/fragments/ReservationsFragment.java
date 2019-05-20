@@ -36,7 +36,6 @@ import javax.annotation.Nullable;
  */
 public class ReservationsFragment extends Fragment implements ProductRecyclerAdapter.OnProductListener {
 
-    private static final String TAG = "ReservationsFragment";
     private RecyclerView product_list_view;
     private List<Product> product_list;
     private FirebaseFirestore firebaseFirestore;
@@ -47,13 +46,10 @@ public class ReservationsFragment extends Fragment implements ProductRecyclerAda
     public ReservationsFragment() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_reservations, container, false);
         product_list = new ArrayList<>();
         product_list_view = view.findViewById(R.id.product_list_view);
@@ -63,15 +59,12 @@ public class ReservationsFragment extends Fragment implements ProductRecyclerAda
         product_list_view.setAdapter(productRecyclerAdapter);
         firebaseAuth = FirebaseAuth.getInstance();
         final String currentUserId = firebaseAuth.getCurrentUser().getEmail().replace(".", "").replace("@", "");
-
         firebaseFirestore.collection("Products").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-
                 for(DocumentChange doc: queryDocumentSnapshots.getDocumentChanges()){
                     if(doc.getType() == DocumentChange.Type.ADDED){
                         String productId = doc.getDocument().getId();
-
                         final Product product = doc.getDocument().toObject(Product.class).withId(productId);
                         firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).get()
                                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -79,7 +72,6 @@ public class ReservationsFragment extends Fragment implements ProductRecyclerAda
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.getResult().exists()){
                                     product_list.add(product);
-
                                     productRecyclerAdapter.notifyDataSetChanged();
                                 }
                             }
@@ -90,14 +82,11 @@ public class ReservationsFragment extends Fragment implements ProductRecyclerAda
             }
         });
         return view;
-
     }
-
     @Override
     public void onProductClick(int position) {
         Intent intent = new Intent(getContext(), ReadMoreProductActivity.class);
         intent.putExtra("selected_product",product_list.get(position));
         startActivity(intent);
-
     }
 }

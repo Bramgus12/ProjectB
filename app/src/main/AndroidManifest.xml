@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.LendActivity"></activity>
         <activity android:name=".Activities.Login.ResetPassword"></activity>
-        <activity android:name=".Activities.chooseUser"></activity>
+        <activity
+            android:name=".Activities.chooseUser"
+            android:parentActivityName=".Activities.Admin"/>
         <activity
             android:name=".Activities.ReadMoreProductActivity"
             android:parentActivityName=".Activities.User" />
