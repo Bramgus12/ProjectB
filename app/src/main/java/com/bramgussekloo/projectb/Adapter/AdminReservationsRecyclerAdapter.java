@@ -46,6 +46,17 @@ public class AdminReservationsRecyclerAdapter extends RecyclerView.Adapter<Admin
         String user_name = lend_list.get(i).NameId;
         viewHolder.setNameView(user_name);
 
+        String day = Integer.toString(lend_list.get(i).getDay());
+        String month = Integer.toString(lend_list.get(i).getMonth());
+        String year = Integer.toString(lend_list.get(i).getYear());
+
+        String timestamp = day + "/" + month + "/" + year;
+        viewHolder.setReturnTimeView(timestamp);
+
+
+
+
+
 
 
     }
@@ -60,6 +71,7 @@ public class AdminReservationsRecyclerAdapter extends RecyclerView.Adapter<Admin
         private View mView;
         private TextView titleView;
         private TextView nameView;
+        private TextView returnTimeView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +88,11 @@ public class AdminReservationsRecyclerAdapter extends RecyclerView.Adapter<Admin
         private void setNameView(String nameText){
             nameView = mView.findViewById(R.id.more_reservations_list_name);
             nameView.setText(nameText);
+        }
+
+        private void setReturnTimeView(String returnTimeText){
+            returnTimeView = mView.findViewById(R.id.more_reservations_date);
+            returnTimeView.setText(returnTimeText);
         }
 
     }
