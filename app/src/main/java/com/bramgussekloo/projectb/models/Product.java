@@ -7,7 +7,7 @@ import com.bramgussekloo.projectb.Adapter.ProductIdClass;
 
 public class Product extends ProductIdClass implements Parcelable {
 
-    public String title;
+    private String title;
     private String desc;
     private String image_url;
     private String thumb_url;
