@@ -2,7 +2,6 @@ package com.bramgussekloo.projectb.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,7 +30,7 @@ public class ReadMoreProductActivity extends AppCompatActivity  {
             productImage = findViewById(R.id.more_product_list_image);
             Glide.with(getApplicationContext()).load(productImageUri).into(productImage);
 
-            productTitle = findViewById(R.id.more_product_list_title);
+            productTitle = findViewById(R.id.more_reservations_list_title);
             productTitle.setText(product.getTitle());
 
             productDescription = findViewById(R.id.more_product_description);

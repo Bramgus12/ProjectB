@@ -81,5 +81,7 @@
     <string name="choose_user">Choose User</string>
     <string name="choose_user_title">Choose a User to Edit</string>
     <string name="choose_a_date_to_bring_the_product_back">Choose a date to bring the product back</string>
+    <string name="lend_by">Lend By :</string>
+    <string name="return_reservation">Return</string>
     />
 </resources>

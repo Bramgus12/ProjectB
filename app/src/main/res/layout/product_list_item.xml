@@ -48,7 +48,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/more_product_list_read_more"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/more_product_list_title"
+                app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title"
                 app:layout_constraintVertical_bias="0.0" />
 
             <Button
@@ -59,7 +59,7 @@
                 android:layout_marginEnd="28dp"
                 android:text="@string/product_read_more"
                 app:layout_constraintEnd_toStartOf="@+id/more_product_list_availability"
-                app:layout_constraintTop_toBottomOf="@+id/more_product_list_title" />
+                app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title" />
 
             <TextView
                 android:id="@+id/more_product_list_availability"
@@ -69,7 +69,7 @@
                 android:layout_marginEnd="8dp"
                 android:text="@string/product_availability"
                 app:layout_constraintEnd_toStartOf="@+id/more_product_list_quantity"
-                app:layout_constraintTop_toBottomOf="@+id/more_product_list_title" />
+                app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title" />
 
             <TextView
                 android:id="@+id/more_product_list_quantity"
@@ -79,10 +79,10 @@
                 android:layout_marginEnd="8dp"
                 android:text="10"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/more_product_list_title" />
+                app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title" />
 
             <TextView
-                android:id="@+id/more_product_list_title"
+                android:id="@+id/more_reservations_list_title"
                 android:layout_width="366dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

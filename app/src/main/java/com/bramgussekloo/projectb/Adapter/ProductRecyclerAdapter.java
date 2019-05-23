@@ -21,7 +21,6 @@ import com.bramgussekloo.projectb.fragments.ReservationsFragment;
 import com.bramgussekloo.projectb.models.Product;
 import com.bumptech.glide.Glide;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,8 +38,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import javax.annotation.Nullable;
-
-import io.opencensus.common.Timestamp;
 
 public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecyclerAdapter.ViewHolder> {
 
@@ -212,7 +209,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
         }
 
         private void setTitleText(String titleText){
-            descView = mView.findViewById(R.id.more_product_list_title);
+            descView = mView.findViewById(R.id.more_reservations_list_title);
             descView.setText(titleText);
         }
 

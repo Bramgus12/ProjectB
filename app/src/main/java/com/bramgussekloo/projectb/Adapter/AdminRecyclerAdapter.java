@@ -1,7 +1,6 @@
 package com.bramgussekloo.projectb.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.bramgussekloo.projectb.Activities.LendActivity;
 import com.bramgussekloo.projectb.R;
-import com.bramgussekloo.projectb.fragments.HomeAdminFragment;
 import com.bramgussekloo.projectb.models.Product;
 import com.bumptech.glide.Glide;
 
@@ -81,12 +78,12 @@ public class AdminRecyclerAdapter extends RecyclerView.Adapter<AdminRecyclerAdap
             super(itemView);
             this.onProductListenerAdmin = onProductListenerAdmin;
             mView = itemView;
-            Button LendButton = mView.findViewById(R.id.lend_button);
+            Button LendButton = mView.findViewById(R.id.more_reservations_list_title_return);
             LendButton.setOnClickListener(this);
         }
 
         private void setTitleText(String titleText){
-            descView = mView.findViewById(R.id.more_product_list_title);
+            descView = mView.findViewById(R.id.more_reservations_list_title);
             descView.setText(titleText);
 
         }

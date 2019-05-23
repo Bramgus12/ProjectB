@@ -35,7 +35,7 @@
                 app:srcCompat="@drawable/image_placeholder" />
 
             <Button
-                android:id="@+id/lend_button"
+                android:id="@+id/more_reservations_list_title_return"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -44,7 +44,7 @@
                 android:text="@string/product_lend"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/more_product_list_title"
+                app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
@@ -54,8 +54,8 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/product_availability"
-                app:layout_constraintStart_toEndOf="@+id/lend_button"
-                app:layout_constraintTop_toBottomOf="@+id/more_product_list_title" />
+                app:layout_constraintStart_toEndOf="@+id/more_reservations_list_title_return"
+                app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title" />
 
             <TextView
                 android:id="@+id/more_product_list_quantity"
@@ -65,10 +65,10 @@
                 android:layout_marginTop="32dp"
                 android:text="10"
                 app:layout_constraintStart_toEndOf="@+id/more_product_list_availability"
-                app:layout_constraintTop_toBottomOf="@+id/more_product_list_title" />
+                app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title" />
 
             <TextView
-                android:id="@+id/more_product_list_title"
+                android:id="@+id/more_reservations_list_title"
                 android:layout_width="366dp"
                 android:layout_height="22dp"
                 android:layout_marginStart="16dp"
