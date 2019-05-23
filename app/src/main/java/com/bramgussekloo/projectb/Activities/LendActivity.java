@@ -35,6 +35,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -80,18 +81,23 @@ public class LendActivity extends AppCompatActivity {
                     Toast.makeText(LendActivity.this, "Please enter a valid Email Address.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mRootref.child("users").child(Email).child("uid").addValueEventListener(new ValueEventListener() {
+                mRootref.child("users").child(Email).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        SetInDatabase();
-
+                        if (dataSnapshot.exists()){
+                            SetInDatabase();
+                        } else {
+                            Toast.makeText(LendActivity.this, "user " + EmailEditText.getText().toString() + " does not exists.", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                        Log.d(TAG, "onCancelled: " + databaseError);
+                        Toast.makeText(LendActivity.this, databaseError.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
             }
         });
     }
