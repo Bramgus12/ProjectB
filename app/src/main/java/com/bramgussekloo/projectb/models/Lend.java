@@ -1,12 +1,15 @@
 package com.bramgussekloo.projectb.models;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.bramgussekloo.projectb.Adapter.ReserveIDClass;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-
-public class Lend extends ReserveIDClass {
+public class Lend extends ReserveIDClass implements Parcelable
+{
     private int day;
     private int month;
     private int year;
@@ -25,6 +28,26 @@ public class Lend extends ReserveIDClass {
         this.product = product;
         this.TimeOfLend = TimeOfLend;
     }
+
+    protected Lend(Parcel in) {
+        day = in.readInt();
+        month = in.readInt();
+        year = in.readInt();
+        quantity = in.readInt();
+        product = in.readString();
+    }
+
+    public static final Creator<Lend> CREATOR = new Creator<Lend>() {
+        @Override
+        public Lend createFromParcel(Parcel in) {
+            return new Lend(in);
+        }
+
+        @Override
+        public Lend[] newArray(int size) {
+            return new Lend[size];
+        }
+    };
 
     public int getDay() {
         return day;
@@ -84,5 +107,19 @@ public class Lend extends ReserveIDClass {
                 ", quantity=" + quantity +
                 ", TimeOfLend=" + TimeOfLend +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(day);
+        dest.writeInt(month);
+        dest.writeInt(year);
+        dest.writeInt(quantity);
+        dest.writeString(product);
     }
 }

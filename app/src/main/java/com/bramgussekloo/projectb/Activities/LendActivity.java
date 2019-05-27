@@ -125,7 +125,7 @@ public class LendActivity extends AppCompatActivity {
                                     map.put("month", datePicker.getMonth());
                                     map.put("day", datePicker.getDayOfMonth());
                                     map.put("product", Title);
-                                    FirebaseFirestore.getInstance().collection("LendProducts").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
@@ -155,7 +155,7 @@ public class LendActivity extends AppCompatActivity {
                                     map.put("month", datePicker.getMonth());
                                     map.put("day", datePicker.getDayOfMonth());
                                     map.put("product", Title);
-                                    FirebaseFirestore.getInstance().collection("LendProducts").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {

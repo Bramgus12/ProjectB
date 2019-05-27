@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,11 +21,12 @@ public class AdminReservationsRecyclerAdapter extends RecyclerView.Adapter<Admin
 
     private List<Lend> lend_list;
     private Context context;
-
+    private OnReturnListener mOnReturnListener;
     private static final String TAG = "AdminReservationsRecycl";
 
-    public AdminReservationsRecyclerAdapter(List<Lend> lend_list) {
+    public AdminReservationsRecyclerAdapter(List<Lend> lend_list, OnReturnListener onReturnListener) {
         this.lend_list = lend_list;
+        this.mOnReturnListener = onReturnListener;
     }
 
 
@@ -34,7 +36,7 @@ public class AdminReservationsRecyclerAdapter extends RecyclerView.Adapter<Admin
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_reservations_admin, parent, false);
 
         context = parent.getContext();
-        return new ViewHolder(view);
+        return new ViewHolder(view, mOnReturnListener);
     }
 
     @Override
@@ -66,16 +68,23 @@ public class AdminReservationsRecyclerAdapter extends RecyclerView.Adapter<Admin
         return lend_list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+
+        OnReturnListener onReturnListener;
         private View mView;
         private TextView titleView;
         private TextView nameView;
         private TextView returnTimeView;
+        private Button ReturnButton;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnReturnListener onReturnListener) {
             super(itemView);
             mView = itemView;
+            this.onReturnListener = onReturnListener;
+
+            ReturnButton = mView.findViewById(R.id.more_reservations_list_title_return);
+            ReturnButton.setOnClickListener(this);
 
         }
 
@@ -95,6 +104,14 @@ public class AdminReservationsRecyclerAdapter extends RecyclerView.Adapter<Admin
             returnTimeView.setText(returnTimeText);
         }
 
+        @Override
+        public void onClick(View v) {
+            onReturnListener.onRturnClick(getAdapterPosition());
+        }
+    }
+    public interface OnReturnListener{
+        void onRturnClick(int posistion);
     }
 }
+
 

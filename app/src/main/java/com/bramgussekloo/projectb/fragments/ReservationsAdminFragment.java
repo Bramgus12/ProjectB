@@ -1,6 +1,7 @@
 package com.bramgussekloo.projectb.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bramgussekloo.projectb.Activities.ReturnActivity;
 import com.bramgussekloo.projectb.Adapter.AdminRecyclerAdapter;
 import com.bramgussekloo.projectb.Adapter.AdminReservationsRecyclerAdapter;
 import com.bramgussekloo.projectb.Adapter.ProductRecyclerAdapter;
@@ -29,7 +31,7 @@ import javax.annotation.Nullable;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReservationsAdminFragment extends Fragment {
+public class ReservationsAdminFragment extends Fragment implements AdminReservationsRecyclerAdapter.OnReturnListener {
 
     private static final String TAG = "HomeFragment";
     private RecyclerView reservations_list_view;
@@ -54,7 +56,7 @@ public class ReservationsAdminFragment extends Fragment {
         lend_list = new ArrayList<>();
         reservations_list_view = view.findViewById(R.id.reservation_list_view_admin);
         firebaseFirestore = FirebaseFirestore.getInstance();
-        adminRecyclerAdapter = new AdminReservationsRecyclerAdapter(lend_list);
+        adminRecyclerAdapter = new AdminReservationsRecyclerAdapter(lend_list, this);
 
         reservations_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
 
@@ -93,4 +95,10 @@ public class ReservationsAdminFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onRturnClick(int posistion) {
+        Intent intent = new Intent(getContext(), ReturnActivity.class);
+        intent.putExtra("item", lend_list.get(posistion));
+        startActivity(intent);
+    }
 }
