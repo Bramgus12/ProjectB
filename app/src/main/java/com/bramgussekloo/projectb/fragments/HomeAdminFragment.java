@@ -33,7 +33,6 @@ public class HomeAdminFragment extends Fragment implements AdminRecyclerAdapter.
     private List<Product> product_list;
     private FirebaseFirestore firebaseFirestore;
     private AdminRecyclerAdapter adminRecyclerAdapter;
-    private Button LendButton;
 
     public HomeAdminFragment() {
     }

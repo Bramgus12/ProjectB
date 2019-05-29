@@ -84,5 +84,11 @@
     <string name="lend_by">Lend By :</string>
     <string name="return_reservation">Return</string>
     <string name="date_of_return">Date of Return :</string>
+    <string name="is_this_the_item_you_want_to_return">Is this the item you want to return?</string>
+    <string name="returnName">Name:</string>
+    <string name="returndate">Date of return:</string>
+    <string name="date_of_lend">Date of Lend:</string>
+    <string name="product">Product:</string>
+    <string name="return_product">Return Product</string>
     />
 </resources>
