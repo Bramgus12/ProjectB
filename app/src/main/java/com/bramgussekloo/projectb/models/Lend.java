@@ -35,12 +35,15 @@ public class Lend extends ReserveIDClass implements Parcelable
         year = in.readInt();
         quantity = in.readInt();
         product = in.readString();
+        TimeOfLend = (java.util.Date) in.readSerializable();
+        NameId = in.readString();
     }
 
     public static final Creator<Lend> CREATOR = new Creator<Lend>() {
         @Override
         public Lend createFromParcel(Parcel in) {
             return new Lend(in);
+
         }
 
         @Override
@@ -121,5 +124,7 @@ public class Lend extends ReserveIDClass implements Parcelable
         dest.writeInt(year);
         dest.writeInt(quantity);
         dest.writeString(product);
+        dest.writeSerializable(TimeOfLend);
+        dest.writeString(NameId);
     }
 }

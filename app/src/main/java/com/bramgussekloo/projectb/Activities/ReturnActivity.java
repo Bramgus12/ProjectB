@@ -3,11 +3,14 @@ package com.bramgussekloo.projectb.Activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Lend;
+
+import java.util.Date;
 
 public class ReturnActivity extends AppCompatActivity {
     private static final String TAG = "ReturnActivity";
@@ -32,10 +35,14 @@ public class ReturnActivity extends AppCompatActivity {
         Lend lend = intent.getParcelableExtra("item");
         Log.d(TAG, "onCreate: " + lend.getProduct());
         returnDate = lend.getDay() + "/" + lend.getMonth() + "/" + lend.getYear();
+        long millisecond = lend.getTimeOfLend().getTime();
+        String dateString = DateFormat.format("dd/MM/yy", new Date(millisecond)).toString();
         product.setText(lend.getProduct());
         name.setText(lend.NameId);
         date.setText(returnDate);
-        Log.d(TAG, "onCreate: " + lend.NameId);
+        lendDate.setText(dateString);
+
+        Log.d(TAG, "onCreate: " + lend.NameId.toString());
         Log.d(TAG, "onCreate: " + lend.getTimeOfLend());
 //        lendDate.setText(lend.getTimeOfLend().toString());
     }
