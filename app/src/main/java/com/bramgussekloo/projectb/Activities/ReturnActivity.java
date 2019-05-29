@@ -1,14 +1,22 @@
 package com.bramgussekloo.projectb.Activities;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bramgussekloo.projectb.Activities.Login.MainActivity;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Lend;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 
@@ -19,6 +27,11 @@ public class ReturnActivity extends AppCompatActivity {
     private TextView lendDate;
     private TextView product;
     private String returnDate;
+    private Intent intent;
+    private Button returnButton;
+    private Lend lend;
+    private String lendDateString;
+    private long millisecond;
 
 
 
@@ -30,20 +43,42 @@ public class ReturnActivity extends AppCompatActivity {
         date = findViewById(R.id.ReturnDateFilled);
         lendDate = findViewById(R.id.ReturnLendDateFilled);
         product = findViewById(R.id.ReturnProductFilled);
-
-        Intent intent = getIntent();
-        Lend lend = intent.getParcelableExtra("item");
-        Log.d(TAG, "onCreate: " + lend.getProduct());
+        intent = getIntent();
+        returnButton = findViewById(R.id.ReturnButton);
+        lend = intent.getParcelableExtra("item");
         returnDate = lend.getDay() + "/" + lend.getMonth() + "/" + lend.getYear();
-        long millisecond = lend.getTimeOfLend().getTime();
-        String dateString = DateFormat.format("dd/MM/yy", new Date(millisecond)).toString();
+        millisecond = lend.getTimeOfLend().getTime();
+        lendDateString = DateFormat.format("dd/MM/yy", new Date(millisecond)).toString();
+        setLend();
+        Button();
+    }
+    private void setLend(){
         product.setText(lend.getProduct());
         name.setText(lend.NameId);
         date.setText(returnDate);
-        lendDate.setText(dateString);
+        lendDate.setText(lendDateString);
+    }
 
-        Log.d(TAG, "onCreate: " + lend.NameId.toString());
-        Log.d(TAG, "onCreate: " + lend.getTimeOfLend());
-//        lendDate.setText(lend.getTimeOfLend().toString());
+    private void Button(){
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseFirestore.getInstance().collection("Products/" + lend.getProduct() + "/LendTo").document(lend.NameId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(ReturnActivity.this, "Product is returned.", Toast.LENGTH_SHORT).show();
+                            goToMain();
+                        } else {
+                            Log.e(TAG, "onComplete: ", task.getException());
+                        }
+                    }
+                });
+            }
+        });
+    }
+    private void goToMain(){
+        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+        startActivity(intent);
     }
 }
