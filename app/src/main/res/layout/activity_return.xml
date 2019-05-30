@@ -120,7 +120,7 @@
         android:textColor="@color/mainRed"
         android:textSize="18sp"
         android:paddingStart="15dp"/>
-
+    
     <Button
         android:id="@+id/ReturnButton"
         android:layout_width="0dp"

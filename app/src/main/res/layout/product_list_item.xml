@@ -44,6 +44,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/product_reserve"
+                android:background="@drawable/btn_bg_red"
+                android:textColor="@drawable/button_text_color_white"
+                android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/more_product_list_read_more"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -57,6 +60,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="28dp"
+                android:background="@drawable/btn_bg_red"
+                android:textColor="@drawable/button_text_color_white"
+                android:textAllCaps="false"
                 android:text="@string/product_read_more"
                 app:layout_constraintEnd_toStartOf="@+id/more_product_list_availability"
                 app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title" />
@@ -68,6 +74,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/product_availability"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toStartOf="@+id/more_product_list_quantity"
                 app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title" />
 
@@ -78,6 +85,7 @@
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="8dp"
                 android:text="10"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title" />
 
@@ -89,6 +97,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="Raspberry Pi"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/more_product_list_image" />

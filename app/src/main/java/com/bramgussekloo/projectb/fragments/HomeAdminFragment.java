@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.bramgussekloo.projectb.Activities.LendActivity;
 import com.bramgussekloo.projectb.Adapter.AdminRecyclerAdapter;
@@ -24,7 +23,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nullable;
 

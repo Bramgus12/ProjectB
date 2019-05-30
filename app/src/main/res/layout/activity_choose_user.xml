@@ -50,7 +50,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
-            android:prompt="@string/spin_hint"
+            android:prompt="@string/ChooseSpinner"
             android:spinnerMode="dialog"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="@id/ChPGuideline_right"

@@ -90,5 +90,6 @@
     <string name="date_of_lend">Date of Lend:</string>
     <string name="product">Product:</string>
     <string name="return_product">Return Product</string>
+    <string name="ChooseSpinner">Choose user</string>
     />
 </resources>

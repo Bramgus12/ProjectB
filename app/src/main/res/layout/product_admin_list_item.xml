@@ -42,6 +42,9 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/product_lend"
+                android:background="@drawable/btn_bg_red"
+                android:textColor="@drawable/button_text_color_white"
+                android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title"
@@ -54,6 +57,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/product_availability"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/more_reservations_list_title_return"
                 app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title" />
 
@@ -64,6 +68,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:text="10"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toEndOf="@+id/more_product_list_availability"
                 app:layout_constraintTop_toBottomOf="@+id/more_reservations_list_title" />
 
@@ -74,6 +79,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:text="Raspberry Pi"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/more_product_list_image" />
