@@ -119,6 +119,7 @@ public class ProductRecyclerAdapter extends RecyclerView.Adapter<ProductRecycler
                                     if (!task.getResult().exists()&& quantityInt != 0){// check if user reserved certain product or not
                                         Map<String, Object> reservationsMap = new HashMap<>();
                                         reservationsMap.put("timestamp", FieldValue.serverTimestamp());
+                                        reservationsMap.put("product",productId);
                                         Log.d("timestamp", java.util.Calendar.getInstance().getTime().toString());
                                         firebaseFirestore.collection("Products/" + productId + "/reservation").document(currentUserId).set(reservationsMap)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {;

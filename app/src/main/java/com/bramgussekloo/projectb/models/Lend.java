@@ -6,8 +6,6 @@ import android.os.Parcelable;
 
 import com.bramgussekloo.projectb.Adapter.ReserveIDClass;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 public class Lend extends ReserveIDClass implements Parcelable
 {
     private int day;
