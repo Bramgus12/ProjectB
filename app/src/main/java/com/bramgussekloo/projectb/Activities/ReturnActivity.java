@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.Date;
 
 public class ReturnActivity extends AppCompatActivity {
+    // Initialization of the attributes
     private static final String TAG = "ReturnActivity";
     private TextView name;
     private TextView date;
@@ -37,6 +38,7 @@ public class ReturnActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // assignment of all the attributes
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_return);
         name = findViewById(R.id.ReturnNameFilled);
@@ -49,8 +51,8 @@ public class ReturnActivity extends AppCompatActivity {
         returnDate = lend.getDay() + "/" + lend.getMonth() + "/" + lend.getYear();
         millisecond = lend.getTimeOfLend().getTime();
         lendDateString = DateFormat.format("dd/MM/yy", new Date(millisecond)).toString();
-        setLend();
-        Button();
+        setLend(); // getting the values from the database and setting them in the textviews.
+        Button(); // deleting the database entry.
     }
     private void setLend(){
         product.setText(lend.getProduct());
@@ -77,7 +79,7 @@ public class ReturnActivity extends AppCompatActivity {
             }
         });
     }
-    private void goToMain(){
+    private void goToMain(){ //going back to the mainactivity
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(intent);
     }
