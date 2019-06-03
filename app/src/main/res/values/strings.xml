@@ -99,5 +99,6 @@
     <string name="deleteName">Name :</string>
     <string name="lenditems">Lend Items</string>
     <string name="reservations">Reservations</string>
+    <string name="placeholder">placeholder</string>
     />
 </resources>

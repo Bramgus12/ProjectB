@@ -150,6 +150,8 @@ public class Register extends AppCompatActivity {
         DatabaseReference uidRef = mRootRef.child("users").child(email).child("uid"); // get the ref to the email
         DatabaseReference nameRef = mRootRef.child("users").child(email).child("Name"); // get the ref for the Name
         DatabaseReference roleRef = mRootRef.child("users").child(email).child("Role"); // get the ref for the Role
+        DatabaseReference emailRef = mRootRef.child("users").child(email).child("Email");
+        emailRef.setValue(editTextEmail.getText().toString().trim().toLowerCase());
         uidRef.setValue(uid); // set the email in the database
         nameRef.setValue(name); // set the name in the database
         roleRef.setValue("User"); // set the role in the database (standard = "User")

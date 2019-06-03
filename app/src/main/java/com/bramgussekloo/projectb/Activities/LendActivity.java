@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bramgussekloo.projectb.Activities.Login.MainActivity;
@@ -53,6 +54,7 @@ public class LendActivity extends AppCompatActivity {
     private DatePicker datePicker;
     private Map<String, Object> ProductMap;
     private Button LendButton;
+    private TextView email;
     private DatabaseReference mRootref = FirebaseDatabase.getInstance().getReference();
     private static final String TAG = "LendActivity";
 
@@ -62,31 +64,29 @@ public class LendActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lend);
         datePicker = findViewById(R.id.datePicker1);
         EmailEditText = findViewById(R.id.EditTextEmailuser);
+        email = findViewById(R.id.PlaceHolderEmail);
         LendButton = findViewById(R.id.LendActivityButton);
         Intent intent = getIntent();
         if (intent.getParcelableExtra("Product") != null) {
             product = intent.getParcelableExtra("Product");
             Log.d(TAG, intent.getParcelableExtra("Product").toString());
             Title = product.getTitle();
+            Buttons();
         } else {
             reservation = intent.getParcelableExtra("Item");
             Title = reservation.getProduct();
             EmailEditText.setText(reservation.NameId);
+            Buttons();
         }
-        Buttons();
     }
 
     private void Buttons(){
         LendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Email = EmailEditText.getText().toString().trim().toLowerCase();
+                Email = EmailEditText.getText().toString().trim().toLowerCase().replace(".", "").replace("@", "");
                 if (EmailEditText == null){
                     Toast.makeText(LendActivity.this, "Please enter a email address", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (!Patterns.EMAIL_ADDRESS.matcher(EmailEditText.getText().toString().trim()).matches()){
-                    Toast.makeText(LendActivity.this, "Please enter a valid Email Address.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 mRootref.child("users").child(Email).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -95,7 +95,7 @@ public class LendActivity extends AppCompatActivity {
                         if (dataSnapshot.exists()){
                             SetInDatabase();
                         } else {
-                            Toast.makeText(LendActivity.this, "user " + EmailEditText.getText().toString() + " does not exists.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LendActivity.this, "user " + Email + " does not exists.", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -105,7 +105,6 @@ public class LendActivity extends AppCompatActivity {
                         Toast.makeText(LendActivity.this, databaseError.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
             }
         });
     }
@@ -116,12 +115,13 @@ public class LendActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     ProductMap = task.getResult().getData();
                     quantity = Integer.parseInt(ProductMap.get("quantity").toString());
-                    FirebaseFirestore.getInstance().collection("Products/" + Title + "/reservation").document(Email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    Log.d(TAG, "onComplete: " + Email);
+                    FirebaseFirestore.getInstance().collection("Products/" + Title + "/reservation").document(Email.replace(".", "").replace("@", "")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             Log.e(TAG, "onComplete: " + task.getResult().getData() );
                             if (task.isSuccessful() && task.getResult().getData() != null){
-                                FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email.replace("@", "").replace(".", "")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if (task.getResult().getData() != null) {
@@ -134,7 +134,7 @@ public class LendActivity extends AppCompatActivity {
                                             map.put("month", datePicker.getMonth());
                                             map.put("day", datePicker.getDayOfMonth());
                                             map.put("product", Title);
-                                            FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email.replace(".", "").replace("@", "")).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
@@ -143,11 +143,11 @@ public class LendActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()) {
-                                                                    FirebaseFirestore.getInstance().collection("Products/" + Title + "/reservation").document(Email).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    FirebaseFirestore.getInstance().collection("Products/" + Title + "/reservation").document(Email.replace(".", "").replace("@", "")).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                             if (task.isSuccessful()){
-                                                                                Toast.makeText(LendActivity.this, "Product is lend to: " + EmailEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+                                                                                Toast.makeText(LendActivity.this, "Product is lend to: " + Email, Toast.LENGTH_SHORT).show();
                                                                                 goToMain();
                                                                             }
                                                                         }
@@ -171,7 +171,7 @@ public class LendActivity extends AppCompatActivity {
                                             map.put("month", datePicker.getMonth());
                                             map.put("day", datePicker.getDayOfMonth());
                                             map.put("product", Title);
-                                            FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email.replace(".", "").replace("@", "")).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
@@ -180,11 +180,11 @@ public class LendActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()) {
-                                                                    FirebaseFirestore.getInstance().collection("Products/" + Title + "/reservation").document(Email).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    FirebaseFirestore.getInstance().collection("Products/" + Title + "/reservation").document(Email.replace(".", "").replace("@", "")).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                         @Override
                                                                         public void onComplete(@NonNull Task<Void> task) {
                                                                             if (task.isSuccessful()){
-                                                                                Toast.makeText(LendActivity.this, "Product is lend to: " + EmailEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+                                                                                Toast.makeText(LendActivity.this, "Product is lend to: " + Email, Toast.LENGTH_SHORT).show();
                                                                                 goToMain();
                                                                             }
                                                                         }
@@ -206,7 +206,7 @@ public class LendActivity extends AppCompatActivity {
                                 Toast.makeText(LendActivity.this, "Product is not available anymore. Sorry.", Toast.LENGTH_SHORT).show();
                             } else {
                                 quantity = quantity - 1;
-                                FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email.replace(".", "").replace("@", "")).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if (task.getResult().getData() != null) {
@@ -219,7 +219,7 @@ public class LendActivity extends AppCompatActivity {
                                             map.put("month", datePicker.getMonth());
                                             map.put("day", datePicker.getDayOfMonth());
                                             map.put("product", Title);
-                                            FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email.replace(".", "").replace("@", "")).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
@@ -228,7 +228,7 @@ public class LendActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()) {
-                                                                    Toast.makeText(LendActivity.this, "Product is lend to: " + EmailEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(LendActivity.this, "Product is lend to: " + Email, Toast.LENGTH_SHORT).show();
                                                                     goToMain();
                                                                 } else {
                                                                     Log.e(TAG, "onComplete: Exception", task.getException());
@@ -249,7 +249,7 @@ public class LendActivity extends AppCompatActivity {
                                             map.put("month", datePicker.getMonth());
                                             map.put("day", datePicker.getDayOfMonth());
                                             map.put("product", Title);
-                                            FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email.replace(".", "").replace("@", "")).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
@@ -258,7 +258,7 @@ public class LendActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()) {
-                                                                    Toast.makeText(LendActivity.this, "Product is lend to: " + EmailEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(LendActivity.this, "Product is lend to: " + Email, Toast.LENGTH_SHORT).show();
                                                                     goToMain();
                                                                 } else {
                                                                     Log.e(TAG, "onComplete: Exception", task.getException());
