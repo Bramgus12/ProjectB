@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bramgussekloo.projectb.Activities.ReturnActivity;
+import com.bramgussekloo.projectb.Activities.LendActivity;
 import com.bramgussekloo.projectb.Adapter.AdminhistoryrecyclerAdapter;
-import com.bramgussekloo.projectb.DeleteReservation;
+import com.bramgussekloo.projectb.Activities.DeleteReservation;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Reservation;
 import com.google.firebase.firestore.DocumentChange;
@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryAdminFragment extends Fragment implements AdminhistoryrecyclerAdapter.OnDeleteListener {
+public class HistoryAdminFragment extends Fragment implements AdminhistoryrecyclerAdapter.OnDeleteListener, AdminhistoryrecyclerAdapter.OnLendClick {
     private RecyclerView history_list_view_admin;
     private List<Reservation> reservationList;
     private FirebaseFirestore firebaseFirestore;
@@ -48,7 +48,7 @@ public class HistoryAdminFragment extends Fragment implements Adminhistoryrecycl
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history_admin,container,false);
         reservationList = new ArrayList<>();
-        adminhistoryrecyclerAdapter = new AdminhistoryrecyclerAdapter(reservationList,this);
+        adminhistoryrecyclerAdapter = new AdminhistoryrecyclerAdapter(reservationList,this, this);
         history_list_view_admin = view.findViewById(R.id.history_list_view_admin);
         history_list_view_admin.setLayoutManager(new LinearLayoutManager(getActivity()));
         history_list_view_admin.setAdapter(adminhistoryrecyclerAdapter);
@@ -84,10 +84,18 @@ public class HistoryAdminFragment extends Fragment implements Adminhistoryrecycl
         // Inflate the layout for this fragment
         return view;
     }
-    public void onDeleteClick(int posistion) {
+    public void onDeleteClick(int position) {
         Intent intent = new Intent(getContext(), DeleteReservation.class);
-        intent.putExtra("item", reservationList.get(posistion));
+        intent.putExtra("item", reservationList.get(position));
         startActivity(intent);
     }
+
+    @Override
+    public void onLendClick(int position) {
+        Intent intent = new Intent(getContext(), LendActivity.class);
+        intent.putExtra("Item", reservationList.get(position));
+        startActivity(intent);
+    }
+
 
 }

@@ -97,5 +97,7 @@
     <string name="date_of_reservation">Date of reservation :</string>
     <string name="is_this_the_reservation_you_want_to_delete">Is this the reservation you want to delete</string>
     <string name="deleteName">Name :</string>
+    <string name="lenditems">Lend Items</string>
+    <string name="reservations">Reservations</string>
     />
 </resources>

@@ -1,10 +1,9 @@
-package com.bramgussekloo.projectb;
+package com.bramgussekloo.projectb.Activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,14 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bramgussekloo.projectb.Activities.Login.MainActivity;
-import com.bramgussekloo.projectb.Activities.ReturnActivity;
+import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Reservation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Date;
 import java.util.Map;
 
 public class DeleteReservation extends AppCompatActivity {
@@ -31,7 +29,6 @@ public class DeleteReservation extends AppCompatActivity {
     private Intent intent;
     private Button DeleteButton;
     private Reservation reservation;
-    private String ReservationDateString;
     private FirebaseFirestore firebaseFirestore;
 
     private static final String TAG = "deleteActivity";

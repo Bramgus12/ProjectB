@@ -9,8 +9,8 @@
     <item
         android:id="@+id/bottom_nav_reservations"
         android:checkable="false"
-        android:icon="@mipmap/baseline_favorite_black_24dp"
-        android:title="@string/bottom_reservations_text" />
+        android:icon="@mipmap/baseline_shopping_cart_black_18dp"
+        android:title="@string/reservations" />
     <item
         android:id="@+id/bottom_nav_history"
         android:checkable="false"

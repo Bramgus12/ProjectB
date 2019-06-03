@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.bramgussekloo.projectb.Activities.LendActivity;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Reservation;
 import com.google.firebase.database.DataSnapshot;
@@ -24,13 +26,15 @@ public class AdminhistoryrecyclerAdapter extends RecyclerView.Adapter<Adminhisto
     public List<Reservation> reservationList;
     private DatabaseReference mDatabase;
     private OnDeleteListener mOnDeleteListener;
+    private OnLendClick monLendClick;
     private Context context;
 
 
 
-    public AdminhistoryrecyclerAdapter(List<Reservation> reservationList,OnDeleteListener onDeleteListener){
+    public AdminhistoryrecyclerAdapter(List<Reservation> reservationList,OnDeleteListener onDeleteListener, OnLendClick onLendClick){
         this.reservationList = reservationList;
         this.mOnDeleteListener = onDeleteListener;
+        this.monLendClick = onLendClick;
     }
 
     @NonNull
@@ -40,7 +44,7 @@ public class AdminhistoryrecyclerAdapter extends RecyclerView.Adapter<Adminhisto
         context = parent.getContext();
 
 
-        return new ViewHolder(view,mOnDeleteListener);
+        return new ViewHolder(view,mOnDeleteListener, monLendClick);
     }
 
     @Override
@@ -77,6 +81,7 @@ public class AdminhistoryrecyclerAdapter extends RecyclerView.Adapter<Adminhisto
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         OnDeleteListener onDeleteListener;
+        OnLendClick onLendClick;
         private View mView;
         private TextView titleView;
         private TextView ReservationDate;
@@ -86,13 +91,15 @@ public class AdminhistoryrecyclerAdapter extends RecyclerView.Adapter<Adminhisto
 
 
 
-        public ViewHolder(@NonNull View itemView,OnDeleteListener onDeleteListener) {
+        public ViewHolder(@NonNull View itemView,OnDeleteListener onDeleteListener, OnLendClick onLendClick) {
             super(itemView);
             mView = itemView;
             this.onDeleteListener = onDeleteListener;
+            this.onLendClick = onLendClick;
             DeleteButton = mView.findViewById(R.id.history_admin_delete_lend_button);
             LendButton = mView.findViewById(R.id.history_admin_lend_button);
             DeleteButton.setOnClickListener(this);
+            LendButton.setOnClickListener(this);
         }
         public void setTitletext(String titletext){//get product name
             titleView = mView.findViewById(R.id.history_admin_lend_product_name);
@@ -109,11 +116,24 @@ public class AdminhistoryrecyclerAdapter extends RecyclerView.Adapter<Adminhisto
 
         @Override
         public void onClick(View v) {
-            onDeleteListener.onDeleteClick(getAdapterPosition());
+            switch(v.getId()) {
+                case R.id.history_admin_delete_lend_button:
+                    onDeleteListener.onDeleteClick(getAdapterPosition());
+                    break;
+                case R.id.history_admin_lend_button:
+                    onLendClick.onLendClick(getAdapterPosition());
+                    break;
+                default:
+                    break;
+            }
         }
     }
     public interface OnDeleteListener{
         void onDeleteClick(int posistion);
+
+    }
+    public interface OnLendClick{
+        void onLendClick(int position);
     }
 
 }

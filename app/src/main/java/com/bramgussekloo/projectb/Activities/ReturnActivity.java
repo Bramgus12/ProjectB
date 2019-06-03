@@ -16,9 +16,11 @@ import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Lend;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
+import java.util.Map;
 
 public class ReturnActivity extends AppCompatActivity {
     // Initialization of the attributes
@@ -33,6 +35,8 @@ public class ReturnActivity extends AppCompatActivity {
     private Lend lend;
     private String lendDateString;
     private long millisecond;
+    private int Quantity;
+    private int oldQuantity;
 
 
 
@@ -51,6 +55,7 @@ public class ReturnActivity extends AppCompatActivity {
         returnDate = lend.getDay() + "/" + lend.getMonth() + "/" + lend.getYear();
         millisecond = lend.getTimeOfLend().getTime();
         lendDateString = DateFormat.format("dd/MM/yy", new Date(millisecond)).toString();
+        Quantity = lend.getQuantity();
         setLend(); // getting the values from the database and setting them in the textviews.
         Button(); // deleting the database entry.
     }
@@ -69,8 +74,33 @@ public class ReturnActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(ReturnActivity.this, "Product is returned.", Toast.LENGTH_SHORT).show();
-                            goToMain();
+                            FirebaseFirestore.getInstance().collection("Products").document(lend.getProduct()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        Map<String, Object> ProductMap = task.getResult().getData();
+                                        oldQuantity = Integer.parseInt(ProductMap.get("quantity").toString());
+                                        oldQuantity = oldQuantity + Quantity;
+                                        ProductMap.put("quantity", oldQuantity);
+                                        FirebaseFirestore.getInstance().collection("Products").document(lend.getProduct()).set(ProductMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()){
+                                                    Toast.makeText(ReturnActivity.this, "Product is returned.", Toast.LENGTH_SHORT).show();
+                                                    goToMain();
+                                                } else {
+                                                    Log.e(TAG, "onComplete: ", task.getException());
+                                                    Toast.makeText(ReturnActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        Log.e(TAG, "onComplete: ", task.getException());
+                                        Toast.makeText(ReturnActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
                         } else {
                             Log.e(TAG, "onComplete: ", task.getException());
                         }
