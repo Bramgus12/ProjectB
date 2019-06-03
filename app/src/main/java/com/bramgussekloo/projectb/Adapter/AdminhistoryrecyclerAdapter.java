@@ -7,22 +7,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Reservation;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import static java.lang.String.format;
 
 public class AdminhistoryrecyclerAdapter extends RecyclerView.Adapter<AdminhistoryrecyclerAdapter.ViewHolder> {
 
     public List<Reservation> reservationList;
+    private DatabaseReference mDatabase;
+
 
     public AdminhistoryrecyclerAdapter(List<Reservation> reservationList){
         this.reservationList = reservationList;
-
     }
 
     @NonNull
@@ -30,21 +33,33 @@ public class AdminhistoryrecyclerAdapter extends RecyclerView.Adapter<Adminhisto
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_history_admin, parent, false);
 
-
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
+        //product title
         String title_data = reservationList.get(i).getProduct();
         viewHolder.setTitletext(title_data);
-
+        //time of reservation
         long millisecond = reservationList.get(i).getTimestamp().getTime();
         String dataString = DateFormat.format("dd/MM/yy",new Date(millisecond)).toString();
         viewHolder.setTime(dataString);
+        //username
+        final String user_id = reservationList.get(i).NameId;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users/"+ user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String Username = dataSnapshot.child("Name").getValue().toString();
+                viewHolder.setNameView(Username);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        String user_name = reservationList.get(i).NameId;
-        viewHolder.setNameView(user_name);
+            }
+        });
+
     }
 
     @Override
@@ -63,15 +78,15 @@ public class AdminhistoryrecyclerAdapter extends RecyclerView.Adapter<Adminhisto
             super(itemView);
             mView = itemView;
         }
-        public void setTitletext(String titletext){
+        public void setTitletext(String titletext){//get product name
             titleView = mView.findViewById(R.id.history_admin_lend_product_name);
             titleView.setText(titletext);
         }
-        public void setTime(String date){
+        public void setTime(String date){//get reservation date
             ReservationDate = mView.findViewById(R.id.history_admin_reserve_date_db);
             ReservationDate.setText(date);
         }
-        private void setNameView(String nameText){
+        private void setNameView(String nameText){//get reservation time
             nameView = mView.findViewById(R.id.history_admin_lend_product_name_db);
             nameView.setText(nameText);
         }

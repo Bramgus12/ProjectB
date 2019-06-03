@@ -41,8 +41,7 @@ public class Reservation extends ReserveIDClass implements Parcelable {
         this.timestamp = timestamp;
     }
 
-
-    public Reservation(){}
+    public Reservation(){}//empty constructor needed
 
     public Reservation(String product) {
         this.product = product;
