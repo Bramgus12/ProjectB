@@ -93,7 +93,9 @@
     <string name="ChooseSpinner">Choose user</string>
     <string name="delete_reservation">delete</string>
     <string name="lend">Lend</string>
-    <string name="reserved_by">Reserved by</string>
-    <string name="date_of_reservation">Date of reservation</string>
+    <string name="reserved_by">Reserved by :</string>
+    <string name="date_of_reservation">Date of reservation :</string>
+    <string name="is_this_the_reservation_you_want_to_delete">Is this the reservation you want to delete</string>
+    <string name="deleteName">Name :</string>
     />
 </resources>

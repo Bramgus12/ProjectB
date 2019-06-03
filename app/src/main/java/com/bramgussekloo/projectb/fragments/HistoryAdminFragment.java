@@ -1,6 +1,7 @@
 package com.bramgussekloo.projectb.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,7 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.bramgussekloo.projectb.Activities.ReturnActivity;
 import com.bramgussekloo.projectb.Adapter.AdminhistoryrecyclerAdapter;
+import com.bramgussekloo.projectb.DeleteReservation;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Reservation;
 import com.google.firebase.firestore.DocumentChange;
@@ -25,7 +29,7 @@ import javax.annotation.Nullable;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryAdminFragment extends Fragment {
+public class HistoryAdminFragment extends Fragment implements AdminhistoryrecyclerAdapter.OnDeleteListener {
     private RecyclerView history_list_view_admin;
     private List<Reservation> reservationList;
     private FirebaseFirestore firebaseFirestore;
@@ -44,7 +48,7 @@ public class HistoryAdminFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history_admin,container,false);
         reservationList = new ArrayList<>();
-        adminhistoryrecyclerAdapter = new AdminhistoryrecyclerAdapter(reservationList);
+        adminhistoryrecyclerAdapter = new AdminhistoryrecyclerAdapter(reservationList,this);
         history_list_view_admin = view.findViewById(R.id.history_list_view_admin);
         history_list_view_admin.setLayoutManager(new LinearLayoutManager(getActivity()));
         history_list_view_admin.setAdapter(adminhistoryrecyclerAdapter);
@@ -79,6 +83,11 @@ public class HistoryAdminFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+    }
+    public void onDeleteClick(int posistion) {
+        Intent intent = new Intent(getContext(), DeleteReservation.class);
+        intent.putExtra("item", reservationList.get(posistion));
+        startActivity(intent);
     }
 
 }

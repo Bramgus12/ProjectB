@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.ReturnActivity"></activity>
+        <activity android:name=".DeleteReservation"></activity>
+        <activity android:name=".Activities.ReturnActivity" />
         <activity android:name=".Activities.LendActivity" />
         <activity android:name=".Activities.Login.ResetPassword" />
         <activity
