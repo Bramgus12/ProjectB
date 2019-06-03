@@ -46,7 +46,7 @@ public class HistoryAdminFragment extends Fragment implements Adminhistoryrecycl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_history_admin,container,false);
+        View view = inflater.inflate(R.layout.fragment_reservations_admin,container,false);
         reservationList = new ArrayList<>();
         adminhistoryrecyclerAdapter = new AdminhistoryrecyclerAdapter(reservationList,this, this);
         history_list_view_admin = view.findViewById(R.id.history_list_view_admin);

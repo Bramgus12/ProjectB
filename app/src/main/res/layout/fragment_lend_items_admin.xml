@@ -2,11 +2,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.HistoryAdminFragment">
+    tools:context=".fragments.ReservationsAdminFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/history_list_view_admin"
+        android:id="@+id/lend_items_list_view_admin"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

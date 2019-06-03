@@ -11,12 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bramgussekloo.projectb.Activities.ReturnActivity;
-import com.bramgussekloo.projectb.Adapter.AdminRecyclerAdapter;
 import com.bramgussekloo.projectb.Adapter.AdminReservationsRecyclerAdapter;
-import com.bramgussekloo.projectb.Adapter.ProductRecyclerAdapter;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Lend;
-import com.bramgussekloo.projectb.models.Product;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,7 +31,7 @@ import javax.annotation.Nullable;
 public class ReservationsAdminFragment extends Fragment implements AdminReservationsRecyclerAdapter.OnReturnListener {
 
     private static final String TAG = "HomeFragment";
-    private RecyclerView reservations_list_view;
+    private RecyclerView lend_items_list_view;
     private List<Lend> lend_list;
     private FirebaseFirestore firebaseFirestore;
     private AdminReservationsRecyclerAdapter adminRecyclerAdapter;
@@ -51,16 +48,16 @@ public class ReservationsAdminFragment extends Fragment implements AdminReservat
 
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_reservations_admin, container, false);
+        View view = inflater.inflate(R.layout.fragment_lend_items_admin, container, false);
 
         lend_list = new ArrayList<>();
-        reservations_list_view = view.findViewById(R.id.reservation_list_view_admin);
+        lend_items_list_view = view.findViewById(R.id.lend_items_list_view_admin);
         firebaseFirestore = FirebaseFirestore.getInstance();
         adminRecyclerAdapter = new AdminReservationsRecyclerAdapter(lend_list, this);
 
-        reservations_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
+        lend_items_list_view.setLayoutManager(new LinearLayoutManager(container.getContext()));
 
-        reservations_list_view.setAdapter(adminRecyclerAdapter);
+        lend_items_list_view.setAdapter(adminRecyclerAdapter);
 
         firebaseFirestore.collection("Products").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
