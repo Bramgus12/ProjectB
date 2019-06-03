@@ -16,9 +16,11 @@ import com.bramgussekloo.projectb.Activities.ReturnActivity;
 import com.bramgussekloo.projectb.models.Reservation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
+import java.util.Map;
 
 public class DeleteReservation extends AppCompatActivity {
 
@@ -30,7 +32,9 @@ public class DeleteReservation extends AppCompatActivity {
     private Button DeleteButton;
     private Reservation reservation;
     private String ReservationDateString;
-    private static final String TAG = "ReturnActivity";
+    private FirebaseFirestore firebaseFirestore;
+
+    private static final String TAG = "deleteActivity";
 
 
 
@@ -53,6 +57,8 @@ public class DeleteReservation extends AppCompatActivity {
         //ReservationDateString = DateFormat.format("dd/MM/yy",new Date(millisecond)).toString();
         //ReservationDate.setText(ReservationDateString);
         //Log.d(TAG, "onCreate: "+ millisecond);
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
 
 
         DeleteButton.setOnClickListener(new View.OnClickListener() {
@@ -63,9 +69,35 @@ public class DeleteReservation extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(DeleteReservation.this, "Reservation is deleted.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                            startActivity(intent);
+                            FirebaseFirestore.getInstance().collection("Products/").document(reservation.product).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()){
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()){
+                                            Map<String, Object> object_data = document.getData();
+                                            String quantityValue = object_data.get("quantity").toString();
+                                            int Qtt = Integer.parseInt(quantityValue);
+                                            Qtt = Qtt +1;
+                                            final Map<String, Object> ProductMap = task.getResult().getData();
+                                            ProductMap.put("quantity", Qtt);
+                                            Log.d(TAG, "onComplete: "+quantityValue);
+                                            firebaseFirestore.collection("Products").document(reservation.product).set(ProductMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()){
+                                                        Toast.makeText(DeleteReservation.this, "Reservation is deleted.", Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                                                        startActivity(intent);
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                }
+                            });
+
                         }
                     }
                 });
