@@ -56,6 +56,7 @@ public class ReturnActivity extends AppCompatActivity {
         millisecond = lend.getTimeOfLend().getTime();
         lendDateString = DateFormat.format("dd/MM/yy", new Date(millisecond)).toString();
         Quantity = lend.getQuantity();
+
         setLend(); // getting the values from the database and setting them in the textviews.
         Button(); // deleting the database entry.
     }

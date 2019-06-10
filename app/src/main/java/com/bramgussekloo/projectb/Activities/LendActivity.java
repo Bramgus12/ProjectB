@@ -35,9 +35,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import javax.annotation.Nullable;
 
@@ -56,7 +60,9 @@ public class LendActivity extends AppCompatActivity {
     private Button LendButton;
     private TextView email;
     private DatabaseReference mRootref = FirebaseDatabase.getInstance().getReference();
+    private Date date;
     private static final String TAG = "LendActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,12 +134,15 @@ public class LendActivity extends AppCompatActivity {
                                             Map<String, Object> map = task.getResult().getData();
                                             int Qtt = Integer.parseInt(map.get("quantity").toString());
                                             Qtt = Qtt +1;
+                                            Calendar combinedCal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+                                            combinedCal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
                                             map.put("TimeOfLend", FieldValue.serverTimestamp());
                                             map.put("quantity", Qtt);
                                             map.put("year", datePicker.getYear());
                                             map.put("month", datePicker.getMonth());
                                             map.put("day", datePicker.getDayOfMonth());
                                             map.put("product", Title);
+                                            map.put("TimeOfReturn", combinedCal.getTime());
                                             FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email.replace(".", "").replace("@", "")).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -164,6 +173,8 @@ public class LendActivity extends AppCompatActivity {
                                             });
                                         } else {
                                             Log.e(TAG, "onComplete: Field does not exist", task.getException());
+                                            Calendar combinedCal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+                                            combinedCal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
                                             Map<String, Object> map = new HashMap<>();
                                             map.put("quantity", 1);
                                             map.put("TimeOfLend", FieldValue.serverTimestamp());
@@ -171,6 +182,7 @@ public class LendActivity extends AppCompatActivity {
                                             map.put("month", datePicker.getMonth());
                                             map.put("day", datePicker.getDayOfMonth());
                                             map.put("product", Title);
+                                            map.put("TimeOfReturn", combinedCal.getTime());
                                             FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email.replace(".", "").replace("@", "")).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -211,6 +223,8 @@ public class LendActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                         if (task.getResult().getData() != null) {
                                             Map<String, Object> map = task.getResult().getData();
+                                            Calendar combinedCal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+                                            combinedCal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
                                             int Qtt = Integer.parseInt(map.get("quantity").toString());
                                             Qtt = Qtt +1;
                                             map.put("TimeOfLend", FieldValue.serverTimestamp());
@@ -219,6 +233,7 @@ public class LendActivity extends AppCompatActivity {
                                             map.put("month", datePicker.getMonth());
                                             map.put("day", datePicker.getDayOfMonth());
                                             map.put("product", Title);
+                                            map.put("TimeOfReturn", combinedCal.getTime());
                                             FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email.replace(".", "").replace("@", "")).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
@@ -243,12 +258,15 @@ public class LendActivity extends AppCompatActivity {
                                         } else {
                                             Log.e(TAG, "onComplete: Field does not exist", task.getException());
                                             Map<String, Object> map = new HashMap<>();
+                                            Calendar combinedCal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+                                            combinedCal.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
                                             map.put("quantity", 1);
                                             map.put("TimeOfLend", FieldValue.serverTimestamp());
                                             map.put("year", datePicker.getYear());
                                             map.put("month", datePicker.getMonth());
                                             map.put("day", datePicker.getDayOfMonth());
                                             map.put("product", Title);
+                                            map.put("TimeOfReturn", combinedCal.getTime());
                                             FirebaseFirestore.getInstance().collection("Products/" + Title + "/LendTo").document(Email.replace(".", "").replace("@", "")).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
