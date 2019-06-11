@@ -15,6 +15,8 @@ public class Reservation extends ReserveIDClass implements Parcelable {
     protected Reservation(Parcel in) {
         product = in.readString();
         NameId = in.readString();
+        timestamp = (java.util.Date) in.readSerializable();
+
     }
 
     public static final Creator<Reservation> CREATOR = new Creator<Reservation>() {
@@ -65,5 +67,6 @@ public class Reservation extends ReserveIDClass implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(product);
         dest.writeString(NameId);
+        dest.writeSerializable(timestamp);
     }
 }
