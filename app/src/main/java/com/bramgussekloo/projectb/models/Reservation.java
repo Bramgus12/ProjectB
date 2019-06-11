@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class Reservation extends ReserveIDClass implements Parcelable {
     public String product;
-    public Date timestamp;
+    public java.util.Date timestamp;
 
     protected Reservation(Parcel in) {
         product = in.readString();
