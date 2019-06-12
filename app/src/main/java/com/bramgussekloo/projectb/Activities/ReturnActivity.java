@@ -16,6 +16,11 @@ import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Lend;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -37,6 +42,7 @@ public class ReturnActivity extends AppCompatActivity {
     private long millisecond;
     private int Quantity;
     private int oldQuantity;
+    private DatabaseReference mRootRef;
 
 
 
@@ -56,13 +62,24 @@ public class ReturnActivity extends AppCompatActivity {
         millisecond = lend.getTimeOfLend().getTime();
         lendDateString = DateFormat.format("dd/MM/yy", new Date(millisecond)).toString();
         Quantity = lend.getQuantity();
+        mRootRef = FirebaseDatabase.getInstance().getReference();
 
         setLend(); // getting the values from the database and setting them in the textviews.
         Button(); // deleting the database entry.
     }
     private void setLend(){
         product.setText(lend.getProduct());
-        name.setText(lend.NameId);
+        mRootRef.child("users").child(lend.NameId).child("Name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                name.setText(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         date.setText(returnDate);
         lendDate.setText(lendDateString);
     }
