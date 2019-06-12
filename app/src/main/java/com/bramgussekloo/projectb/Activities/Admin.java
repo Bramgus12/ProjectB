@@ -103,6 +103,9 @@ public class Admin extends AppCompatActivity {
             case R.id.users_role:
                 Intent changeUserRole = new Intent(getBaseContext(),chooseUser.class);
                 startActivity(changeUserRole);
+            case R.id.send_notification:
+                Intent sendNotification = new Intent(getApplicationContext(), com.bramgussekloo.projectb.Activities.sendNotification.class);
+                startActivity(sendNotification);
             default:
                 return false;
         }

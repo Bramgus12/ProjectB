@@ -100,5 +100,15 @@
     <string name="lenditems">Lend Items</string>
     <string name="reservations">Reservations</string>
     <string name="placeholder">placeholder</string>
+    <string name="sucessfully_registered">You\'ve successfully registered</string>
+    <string name="sucesful_registration_description">You\'ll be redirected to the login page within 5 seconds, or you can simply click the button below to go to the login page.</string>
+    <string name="title_activity_send_notification">sendNotification</string>
+    <string name="send_notification_to_user">Send notification to user</string>
+    <string name="message_title">Message Title...</string>
+    <string name="message">Your message...</string>
+    <string name="send_notification">Send Notification</string>
+    <string name="reason_return_product">Return Product</string>
+    <string name="notification_waiting_reservation">Waiting Reservation</string>
+    <string name="reason_of_notification">Reason of Notification</string>
     />
 </resources>

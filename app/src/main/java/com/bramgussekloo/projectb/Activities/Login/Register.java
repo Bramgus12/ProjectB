@@ -15,12 +15,15 @@ import android.widget.Toast;
 
 import com.bramgussekloo.projectb.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 
 public class Register extends AppCompatActivity {
@@ -33,6 +36,8 @@ public class Register extends AppCompatActivity {
     private TextInputLayout passwordLayout;
     private TextInputLayout nameLayout;
     private FirebaseAuth mAuth;
+
+    private static final String TAG = "Register";
 
 
     @Override
@@ -159,7 +164,9 @@ public class Register extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
+                    initFCM();
                     Toast.makeText(Register.this, "Check your email for a verification.", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Toast.makeText(Register.this, "verification email is not sent. Make sure you have the right email put in.", Toast.LENGTH_SHORT).show();
                 }
@@ -181,5 +188,28 @@ public class Register extends AppCompatActivity {
         Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(mainIntent);
         finish(); // ensures user can't go back
+    }
+
+    private void initFCM(){
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String deviceToken = instanceIdResult.getToken();
+                sendRegistrationToServer(deviceToken);
+            }
+        });
+    }
+
+
+
+    private void sendRegistrationToServer(String token){
+        Log.d(TAG, "sendRegistrationToServer: sending token to server: " + token);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("users")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", "").replace("@", ""))
+                .child("messaging_token")
+                .setValue(token);
+
     }
 }
