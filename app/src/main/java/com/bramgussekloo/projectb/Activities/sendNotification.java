@@ -1,5 +1,6 @@
 package com.bramgussekloo.projectb.Activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bramgussekloo.projectb.Activities.Login.MainActivity;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.fcm.Data;
 import com.bramgussekloo.projectb.models.fcm.FCM;
@@ -66,36 +68,15 @@ public class sendNotification extends AppCompatActivity {
                     Toast.makeText(sendNotification.this, "Please enter a email address", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                mRootRef.child("users").child(Email).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()){
-                            if(dataSnapshot.child("messaging_token").getValue() != null){
-                                token = dataSnapshot.child("messaging_token").getValue().toString();
-                                Log.d(TAG, "onDataChange: got messaging token: " + token);
-                            } else {
-                                Toast.makeText(sendNotification.this, "user " + Email + " does not have a FCM token currently.", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
 
-                        } else {
-                            Toast.makeText(sendNotification.this, "user " + Email + " does not exists.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+                Log.d(TAG, "onClick email: " + Email);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.d(TAG, "onCancelled: " + databaseError);
-                        Toast.makeText(sendNotification.this, databaseError.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
 
                 notificationTitle = titleEditText.getText().toString();
                 if(TextUtils.isEmpty(notificationTitle)){
                     Toast.makeText(sendNotification.this, "Please enter a notification title", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Log.d(TAG, "onClick: NotificationTitle: " + notificationTitle);
 
                 notificationMessage = messageEditText.getText().toString();
                 if(TextUtils.isEmpty(notificationMessage)){
@@ -103,9 +84,30 @@ public class sendNotification extends AppCompatActivity {
                     return;
                 }
 
-                Log.d(TAG, "onClick: Message " + notificationMessage);
+                mRootRef.child("users").child(Email).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            if(dataSnapshot.child("messaging_token").getValue() != null){
+                                token = dataSnapshot.child("messaging_token").getValue().toString();
+                                Log.d(TAG, "onDataChange tokenq:" + token);
+                                sendMessageToUser(notificationTitle, notificationMessage);
+                            } else {
+                                Toast.makeText(sendNotification.this, "user " + Email + " does not have a FCM token currently.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-                sendMessageToUser(notificationTitle, notificationMessage);
+                        } else {
+                            Toast.makeText(sendNotification.this, "user " + Email + " does not exists.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(sendNotification.this, databaseError.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
 
@@ -116,8 +118,9 @@ public class sendNotification extends AppCompatActivity {
         });
     }
 
+
     private void getServerKey(){
-        Log.d(TAG, "getServerKey: retrieving server key.");
+        Log.d(TAG, "getServerKey: retrieving server key");
 
         mRootRef.child("server").child("server_key").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -143,6 +146,7 @@ public class sendNotification extends AppCompatActivity {
 
     private void sendMessageToUser(String title, String message){
         Log.d(TAG, "sendMessageToUser: sending message to user");
+        Log.d(TAG, "sendMessageToUser token: " + token);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -168,6 +172,9 @@ public class sendNotification extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d(TAG, "onResponse: Server Response" + response.toString());
+                Toast.makeText(sendNotification.this, "Message is successfully sent to the user", Toast.LENGTH_SHORT).show();
+                Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(mainIntent);
             }
 
             @Override
