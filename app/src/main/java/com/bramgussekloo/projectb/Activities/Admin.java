@@ -106,6 +106,9 @@ public class Admin extends AppCompatActivity {
             case R.id.send_notification:
                 Intent sendNotification = new Intent(getApplicationContext(), com.bramgussekloo.projectb.Activities.sendNotification.class);
                 startActivity(sendNotification);
+            case R.id.send_return_notification:
+                Intent sendReturnNotification = new Intent(getApplicationContext(), returnNotification.class);
+                startActivity(sendReturnNotification);
             default:
                 return false;
         }

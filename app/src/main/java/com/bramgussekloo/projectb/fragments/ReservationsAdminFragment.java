@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bramgussekloo.projectb.Activities.ReturnActivity;
+import com.bramgussekloo.projectb.Activities.sendNotification;
 import com.bramgussekloo.projectb.Adapter.AdminReservationsRecyclerAdapter;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Lend;
@@ -94,7 +95,7 @@ public class ReservationsAdminFragment extends Fragment implements AdminReservat
 
     @Override
     public void onRturnClick(int posistion) {
-        Intent intent = new Intent(getContext(), ReturnActivity.class);
+        Intent intent = new Intent(getContext(), sendNotification.class);
         intent.putExtra("item", lend_list.get(posistion));
         startActivity(intent);
     }

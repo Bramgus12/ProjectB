@@ -110,5 +110,7 @@
     <string name="reason_return_product">Return Product</string>
     <string name="notification_waiting_reservation">Waiting Reservation</string>
     <string name="reason_of_notification">Reason of Notification</string>
+    <string name="return_notification">Return Notification</string>
+    <string name="date">Date</string>
     />
 </resources>

@@ -19,4 +19,7 @@
     <item
         android:id="@+id/send_notification"
         android:title="@string/send_notification" />
+    <item
+        android:id="@+id/send_return_notification"
+        android:title="@string/return_notification" />
 </menu>

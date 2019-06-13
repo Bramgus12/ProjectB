@@ -3,6 +3,7 @@ package com.bramgussekloo.projectb.Adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Date;
 import java.util.List;
 
 public class AdminReservationsRecyclerAdapter extends RecyclerView.Adapter<AdminReservationsRecyclerAdapter.ViewHolder> {
@@ -27,6 +29,8 @@ public class AdminReservationsRecyclerAdapter extends RecyclerView.Adapter<Admin
     private List<Lend> lend_list;
     private Context context;
     private OnReturnListener mOnReturnListener;
+    private long millisecond;
+    private String lendDateString;
     private static final String TAG = "AdminReservationsRecycl";
 
     public AdminReservationsRecyclerAdapter(List<Lend> lend_list, OnReturnListener onReturnListener) {
@@ -65,12 +69,9 @@ public class AdminReservationsRecyclerAdapter extends RecyclerView.Adapter<Admin
         });
 
 
-        String day = Integer.toString(lend_list.get(i).getDay());
-        String month = Integer.toString(lend_list.get(i).getMonth());
-        String year = Integer.toString(lend_list.get(i).getYear());
-
-        String timestamp = day + "/" + month + "/" + year;
-        viewHolder.setReturnTimeView(timestamp);
+        millisecond = lend_list.get(i).getTimeOfReturn().getTime();
+        lendDateString = DateFormat.format("dd/MM/yyyy", new Date(millisecond)).toString();
+        viewHolder.setReturnTimeView(lendDateString);
 
 
 
@@ -126,6 +127,7 @@ public class AdminReservationsRecyclerAdapter extends RecyclerView.Adapter<Admin
             onReturnListener.onRturnClick(getAdapterPosition());
         }
     }
+
     public interface OnReturnListener{
         void onRturnClick(int posistion);
     }

@@ -6,6 +6,8 @@ import android.os.Parcelable;
 
 import com.bramgussekloo.projectb.Adapter.ReserveIDClass;
 
+import java.util.Date;
+
 public class Lend extends ReserveIDClass implements Parcelable
 {
     private int day;
@@ -14,17 +16,19 @@ public class Lend extends ReserveIDClass implements Parcelable
     private int quantity;
     private String product;
     private java.util.Date TimeOfLend;
+    private java.util.Date TimeOfReturn;
 
     public Lend() {
     }
 
-    public Lend(int day, int month, int year, int quantity, String product, java.util.Date TimeOfLend) {
+    public Lend(int day, int month, int year, int quantity, String product, java.util.Date TimeOfLend, java.util.Date TimeOfReturn) {
         this.day = day;
         this.month = month;
         this.year = year;
         this.quantity = quantity;
         this.product = product;
         this.TimeOfLend = TimeOfLend;
+        this.TimeOfReturn = TimeOfReturn;
     }
 
     protected Lend(Parcel in) {
@@ -34,6 +38,7 @@ public class Lend extends ReserveIDClass implements Parcelable
         quantity = in.readInt();
         product = in.readString();
         TimeOfLend = (java.util.Date) in.readSerializable();
+        TimeOfReturn = (java.util.Date) in.readSerializable();
         NameId = in.readString();
     }
 
@@ -115,6 +120,14 @@ public class Lend extends ReserveIDClass implements Parcelable
         return 0;
     }
 
+    public Date getTimeOfReturn() {
+        return TimeOfReturn;
+    }
+
+    public void setTimeOfReturn(Date timeOfReturn) {
+        TimeOfReturn = timeOfReturn;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(day);
@@ -123,6 +136,7 @@ public class Lend extends ReserveIDClass implements Parcelable
         dest.writeInt(quantity);
         dest.writeString(product);
         dest.writeSerializable(TimeOfLend);
+        dest.writeSerializable(TimeOfReturn);
         dest.writeString(NameId);
     }
 }
