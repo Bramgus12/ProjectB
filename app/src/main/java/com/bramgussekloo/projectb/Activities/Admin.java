@@ -100,15 +100,19 @@ public class Admin extends AppCompatActivity {
             case R.id.Edit_product:
                 Intent intent= new Intent(getBaseContext(), ChooseProduct.class);
                 startActivity(intent);
+                return true;
             case R.id.users_role:
                 Intent changeUserRole = new Intent(getBaseContext(),chooseUser.class);
                 startActivity(changeUserRole);
+                return true;
             case R.id.send_notification:
                 Intent sendNotification = new Intent(getApplicationContext(), com.bramgussekloo.projectb.Activities.sendNotification.class);
                 startActivity(sendNotification);
+                return true;
             case R.id.send_return_notification:
                 Intent sendReturnNotification = new Intent(getApplicationContext(), returnNotification.class);
                 startActivity(sendReturnNotification);
+                return true;
             default:
                 return false;
         }

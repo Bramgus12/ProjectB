@@ -115,8 +115,8 @@ public class Register extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) { // send email and password to authentication database
                                     Toast.makeText(Register.this, "Register Successful.", Toast.LENGTH_SHORT).show(); // show message that register was complete
-                                    setUserInDatabase(); // send name, UID, Role and email to realtime database
-                                    emptyInputEditText(); //empty the input fields
+                                    initFCM(); // send name, UID, Role and email to realtime database
+                                    sendToMain();
 
                                 }
                                 if (!task.isSuccessful()){
@@ -144,7 +144,7 @@ public class Register extends AppCompatActivity {
         editTextPassword.setText(null);
         editTextPasswordConfirmation.setText(null);
     }
-    private void setUserInDatabase(){
+    private void setUserInDatabase(String token){
 
         FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser(); // get the info about the currentuser
         String email = editTextEmail.getText().toString().trim().replace(".", "").replace("@", "").toLowerCase(); // get email from the firebase
@@ -160,11 +160,13 @@ public class Register extends AppCompatActivity {
         uidRef.setValue(uid); // set the email in the database
         nameRef.setValue(name); // set the name in the database
         roleRef.setValue("User"); // set the role in the database (standard = "User")
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("users").child(email).child("messaging_token").setValue(token);
         currentFirebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    initFCM();
+
                     Toast.makeText(Register.this, "Check your email for a verification.", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -172,6 +174,7 @@ public class Register extends AppCompatActivity {
                 }
             }
         });
+        emptyInputEditText();
     }
 
     @Override
@@ -195,21 +198,8 @@ public class Register extends AppCompatActivity {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 String deviceToken = instanceIdResult.getToken();
-                sendRegistrationToServer(deviceToken);
+                setUserInDatabase(deviceToken);
             }
         });
-    }
-
-
-
-    private void sendRegistrationToServer(String token){
-        Log.d(TAG, "sendRegistrationToServer: sending token to server: " + token);
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        reference.child("users")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", "").replace("@", ""))
-                .child("messaging_token")
-                .setValue(token);
-
     }
 }

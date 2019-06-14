@@ -24,18 +24,12 @@ import com.bramgussekloo.projectb.fragments.HomeFragment;
 import com.bramgussekloo.projectb.fragments.ReservationsFragment;
 
 public class User extends AppCompatActivity {
-
-
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser user = mAuth.getCurrentUser();
-
     private BottomNavigationView mainbottomNav;
-
     private HomeFragment homeFragment;
     private ReservationsFragment reservationsFragment;
     private HistoryFragment historyFragment;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,38 +47,28 @@ public class User extends AppCompatActivity {
         mainbottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
                 switch(menuItem.getItemId()){
-
                     case R.id.bottom_nav_home:
                         replaceFragment(homeFragment);
                         menuItem.setChecked(true);
                         return true;
-
                     case R.id.bottom_nav_reservations:
                         replaceFragment(reservationsFragment);
                         menuItem.setChecked(true);
-
+                        return true;
                     case R.id.bottom_nav_history:
                         replaceFragment(historyFragment);
                         menuItem.setChecked(true);
-
+                        return true;
                 }
-
                 return false;
             }
         });
-
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.main_menu_user, menu); // inflates menu from XML to objects
-
         return true;
     }
 
@@ -126,7 +110,6 @@ public class User extends AppCompatActivity {
     }
 
     private void sendTologin() {
-
         Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(loginIntent);
         finish();
@@ -136,7 +119,5 @@ public class User extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_container, fragment);
         fragmentTransaction.commit();
-
-
     }
 }
