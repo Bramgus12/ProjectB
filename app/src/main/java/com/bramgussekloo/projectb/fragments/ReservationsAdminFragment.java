@@ -95,7 +95,7 @@ public class ReservationsAdminFragment extends Fragment implements AdminReservat
 
     @Override
     public void onRturnClick(int posistion) {
-        Intent intent = new Intent(getContext(), sendNotification.class);
+        Intent intent = new Intent(getContext(), ReturnActivity.class);
         intent.putExtra("item", lend_list.get(posistion));
         startActivity(intent);
     }
