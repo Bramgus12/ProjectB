@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.bramgussekloo.projectb.Activities.EditProduct.ChooseProduct;
 import com.bramgussekloo.projectb.Activities.Login.LoginActivity;
 import com.bramgussekloo.projectb.Activities.Login.ResetEmail;
 import com.bramgussekloo.projectb.R;
@@ -69,22 +70,38 @@ public class Beheerder extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu_user, menu); // inflates menu from XML to objects
+        getMenuInflater().inflate(R.menu.main_menu_beheerder, menu); // inflates menu from XML to objects
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) { // switch case for detecting which menu item is clicked
-            case R.id.action_logout_bttn: // triggers when logout button is clicked
-                logOut(); // logs out user
+            case R.id.ADaction_logout_bttn_beheerder:  // triggers when logout button is clicked
+                logOut();  // logs out user
                 return true;
-            case R.id.action_resetPassword_buttn:
+            case R.id.ADaction_resetPassword_buttn_beheerder:
                 resetpassword();
                 return true;
-            case R.id.action_ChangeEmail_bttn:
+            case R.id.ADaction_ChangeEmail_bttn_beheerder:
                 Intent changeEmail = new Intent(getBaseContext(), ResetEmail.class);
                 startActivity(changeEmail);
+                return true;
+            case R.id.Edit_product_beheerder:
+                Intent intent= new Intent(getBaseContext(), ChooseProduct.class);
+                startActivity(intent);
+                return true;
+            case R.id.send_notification_beheerder:
+                Intent sendNotification = new Intent(getApplicationContext(), com.bramgussekloo.projectb.Activities.sendNotification.class);
+                startActivity(sendNotification);
+                return true;
+            case R.id.send_return_notification_beheerder:
+                Intent sendReturnNotification = new Intent(getApplicationContext(), returnNotification.class);
+                startActivity(sendReturnNotification);
+                return true;
+            case R.id.ADaction_statistics_beheerder:
+                Intent statistics = new Intent(getApplicationContext(), com.bramgussekloo.projectb.Activities.statistics.class);
+                startActivity(statistics);
                 return true;
             default:
                 return false;

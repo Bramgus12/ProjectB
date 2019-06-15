@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ADaction_logout_bttn_beheerder"
+        android:title="@string/action_logout" />
+    <item
+        android:id="@+id/ADaction_resetPassword_buttn_beheerder"
+        android:title="@string/reset_password" />
+    <item
+        android:id="@+id/ADaction_ChangeEmail_bttn_beheerder"
+        android:title="@string/reset_email" />
+    <item
+        android:id="@+id/Edit_product_beheerder"
+        android:title="@string/edit_product" />
+    <item
+        android:id="@+id/send_notification_beheerder"
+        android:title="@string/send_notification" />
+    <item
+        android:id="@+id/send_return_notification_beheerder"
+        android:title="@string/return_notification" />
+    <item
+        android:id="@+id/ADaction_statistics_beheerder"
+        android:title="@string/Statistics"
+        />
+
+</menu>
