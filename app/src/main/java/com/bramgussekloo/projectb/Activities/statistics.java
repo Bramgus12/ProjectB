@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import javax.annotation.Nullable;
 
 public class statistics extends AppCompatActivity {
+    // Initialization of the attributes
     private DatabaseReference mDatabase;
     private FirebaseFirestore firebaseFirestore;
     private TextView users;
@@ -46,13 +47,15 @@ public class statistics extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
-        getSupportActionBar().setTitle("Statistics");
+        getSupportActionBar().setTitle("Statistics"); // sets title for toolbar
+        // assignment of all the attributes
         mDatabase = FirebaseDatabase.getInstance().getReference();
         firebaseFirestore = FirebaseFirestore.getInstance();
         users = findViewById(R.id.textBlok1);
         products = findViewById(R.id.textBlok2);
         reservations = findViewById(R.id.textBlok3);
         lendItems = findViewById(R.id.textBlok4);
+        //users counts
         mDatabase.child("users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -66,6 +69,7 @@ public class statistics extends AppCompatActivity {
 
             }
         });
+        //products count
         firebaseFirestore.collection("Products").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -82,6 +86,7 @@ public class statistics extends AppCompatActivity {
                 for (QueryDocumentSnapshot Doc: task.getResult()){
                     if (Doc.exists()){
                         String productId = Doc.getId();
+                        //reservation count
                         firebaseFirestore.collection("Products/" + productId + "/reservation").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -92,6 +97,7 @@ public class statistics extends AppCompatActivity {
                                 }
                             }
                         });
+                        //lend items count
                         firebaseFirestore.collection("Products/" + productId + "/LendTo").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -107,6 +113,7 @@ public class statistics extends AppCompatActivity {
             }
         });
     }
+    //Animate TextView to increase integer and stop at some point
     //bron : https://stackoverflow.com/questions/26502819/animate-textview-to-increase-integer-and-stop-at-some-point
     public void animateTextView(int initialValue, int finalValue, final TextView textview) {
         DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator(0.8f);

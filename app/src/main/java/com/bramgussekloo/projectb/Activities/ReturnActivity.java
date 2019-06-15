@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.bramgussekloo.projectb.Activities.Login.MainActivity;
 import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Lend;
+import com.bramgussekloo.projectb.models.Reservation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -22,9 +23,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ReturnActivity extends AppCompatActivity {
@@ -104,8 +107,21 @@ public class ReturnActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()){
-                                                    Toast.makeText(ReturnActivity.this, "Product is returned.", Toast.LENGTH_SHORT).show();
-                                                    goToMain();
+                                                    Map<String,Object> historyMap =new HashMap<>();
+                                                    historyMap.put("product",lend.getProduct());
+                                                    historyMap.put("timeOfLend",lend.getTimeOfLend());
+                                                    historyMap.put("timeOfReturn", FieldValue.serverTimestamp());
+                                                    FirebaseFirestore.getInstance().collection("history").document(lend.NameId).collection("userHistory").document().set(historyMap)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()){
+                                                                Toast.makeText(ReturnActivity.this, "Product is returned.", Toast.LENGTH_SHORT).show();
+                                                                goToMain();
+                                                            }
+                                                        }
+                                                    });
+
                                                 } else {
                                                     Log.e(TAG, "onComplete: ", task.getException());
                                                     Toast.makeText(ReturnActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
