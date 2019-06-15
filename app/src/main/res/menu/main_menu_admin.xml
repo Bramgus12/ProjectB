@@ -22,4 +22,8 @@
     <item
         android:id="@+id/send_return_notification"
         android:title="@string/return_notification" />
+    <item
+        android:id="@+id/ADaction_statistics"
+        android:title="@string/Statistics"
+        />
 </menu>

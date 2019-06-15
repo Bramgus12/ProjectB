@@ -112,5 +112,8 @@
     <string name="reason_of_notification">Reason of Notification</string>
     <string name="return_notification">Return Notification</string>
     <string name="date">Date</string>
+    <string name="Statistics">Statistics</string>
+    <string name="products">products</string>
+    <string name="user">Users</string>
     />
 </resources>

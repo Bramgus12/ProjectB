@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.returnNotification"></activity>
+        <activity android:name=".Activities.statistics"></activity>
+        <activity android:name=".Activities.returnNotification" />
         <activity android:name=".Activities.sendNotification" />
 
         <service

@@ -113,6 +113,10 @@ public class Admin extends AppCompatActivity {
                 Intent sendReturnNotification = new Intent(getApplicationContext(), returnNotification.class);
                 startActivity(sendReturnNotification);
                 return true;
+            case R.id.ADaction_statistics:
+                Intent statistics = new Intent(getApplicationContext(), com.bramgussekloo.projectb.Activities.statistics.class);
+                startActivity(statistics);
+                return true;
             default:
                 return false;
         }

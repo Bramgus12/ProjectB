@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.statistics">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/blok1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:layout_weight="1.0"
+            android:gravity="center">
+            <LinearLayout
+                android:id="@+id/innerBlok1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textColor="@color/black"
+                    android:text="@string/user"/>
+                <TextView
+                    android:id="@+id/textBlok1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:text="0"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/blok2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/innerBlok2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textColor="@color/black"
+                    android:text="@string/products"/>
+                <TextView
+                    android:id="@+id/textBlok2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:text="0"/>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.0"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/blok3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/innerBlok3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/title3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textColor="@color/black"
+                    android:text="@string/reservations"/>
+                <TextView
+                    android:id="@+id/textBlok3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:text="0"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/blok4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/innerBlok4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textColor="@color/black"
+                    android:text="@string/lend_item"/>
+
+
+                <TextView
+                    android:id="@+id/textBlok4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:text="0"/>
+
+
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
