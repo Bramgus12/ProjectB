@@ -46,12 +46,14 @@ public class NotificationService extends FirebaseMessagingService {
         Log.d(TAG, "sendRegistrationToServer: sending token to server: " + token);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        reference.child("user")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", "").replace("@", ""))
-                .child("messaging_token")
-                .setValue(token);
-
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            reference.child("user")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getEmail().replace(".", "").replace("@", ""))
+                    .child("messaging_token")
+                    .setValue(token);
+        }
     }
+
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
