@@ -54,6 +54,8 @@ import id.zelory.compressor.Compressor;
 import io.grpc.Context;
 
 public class NewProductActivity extends AppCompatActivity{
+
+
     private Spinner spinner;
     private ImageView newProductImage;
     private EditText newProductDesc;
@@ -82,6 +84,9 @@ public class NewProductActivity extends AppCompatActivity{
         firebaseFirestore = FirebaseFirestore.getInstance();
         customizeActionBar();
         setSpinner();
+
+        // bron: https://www.youtube.com/watch?v=ZC7GwnutLQY&list=PLGCjwl1RrtcR4ptHvrc_PQIxDBB5MGiJA&index=7
+
         newProductImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { // button to choose and crop picture
@@ -208,6 +213,8 @@ public class NewProductActivity extends AppCompatActivity{
         getSupportActionBar().setTitle("Add New Product"); // sets title for toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+    // bron: https://www.youtube.com/watch?v=on_OrrX7Nw4
 
     private void setSpinner(){
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.category, android.R.layout.simple_spinner_item);

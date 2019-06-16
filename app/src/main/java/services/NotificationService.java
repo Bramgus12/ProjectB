@@ -71,6 +71,8 @@ public class NotificationService extends FirebaseMessagingService {
 
     private void sendBroadcastNotification(String title, String message){
 
+        // bron: https://stackoverflow.com/questions/37787373/firebase-fcm-how-to-get-token
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_1_ID);
 
         Intent notifyIntent = new Intent(this, MainActivity.class);

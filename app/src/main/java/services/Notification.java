@@ -7,6 +7,9 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 public class Notification extends Application {
+
+    // bron: https://stackoverflow.com/questions/46294833/correct-way-to-create-notification-channels-from-android-o-api
+
     public static final String CHANNEL_1_ID = "channel1";
     public static final String CHANNEL_2_ID = "channel2";
 

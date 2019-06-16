@@ -118,6 +118,8 @@ public class sendNotification extends AppCompatActivity {
         });
     }
 
+    // bron: https://app.pluralsight.com/library/courses/android-firebase-cloud-messaging-storage-crash-reporting/table-of-contents
+
 
     private void getServerKey(){
         Log.d(TAG, "getServerKey: retrieving server key");

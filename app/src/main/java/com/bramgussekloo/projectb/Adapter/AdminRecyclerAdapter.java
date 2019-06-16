@@ -19,6 +19,8 @@ import java.util.List;
 
 public class AdminRecyclerAdapter extends RecyclerView.Adapter<AdminRecyclerAdapter.ViewHolder> {
 
+    // bron: https://www.youtube.com/watch?v=Vyqz_-sJGFk
+
 
     private List<Product> product_list;
     private Context context;
