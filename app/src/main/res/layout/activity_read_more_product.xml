@@ -35,37 +35,25 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/image_placeholder" />
 
-            <Button
-                android:id="@+id/more_product_list_reservations"
+            <TextView
+                android:id="@+id/more_product_list_availability"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/product_reserve"
-                android:background="@drawable/btn_bg_red"
-                android:textColor="@drawable/button_text_color_white"
+                android:text="@string/product_availability"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/more_product_description"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <TextView
-                android:id="@+id/more_product_list_availability"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:text="@string/product_availability"
-                app:layout_constraintStart_toEndOf="@+id/more_product_list_reservations"
-                app:layout_constraintTop_toBottomOf="@+id/more_product_description" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/more_product_list_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
                 android:text="10"
                 app:layout_constraintStart_toEndOf="@+id/more_product_list_availability"
                 app:layout_constraintTop_toBottomOf="@+id/more_product_description" />

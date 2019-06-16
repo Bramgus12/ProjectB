@@ -16,6 +16,11 @@ import com.bramgussekloo.projectb.R;
 import com.bramgussekloo.projectb.models.Reservation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -35,6 +40,8 @@ public class DeleteReservation extends AppCompatActivity {
     private String returnDate;
     private long millisecond;
     private String reservationDateString;
+    private DatabaseReference mRootRef;
+
 
     private static final String TAG = "deleteActivity";
 
@@ -54,11 +61,22 @@ public class DeleteReservation extends AppCompatActivity {
         intent = getIntent();
         reservation = intent.getParcelableExtra("item");
         product.setText(reservation.getProduct());
-        name.setText(reservation.NameId);
         millisecond = reservation.getTimestamp().getTime();
         reservationDateString = DateFormat.format("dd/MM/yy", new Date(millisecond)).toString();
         ReservationDate.setText(reservationDateString);
         firebaseFirestore = FirebaseFirestore.getInstance();
+        mRootRef = FirebaseDatabase.getInstance().getReference();
+        mRootRef.child("users").child(reservation.NameId).child("Name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                name.setText(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 
