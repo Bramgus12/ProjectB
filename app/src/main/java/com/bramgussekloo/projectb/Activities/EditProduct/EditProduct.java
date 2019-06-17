@@ -280,8 +280,6 @@ public class EditProduct extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Product Deleted",Toast.LENGTH_LONG).show();
                             finish();
                             sendToMain();
-
-
                         }
                     }
                 });

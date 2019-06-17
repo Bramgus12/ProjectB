@@ -23,12 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 public class ResetEmail extends AppCompatActivity {
     private TextInputEditText email;
     private TextInputEditText password;
-    private TextInputEditText passwordConfirmation;
     private TextInputEditText newEmail;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private TextInputLayout emailLayout;
     private TextInputLayout passwordLayout;
-    private TextInputLayout passwordConfirmationLayout;
     private TextInputLayout newEmailLayout;
     private FirebaseUser user;
     private String UID;
@@ -47,7 +45,6 @@ public class ResetEmail extends AppCompatActivity {
         Button ResetEmailButton = findViewById(R.id.REResetEmailButton);
         email = findViewById(R.id.REEmailEditText);
         password = findViewById(R.id.REPasswordEditText);
-        passwordConfirmation = findViewById(R.id.REConfirmPasswordEditText);
         newEmail = findViewById(R.id.RENewEmailEditText);
         user = mAuth.getCurrentUser();
         UID = user.getEmail().replace(".", "").replace("@", "");
@@ -56,7 +53,6 @@ public class ResetEmail extends AppCompatActivity {
 
         emailLayout = findViewById(R.id.REEmailLayout);
         passwordLayout = findViewById(R.id.REPasswordLayout);
-        passwordConfirmationLayout = findViewById(R.id.REConfirmPasswordLayout);
         newEmailLayout = findViewById(R.id.RENewEmailLayout);
         ResetEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,11 +65,6 @@ public class ResetEmail extends AppCompatActivity {
                 if (password == null || password.getText().toString().trim().isEmpty()) {
                     passwordLayout.setError("Password is empty");
                     password.requestFocus();
-                    return;
-                }
-                if (password.getText().toString().trim().equals(passwordConfirmation)) {
-                    passwordConfirmationLayout.setError("Passwords don't match");
-                    passwordConfirmation.requestFocus();
                     return;
                 }
                 if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString().trim()).matches()) {
